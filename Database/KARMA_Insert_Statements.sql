@@ -468,141 +468,142 @@ High family recently go energy. Arrive though course film quite hope.', 179, '20
     '1978-02-03', 'His do teach media require cause. Soon law people or despite record be.
 Significant TV base Democrat remember well recent. Material main commercial even term color rule.', 107, '2024-01-21 10:59:29', '2024-07-04 14:32:23');
     
+   
     INSERT INTO Accommodations (AccommodationID, UserID, Title, Description, Location, Amenities, HouseRules, DailyPointCost, AvailableDates, CreatedAt, UpdatedAt)
-    VALUES (1, 32, 'Heavy cell notice risk.', 'Team thank goal weight yard friend. However improve sell. Lead choose matter than which page.
-Picture media positive.
-Including result individual safe to sure. Part yes too government.
-Describe represent economy chair child next. Together stop source receive. Ground hand story wrong.', 
-    'New Ryanland', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 446, '['2025-08-14', '2025-07-05', '2025-08-04', '2025-07-30', '2025-08-01', '2025-06-15', '2025-08-25', '2025-06-26', '2025-07-04', '2025-08-25']', 
-    '2024-10-02 09:31:19', '2024-01-16 03:55:42');
+    VALUES (1, 82, 'Whose need miss dream half.', 'Surface plan rock. Not bring people professor pay rule. Yet do hour. Within put serious month ground itself move prepare.
+Surface bad risk us. Head share family agreement series attack name.', 
+    'Davidport', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 774, '["2025-07-31", "2025-08-26", "2025-07-08", "2025-07-25", "2025-08-13", "2025-07-10", "2025-07-07", "2025-07-02", "2025-06-22", "2025-07-24"]', 
+    '2024-04-08 17:27:14', '2024-10-07 03:14:19');
     
     INSERT INTO Accommodations (AccommodationID, UserID, Title, Description, Location, Amenities, HouseRules, DailyPointCost, AvailableDates, CreatedAt, UpdatedAt)
-    VALUES (2, 93, 'Government street station authority job.', 'Approach lay bar scene. Program why who easy seek single.
-Effect laugh note arm. Model image low stop.
-Production statement live include political listen him. Book they provide.', 
-    'South Bryan', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 980, '['2025-07-18', '2025-07-11', '2025-07-18', '2025-08-05', '2025-08-04', '2025-06-01', '2025-08-18', '2025-07-22', '2025-08-29', '2025-06-20']', 
-    '2024-09-07 21:02:23', '2024-05-09 20:22:49');
+    VALUES (2, 46, 'Western walk.', 'Then president purpose year. Least action act feeling run whom everyone. More shoulder radio everyone.
+Act such red painting film single black. Always trouble seek fact decide meeting free.
+Wife station girl drug.
+Rule front scientist forget energy prove. Wide across ahead process third.', 
+    'North Travis', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 535, '["2025-07-01", "2025-06-26", "2025-08-21", "2025-06-20", "2025-08-17", "2025-08-02", "2025-07-08", "2025-08-23", "2025-08-18", "2025-06-26"]', 
+    '2024-02-17 21:42:45', '2024-07-02 15:57:04');
     
     INSERT INTO Accommodations (AccommodationID, UserID, Title, Description, Location, Amenities, HouseRules, DailyPointCost, AvailableDates, CreatedAt, UpdatedAt)
-    VALUES (3, 62, 'Those each president management.', 'Development management plan situation test I also. Office think protect next of arrive current it.
-Person word expert professor film long wear. Compare situation market growth professor.', 
-    'Gilbertstad', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 678, '['2025-06-29', '2025-08-23', '2025-08-30', '2025-06-21', '2025-07-04', '2025-06-16', '2025-08-04', '2025-06-07', '2025-08-14', '2025-06-16']', 
-    '2024-03-13 21:42:01', '2024-01-08 18:00:02');
+    VALUES (3, 33, 'Former theory himself today soon.', 'Eight movie computer fund senior anything. Movement chair nor full from executive.
+Us attention build use work their. Soon describe process because off. Sport industry degree how guess see. Once range at religious.', 
+    'North Emilyburgh', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 687, '["2025-08-01", "2025-07-31", "2025-08-31", "2025-08-22", "2025-07-18", "2025-06-17", "2025-07-28", "2025-06-22", "2025-06-13", "2025-06-03"]', 
+    '2024-10-29 14:04:23', '2024-05-21 23:37:11');
     
     INSERT INTO Accommodations (AccommodationID, UserID, Title, Description, Location, Amenities, HouseRules, DailyPointCost, AvailableDates, CreatedAt, UpdatedAt)
-    VALUES (4, 30, 'Store green social.', 'Reach in girl sit interest financial. Camera special cost claim indicate power according.
-May ground above card sit time southern. Deep start family.
-All already class truth fund. Difficult pretty course sometimes should interest.', 
-    'North Tina', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 378, '['2025-06-10', '2025-08-22', '2025-06-22', '2025-06-18', '2025-08-24', '2025-07-18', '2025-08-11', '2025-08-07', '2025-06-12', '2025-08-11']', 
-    '2024-05-25 15:35:31', '2024-07-20 06:53:43');
+    VALUES (4, 71, 'Ask discussion.', 'Budget ago ahead two sell. Perform strong especially draw eight despite that point.
+Never method within teacher individual address. Others degree carry out.
+Fact school whole however reflect Mrs. Not already beyond just. Want end financial discuss security begin.', 
+    'South Michaelfort', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 421, '["2025-07-23", "2025-06-17", "2025-06-19", "2025-08-29", "2025-07-05", "2025-07-17", "2025-07-06", "2025-07-30", "2025-06-25", "2025-07-07"]', 
+    '2024-12-11 14:45:43', '2024-04-04 23:55:48');
     
     INSERT INTO Accommodations (AccommodationID, UserID, Title, Description, Location, Amenities, HouseRules, DailyPointCost, AvailableDates, CreatedAt, UpdatedAt)
-    VALUES (5, 93, 'Truth situation data local.', 'Well result eye reason. Really investment treatment fund grow class newspaper.
-Degree professional four ask care notice. During find grow draw debate law might.', 
-    'West Christopher', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 77, '['2025-08-08', '2025-07-30', '2025-08-10', '2025-07-01', '2025-07-09', '2025-08-18', '2025-08-08', '2025-06-30', '2025-07-31', '2025-06-28']', 
-    '2024-08-11 17:07:22', '2024-06-26 04:27:43');
+    VALUES (5, 7, 'Young seven.', 'Be interesting north. Point ago cost politics actually.
+Three all activity many. Crime boy back practice one reality game certain. Bring according much own front prevent fine force. Successful catch nation democratic physical.', 
+    'Barbaramouth', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 932, '["2025-08-02", "2025-06-27", "2025-08-06", "2025-08-20", "2025-07-16", "2025-08-11", "2025-08-10", "2025-06-23", "2025-06-09", "2025-06-16"]', 
+    '2024-02-17 10:50:11', '2024-09-27 22:25:40');
     
     INSERT INTO Accommodations (AccommodationID, UserID, Title, Description, Location, Amenities, HouseRules, DailyPointCost, AvailableDates, CreatedAt, UpdatedAt)
-    VALUES (6, 88, 'Traditional person require somebody.', 'Community sense itself expect. Challenge door style check student voice. Central dream kid.
-Land in political sort opportunity. Force successful fight represent song over hundred. Statement sea modern both behind discuss opportunity.', 
-    'East Leemouth', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 216, '['2025-06-17', '2025-06-06', '2025-07-19', '2025-08-17', '2025-06-29', '2025-06-04', '2025-09-01', '2025-08-07', '2025-08-03', '2025-06-18']', 
-    '2024-03-02 16:58:54', '2024-04-23 07:47:02');
+    VALUES (6, 46, 'Because send goal society institution.', 'Fast think program. Expect walk recognize edge.
+Challenge turn his business have instead especially. Left agree way such leave.
+See this good might financial. Subject everything single understand get leg against.
+Word woman mother unit gun cause meeting tend.', 
+    'Josephmouth', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 259, '["2025-07-03", "2025-08-28", "2025-06-21", "2025-07-22", "2025-08-18", "2025-09-01", "2025-08-31", "2025-09-01", "2025-08-05", "2025-08-25"]', 
+    '2024-02-10 21:09:20', '2024-02-26 11:16:54');
     
     INSERT INTO Accommodations (AccommodationID, UserID, Title, Description, Location, Amenities, HouseRules, DailyPointCost, AvailableDates, CreatedAt, UpdatedAt)
-    VALUES (7, 35, 'Site child break.', 'Too idea language mention red. Three few side case pressure these color book.
-Have investment cell foreign moment subject around. Market season participant high can be service. Nature hair explain we young end start. Actually phone matter list ahead institution statement.', 
-    'Lewismouth', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 507, '['2025-07-10', '2025-06-24', '2025-06-25', '2025-06-21', '2025-07-19', '2025-08-15', '2025-06-26', '2025-07-18', '2025-08-01', '2025-07-22']', 
-    '2024-09-27 06:56:46', '2024-07-12 21:09:19');
+    VALUES (7, 49, 'Staff deep instead.', 'Sure purpose office themselves left way stop rule. Order happy behind fall small from. Research provide feel pretty visit.
+Want energy trade pay. Good evidence amount front road employee indicate. Close health lay new better drive.', 
+    'Port Kimberlyburgh', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 125, '["2025-06-04", "2025-08-28", "2025-07-20", "2025-08-29", "2025-08-05", "2025-07-31", "2025-09-01", "2025-08-10", "2025-06-05", "2025-08-16"]', 
+    '2024-02-29 16:16:05', '2024-01-01 14:02:27');
     
     INSERT INTO Accommodations (AccommodationID, UserID, Title, Description, Location, Amenities, HouseRules, DailyPointCost, AvailableDates, CreatedAt, UpdatedAt)
-    VALUES (8, 32, 'Collection why hospital pretty.', 'Soon address listen hand structure finally. Buy environment your trade lawyer lot long couple. Southern green approach soldier total charge.
-Leave speak career individual under.
-Expect cultural center appear at table son. Idea pull article include girl suddenly though. Fill free cup walk wind lay.', 
-    'North Crystaltown', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 88, '['2025-07-09', '2025-07-15', '2025-08-05', '2025-06-16', '2025-08-23', '2025-08-09', '2025-08-15', '2025-07-13', '2025-06-06', '2025-06-11']', 
-    '2024-09-21 14:09:02', '2024-08-15 19:30:32');
+    VALUES (8, 48, 'Particularly ball mention finally consider.', 'Collection bar hard though word fear citizen. Imagine husband sit into these green.
+Top second name bad PM. Realize hit course raise six.
+Base their ever Mr so listen join. Investment bar network book film.
+Style positive good magazine skill. Even rather artist process manager.', 
+    'Scottbury', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 240, '["2025-08-27", "2025-08-12", "2025-07-25", "2025-08-11", "2025-06-02", "2025-07-08", "2025-06-07", "2025-07-24", "2025-08-11", "2025-08-14"]', 
+    '2024-06-28 05:12:07', '2024-07-20 05:43:07');
     
     INSERT INTO Accommodations (AccommodationID, UserID, Title, Description, Location, Amenities, HouseRules, DailyPointCost, AvailableDates, CreatedAt, UpdatedAt)
-    VALUES (9, 35, 'Speech almost different growth already.', 'Exist attack soldier free pretty build. Turn enter find return each thus not.
-Conference almost well. Watch technology who require. Training old crime activity usually their player. Under necessary task pretty day score.', 
-    'New Austin', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 909, '['2025-08-23', '2025-08-18', '2025-08-01', '2025-06-30', '2025-08-12', '2025-07-16', '2025-07-09', '2025-07-01', '2025-06-11', '2025-08-15']', 
-    '2024-07-06 17:31:32', '2024-12-20 22:14:33');
+    VALUES (9, 71, 'Indicate floor scientist develop.', 'Wait unit also present reflect.
+Cell by pretty radio organization adult out. Support when can beyond network whatever carry. Bring several Republican car new participant nature.
+Grow building interview glass measure commercial clear its. Morning lot cup.', 
+    'North Joshuachester', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 127, '["2025-06-03", "2025-07-12", "2025-08-23", "2025-08-05", "2025-07-25", "2025-07-06", "2025-06-21", "2025-08-05", "2025-08-28", "2025-06-15"]', 
+    '2024-10-03 04:50:31', '2024-08-06 08:43:54');
     
     INSERT INTO Accommodations (AccommodationID, UserID, Title, Description, Location, Amenities, HouseRules, DailyPointCost, AvailableDates, CreatedAt, UpdatedAt)
-    VALUES (10, 95, 'Bad hit her here run.', 'Which the cause national fill. Culture different security natural. Stop radio buy human.
-Positive most end mention sometimes.
-Our amount image college usually piece maintain wall. Tough effort word condition campaign maybe officer still. Environmental body vote walk past.', 
-    'Jerryhaven', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 832, '['2025-06-12', '2025-06-09', '2025-07-28', '2025-08-24', '2025-07-09', '2025-08-29', '2025-06-16', '2025-06-17', '2025-08-09', '2025-09-01']', 
-    '2024-03-07 08:15:48', '2024-12-09 00:34:59');
+    VALUES (10, 49, 'Require benefit type him.', 'Large current student. So treatment technology strategy talk public. Reason hand lead director design.
+Fire fill bit among large role. Employee without skin information explain however without.
+Nice well them state. Form consider pass unit. Draw factor rich imagine how improve huge.', 
+    'Leonardstad', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 428, '["2025-07-08", "2025-08-14", "2025-08-16", "2025-06-25", "2025-06-26", "2025-08-21", "2025-06-20", "2025-08-28", "2025-07-02", "2025-07-15"]', 
+    '2024-02-03 18:58:33', '2024-11-19 03:17:58');
     
     INSERT INTO Accommodations (AccommodationID, UserID, Title, Description, Location, Amenities, HouseRules, DailyPointCost, AvailableDates, CreatedAt, UpdatedAt)
-    VALUES (11, 62, 'Agent religious identify.', 'Glass long news collection main up. Move feeling manager hold one. Yes security goal success region would practice in.
-Face catch get culture. Wrong specific spring political. Available player understand relationship reason wide.', 
-    'Melissashire', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 244, '['2025-06-17', '2025-07-01', '2025-07-12', '2025-07-25', '2025-08-15', '2025-06-03', '2025-08-31', '2025-07-19', '2025-07-14', '2025-08-23']', 
-    '2024-03-08 09:00:59', '2024-02-03 15:44:16');
+    VALUES (11, 46, 'Although area level would agency.', 'Treatment energy wife officer environmental. Boy mean day reality improve material prove. Happen mean best cold cause consider.
+Page reveal one really group local piece.
+Force ability sea strategy decade argue. Role must event again role even. Work raise too nation face.', 
+    'North Danielmouth', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 910, '["2025-08-15", "2025-07-05", "2025-07-08", "2025-06-22", "2025-06-27", "2025-08-27", "2025-07-01", "2025-08-26", "2025-08-02", "2025-07-22"]', 
+    '2024-10-15 00:41:14', '2024-06-07 14:11:35');
     
     INSERT INTO Accommodations (AccommodationID, UserID, Title, Description, Location, Amenities, HouseRules, DailyPointCost, AvailableDates, CreatedAt, UpdatedAt)
-    VALUES (12, 62, 'Call notice.', 'Talk fill majority manage. Speech behavior energy per management trouble again front. Present environment hospital or fish sense parent.
-Drive structure others move suggest age. None election stage foreign decade.
-Rich sure agree thus sister thank. Record movie society return administration these.', 
-    'Loriburgh', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 694, '['2025-06-01', '2025-07-24', '2025-09-01', '2025-06-03', '2025-07-18', '2025-06-10', '2025-06-16', '2025-06-22', '2025-06-26', '2025-08-23']', 
-    '2024-01-21 06:48:21', '2024-02-12 05:52:28');
+    VALUES (12, 71, 'Market not moment listen capital.', 'Stuff full carry whole sing wear blood.
+Feeling sea protect arrive garden build me. Soon understand sure. Least section recently expert audience any season.
+Return west hot paper prevent according. Like maybe modern wrong against stuff. With set commercial travel kitchen mother moment thought.', 
+    'Lake Michaelshire', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 788, '["2025-07-17", "2025-08-28", "2025-08-02", "2025-06-23", "2025-06-22", "2025-06-24", "2025-06-04", "2025-06-02", "2025-06-17", "2025-08-26"]', 
+    '2024-07-21 01:17:57', '2024-07-17 00:43:17');
     
     INSERT INTO Accommodations (AccommodationID, UserID, Title, Description, Location, Amenities, HouseRules, DailyPointCost, AvailableDates, CreatedAt, UpdatedAt)
-    VALUES (13, 62, 'Young act also pretty.', 'Little yet cover media think both listen. Truth generation rise maybe under American least certainly.
-Everybody without seven stay or event explain. Guy part rise movie anything care see information. Other clearly out issue.
-Want magazine student nor popular through. Clear push TV set care.', 
-    'Heatherberg', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 390, '['2025-08-10', '2025-07-21', '2025-08-12', '2025-07-09', '2025-06-27', '2025-08-29', '2025-08-12', '2025-08-22', '2025-07-24', '2025-08-26']', 
-    '2024-01-17 10:54:59', '2024-01-09 22:11:33');
+    VALUES (13, 82, 'Brother real.', 'Site stand able environmental side on bank foot. Voice imagine factor last it lawyer push. House future catch. Thought successful participant kid send.
+Office build response action sister career yourself. Oil cold two mention.', 
+    'Charlesborough', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 919, '["2025-08-26", "2025-07-05", "2025-06-14", "2025-07-11", "2025-07-05", "2025-06-05", "2025-06-13", "2025-07-03", "2025-07-26", "2025-07-25"]', 
+    '2024-11-15 16:02:36', '2024-11-26 19:54:53');
     
     INSERT INTO Accommodations (AccommodationID, UserID, Title, Description, Location, Amenities, HouseRules, DailyPointCost, AvailableDates, CreatedAt, UpdatedAt)
-    VALUES (14, 93, 'Writer idea decade region.', 'Task rest foot miss population while.
-Easy education unit very military or. Response scene most look improve including realize able. Or like money his.
-Market defense turn style say cost. Fly art throw age.', 
-    'New Kayla', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 334, '['2025-08-20', '2025-08-23', '2025-06-18', '2025-07-17', '2025-07-17', '2025-07-25', '2025-07-31', '2025-07-21', '2025-08-22', '2025-06-06']', 
-    '2024-08-24 11:05:05', '2024-06-14 14:59:35');
+    VALUES (14, 49, 'Only cultural first more.', 'Goal garden remain word morning. Could either actually range.
+Various rate scene camera pay operation maybe. Only thought person.
+Somebody no short visit piece. Long north region type soldier experience race. Practice rest note hard sport or each.', 
+    'North Lisaton', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 672, '["2025-08-27", "2025-06-20", "2025-08-31", "2025-07-03", "2025-08-15", "2025-06-09", "2025-08-28", "2025-06-21", "2025-06-17", "2025-07-14"]', 
+    '2024-10-13 11:45:51', '2024-10-02 01:59:22');
     
     INSERT INTO Accommodations (AccommodationID, UserID, Title, Description, Location, Amenities, HouseRules, DailyPointCost, AvailableDates, CreatedAt, UpdatedAt)
-    VALUES (15, 30, 'Home both.', 'Must star catch system. Both remain produce fast. Season spring table. Then activity beat someone above.
-Hotel stand turn up ball everyone trouble early.
-Common far ready what way including staff phone. Suffer throw program any citizen card garden. Yeah different case every.', 
-    'East Toni', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 525, '['2025-06-10', '2025-08-26', '2025-06-08', '2025-08-22', '2025-07-05', '2025-08-04', '2025-08-09', '2025-06-13', '2025-07-23', '2025-08-16']', 
-    '2024-10-02 20:14:34', '2024-12-14 17:44:00');
+    VALUES (15, 46, 'Her lead best.', 'National skin table suggest down father room. Dark than discover them open close modern. Collection full have.
+Light answer fill campaign. Raise expect green push peace word.
+Pull dog feeling could figure. Evidence factor purpose. But serious yourself speech mother truth.', 
+    'South Stephen', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 360, '["2025-07-31", "2025-07-16", "2025-07-25", "2025-08-07", "2025-06-28", "2025-08-01", "2025-08-07", "2025-07-18", "2025-06-14", "2025-07-14"]', 
+    '2024-11-04 21:22:49', '2024-04-08 11:43:15');
     
     INSERT INTO Accommodations (AccommodationID, UserID, Title, Description, Location, Amenities, HouseRules, DailyPointCost, AvailableDates, CreatedAt, UpdatedAt)
-    VALUES (16, 95, 'Employee face probably.', 'Best peace try family human maybe learn. Claim eye answer environmental. Chance find common soldier identify. Individual suffer group top high.
-Particular author onto. Blue born agent score hit development.
-Only whole spring once focus. Management start technology understand can bit.', 
-    'Hermanton', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 260, '['2025-08-03', '2025-06-05', '2025-06-02', '2025-08-23', '2025-07-18', '2025-06-10', '2025-06-20', '2025-06-01', '2025-08-20', '2025-07-29']', 
-    '2024-11-26 19:56:03', '2024-04-05 18:23:37');
+    VALUES (16, 46, 'Team ever.', 'Rise experience with prevent off cultural. About ready run modern maybe arrive author dog. Get white decide modern probably after.
+Join pattern consumer affect. Thing assume dinner simple. Fire will hot particularly spring picture will.', 
+    'Henryborough', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 515, '["2025-06-04", "2025-08-02", "2025-06-11", "2025-06-09", "2025-07-12", "2025-06-24", "2025-07-16", "2025-06-17", "2025-06-03", "2025-07-10"]', 
+    '2024-01-16 20:25:05', '2024-05-16 06:50:34');
     
     INSERT INTO Accommodations (AccommodationID, UserID, Title, Description, Location, Amenities, HouseRules, DailyPointCost, AvailableDates, CreatedAt, UpdatedAt)
-    VALUES (17, 30, 'Wrong sea four.', 'Start exist water soon at issue. Society ask but myself open. Late man reduce part since standard medical.
-Arrive poor present receive piece medical statement region. Shake federal painting control hot. Go feel hair second result effect. Threat nice this fact east improve.', 
-    'Brittneystad', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 238, '['2025-08-02', '2025-08-24', '2025-07-04', '2025-06-28', '2025-08-19', '2025-06-01', '2025-08-21', '2025-08-20', '2025-08-05', '2025-08-10']', 
-    '2024-10-27 11:55:04', '2024-07-25 10:55:04');
+    VALUES (17, 71, 'Memory role prepare practice.', 'Career page pattern later movie. Central story condition vote scene occur. None specific power front. Poor behind size out computer paper.
+Same reveal up. Recently statement ahead bill they but.
+Most you start. Writer above experience side good. Move fight mention wear.', 
+    'Christopherview', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 483, '["2025-08-08", "2025-07-05", "2025-07-02", "2025-09-01", "2025-08-03", "2025-06-10", "2025-07-09", "2025-06-13", "2025-08-05", "2025-06-14"]', 
+    '2024-09-25 12:37:55', '2024-08-12 10:40:25');
     
     INSERT INTO Accommodations (AccommodationID, UserID, Title, Description, Location, Amenities, HouseRules, DailyPointCost, AvailableDates, CreatedAt, UpdatedAt)
-    VALUES (18, 95, 'What public sit case.', 'Statement care federal dream total support. North main write star example difference open. Data boy north lead war market.
-Thought fill drop Republican. Face special hundred truth throughout receive even.
-Long party yeah never.', 
-    'Banksberg', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 974, '['2025-08-18', '2025-08-01', '2025-08-24', '2025-06-12', '2025-08-13', '2025-07-03', '2025-07-04', '2025-06-29', '2025-07-29', '2025-06-07']', 
-    '2024-04-02 07:39:24', '2024-09-22 23:55:07');
+    VALUES (18, 48, 'Several late.', 'Us yet page system risk concern. Idea economic ball article.
+Despite thought entire. Suddenly conference threat throw happen ready occur.
+Staff several society continue allow. Size wait nor do nice trial. Mother want run.', 
+    'New Sarashire', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 402, '["2025-06-09", "2025-08-15", "2025-06-16", "2025-09-01", "2025-06-05", "2025-08-12", "2025-08-15", "2025-06-06", "2025-08-28", "2025-08-15"]', 
+    '2024-11-17 11:35:58', '2024-08-25 08:12:51');
     
     INSERT INTO Accommodations (AccommodationID, UserID, Title, Description, Location, Amenities, HouseRules, DailyPointCost, AvailableDates, CreatedAt, UpdatedAt)
-    VALUES (19, 62, 'Any family area.', 'Reality matter road respond simple citizen worker. Choose never cause very tend.
-Family add everybody official peace hard. Challenge special it reduce deep partner policy.
-Success foreign clear. Box government fish financial.
-Stock teach us dog drug hotel. According TV debate treatment plan.', 
-    'East Michaelborough', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 862, '['2025-06-13', '2025-07-11', '2025-06-24', '2025-06-23', '2025-07-25', '2025-07-23', '2025-07-16', '2025-07-12', '2025-06-02', '2025-07-13']', 
-    '2024-01-31 10:54:35', '2024-06-28 12:40:38');
+    VALUES (19, 7, 'Explain really every message.', 'Local performance when floor size record. Marriage little arm data maybe himself himself.
+Word necessary wide threat. Its send take her participant.
+Democratic song history positive source. Interview trade image industry kitchen. Trial sort really type whatever understand.', 
+    'New Toddside', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 796, '["2025-08-03", "2025-06-05", "2025-07-03", "2025-08-06", "2025-08-17", "2025-08-13", "2025-08-18", "2025-08-26", "2025-06-28", "2025-07-03"]', 
+    '2024-12-02 02:57:23', '2024-11-10 11:37:54');
     
     INSERT INTO Accommodations (AccommodationID, UserID, Title, Description, Location, Amenities, HouseRules, DailyPointCost, AvailableDates, CreatedAt, UpdatedAt)
-    VALUES (20, 30, 'Mind guy south hold.', 'Half physical after. Set spring end direction.
-Six if which describe tax ask concern. Call or institution check company free.
-During on early try because environmental science. Learn account nice become sell later.
-Several themselves major southern hold. Board gun agent must oil.', 
-    'Yatesview', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 417, '['2025-07-13', '2025-08-09', '2025-06-20', '2025-06-24', '2025-06-19', '2025-07-11', '2025-07-28', '2025-08-16', '2025-07-31', '2025-06-12']', 
-    '2024-05-31 22:28:02', '2024-07-17 12:48:15');
+    VALUES (20, 18, 'Government stay win word growth.', 'Most word tax store side unit security. Six marriage style tell exist. Word information draw collection civil follow argue.
+Assume season she country painting else fill. City condition reach put find nice some. Manager key offer out much.', 
+    'East Michaelmouth', '{"wifi":"yes","pool":"no","parking":"yes"}', '{"smoking":"no","petsAllowed":"yes"}', 745, '["2025-06-07", "2025-07-22", "2025-07-23", "2025-06-07", "2025-07-19", "2025-06-20", "2025-08-06", "2025-07-20", "2025-08-27", "2025-07-27"]', 
+    '2024-12-14 11:09:01', '2024-03-26 16:00:30');
     
     INSERT INTO Bookings (BookingID, GuestID, HostID, AccommodationID, StartDate, EndDate, TotalPointsUsed, Status, CreatedAt, UpdatedAt)
     VALUES (1, 64, 16, 2, '2025-06-29', '2025-07-03', 
