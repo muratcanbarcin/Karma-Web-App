@@ -1,0 +1,97 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+body {
+  margin: 0;
+  line-height: normal;
+}
+:root {
+  /* fonts */
+  --font-poppins: Poppins;
+
+  /* font sizes */
+  --font-size-sm: 0.875rem;
+  --font-size-5xl: 1.5rem;
+  --font-size-lgi: 1.188rem;
+  --font-size-base: 1rem;
+  --font-size-21xl: 2.5rem;
+  --font-size-13xl: 2rem;
+  --font-size-lg: 1.125rem;
+  --font-size-17xl: 2.25rem;
+  --font-size-3xl: 1.375rem;
+  --font-size-10xl: 1.813rem;
+  --font-size-29xl: 3rem;
+  --font-size-19xl: 2.375rem;
+  --font-size-xs: 0.75rem;
+
+  /* Colors */
+  --color-honeydew: #f3fff4;
+  --color-black: #000;
+  --color-white: #fff;
+  --color-mediumseagreen-200: #00985b;
+  --color-silver: #c4c4c4;
+  --color-dimgray: #717171;
+  --color-gray-100: rgba(255, 255, 255, 0.6);
+  --color-gray-200: rgba(255, 255, 255, 0.8);
+  --color-gray-300: rgba(0, 0, 0, 0.5);
+  --color-seagreen: #048853;
+  --color-red: #ff0000;
+
+  /* Gaps */
+  --gap-mid: 1.062rem;
+  --gap-lg: 1.125rem;
+  --gap-10xl: 1.812rem;
+  --gap-4xl: 1.437rem;
+  --gap-xl: 1.25rem;
+  --gap-7xs-1: 0.318rem;
+  --gap-9xs: 0.25rem;
+  --gap-6xs: 0.437rem;
+  --gap-5xs-1: 0.443rem;
+  --gap-smi: 0.812rem;
+
+  /* Paddings */
+  --padding-73xl: 5.75rem;
+  --padding-53xl: 4.5rem;
+  --padding-17xl: 2.25rem;
+  --padding-xl: 1.25rem;
+  --padding-88xl: 6.687rem;
+  --padding-6xs: 0.437rem;
+  --padding-mid: 1.062rem;
+  --padding-8xs: 0.312rem;
+  --padding-4xl: 1.437rem;
+  --padding-129xl: 9.25rem;
+  --padding-74xl: 5.812rem;
+  --padding-77xl: 6rem;
+  --padding-27xl: 2.875rem;
+  --padding-26xl: 2.812rem;
+  --padding-33xl: 3.25rem;
+  --padding-28xl: 2.937rem;
+  --padding-15xl: 2.125rem;
+  --padding-lgi: 1.187rem;
+  --padding-10xl: 1.812rem;
+  --padding-16xl: 2.187rem;
+  --padding-9xl: 1.75rem;
+  --padding-2xs: 0.687rem;
+  --padding-11xs: 0.125rem;
+  --padding-12xs: 0.062rem;
+  --padding-10xs: 0.187rem;
+  --padding-72xl: 5.687rem;
+  --padding-40xl: 3.687rem;
+  --padding-lg: 1.125rem;
+  --padding-4xs: 0.562rem;
+  --padding-base: 1rem;
+  --padding-9xs: 0.25rem;
+  --padding-85xl: 6.5rem;
+  --padding-31xl: 3.125rem;
+  --padding-2xl: 1.312rem;
+  --padding-5xs: 0.5rem;
+  --padding-sm: 0.875rem;
+  --padding-7xs: 0.375rem;
+  --padding-mini: 0.937rem;
+  --padding-12xl: 1.937rem;
+  --padding-11xl: 1.875rem;
+  --padding-44xl: 3.937rem;
+
+  /* Border radiuses */
+  --br-153xl-5: 172.5px;
+  --br-8xs: 5px;
+  --br-4xs: 9px;
+}

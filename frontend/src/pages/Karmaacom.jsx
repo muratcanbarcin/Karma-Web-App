@@ -1,0 +1,907 @@
+import { useCallback } from "react";
+import styles from "./Karmaacom.module.css";
+
+const Karmaacom = () => {
+  const onHOMETextClick = useCallback(() => {
+    const anchor = document.querySelector("[data-scroll-to='rectangle1']");
+    if (anchor) {
+      anchor.scrollIntoView({ block: "start", behavior: "smooth" });
+    }
+  }, []);
+
+  const onEXPLORETextClick = useCallback(() => {
+    const anchor = document.querySelector(
+      "[data-scroll-to='greenInteriorModernInteriorImage']"
+    );
+    if (anchor) {
+      anchor.scrollIntoView({ block: "start", behavior: "smooth" });
+    }
+  }, []);
+
+  const onCONTACTTextClick = useCallback(() => {
+    const anchor = document.querySelector(
+      "[data-scroll-to='secondHomeImagePlaceholder']"
+    );
+    if (anchor) {
+      anchor.scrollIntoView({ block: "start", behavior: "smooth" });
+    }
+  }, []);
+
+  const onEvaarrowIosForwardFillIconClick = useCallback(() => {
+    const anchor = document.querySelector("[data-scroll-to='rectangle']");
+    if (anchor) {
+      anchor.scrollIntoView({ block: "start", behavior: "smooth" });
+    }
+  }, []);
+
+  return (
+    <div className={styles.karmaacom}>
+      <section className={styles.headerAndNavbar}>
+        <div className={styles.vectorParent}>
+          <img
+            className={styles.frameChild}
+            alt=""
+            src="/rectangle-12.svg"
+            data-scroll-to="rectangle1"
+          />
+          <h1 className={styles.karmaSustainableAccommodatioContainer}>
+            <p className={styles.karma}>KARMA</p>
+            <p className={styles.karma}>SUSTAINABLE ACCOMMODATION</p>
+          </h1>
+          <div className={styles.navigation}>
+            <img
+              className={styles.layerX00201Icon}
+              alt=""
+              src="/layer-x0020-1@2x.png"
+            />
+          </div>
+        </div>
+        <header className={styles.frameParent}>
+          <div className={styles.rectangleParent}>
+            <div className={styles.frameItem} />
+            <img
+              className={styles.treeHouse1Icon}
+              loading="lazy"
+              alt=""
+              src="/treehouse-1@2x.png"
+            />
+          </div>
+          <div className={styles.links}>
+            <div className={styles.exploreContact}>
+              <div className={styles.homeLink}>
+                <a className={styles.home} onClick={onHOMETextClick}>
+                  <b className={styles.span}>{`HOME        `}</b>
+                  <span className={styles.span}>{`              `}</span>
+                </a>
+              </div>
+              <a className={styles.explore} onClick={onEXPLORETextClick}>
+                EXPLORE
+              </a>
+              <a className={styles.explore} onClick={onCONTACTTextClick}>
+                CONTACT
+              </a>
+            </div>
+          </div>
+          <div className={styles.pointsAccount}>
+            <div className={styles.pointsLink}>
+              <a className={styles.points}>POINTS</a>
+            </div>
+            <button className={styles.accountLink}>
+              <div className={styles.accountLinkChild} />
+              <a className={styles.myAccount}>My Account</a>
+            </button>
+          </div>
+        </header>
+        <div className={styles.liveLocalContentParent}>
+          <div className={styles.liveLocalContent}>
+            <div className={styles.liveLocalWrapper}>
+              <button className={styles.liveLocalInner}>
+                <div
+                  className={styles.heroSubtitleBackground}
+                  onClick={onEXPLORETextClick}
+                />
+                <b className={styles.liveLikeA}>LIVE LIKE A LOCAL</b>
+              </button>
+              <div className={styles.evaarrowIosForwardFillWrapper}>
+                <img
+                  className={styles.evaarrowIosForwardFillIcon}
+                  loading="lazy"
+                  alt=""
+                  src="/evaarrowiosforwardfill.svg"
+                  onClick={onEvaarrowIosForwardFillIconClick}
+                />
+              </div>
+            </div>
+          </div>
+          <img
+            className={styles.frameInner}
+            loading="lazy"
+            alt=""
+            src="/group-7@2x.png"
+          />
+        </div>
+      </section>
+      <section className={styles.servicesContentWrapper}>
+        <div className={styles.servicesContent}>
+          <div className={styles.servicesInnerWrapper}>
+            <div className={styles.servicesInner}>
+              <div className={styles.servicesWrapper}>
+                <h1 className={styles.services}>SERVICES</h1>
+              </div>
+              <div className={styles.freePointsBased}>
+                Free Points Based Sustainable Accommodation
+              </div>
+            </div>
+          </div>
+          <div className={styles.frameGroup}>
+            <div className={styles.frameWrapper}>
+              <div className={styles.rectangleGroup}>
+                <div className={styles.rectangleDiv} />
+                <div className={styles.frameContainer}>
+                  <div className={styles.frameDiv}>
+                    <div className={styles.ellipseParent}>
+                      <div className={styles.ellipseDiv} />
+                      <img
+                        className={styles.house1Icon}
+                        loading="lazy"
+                        alt=""
+                        src="/house-1@2x.png"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <h2 className={styles.rentYourHomeContainer}>
+                  <p className={styles.karma}>{`Rent Your Home `}</p>
+                  <p className={styles.karma}>{`and `}</p>
+                  <p className={styles.karma}>Earn Points</p>
+                </h2>
+              </div>
+            </div>
+            <div className={styles.rectangleContainer}>
+              <div className={styles.frameChild1} />
+              <div className={styles.bathValue}>
+                <div className={styles.frameDiv}>
+                  <div className={styles.ellipseParent}>
+                    <div className={styles.townCircle} />
+                    <img
+                      className={styles.town1Icon}
+                      loading="lazy"
+                      alt=""
+                      src="/town-1@2x.png"
+                    />
+                  </div>
+                </div>
+              </div>
+              <h2 className={styles.rentAHouseContainer}>
+                <p className={styles.karma}>{`Rent a House `}</p>
+                <p className={styles.karma}>{`with `}</p>
+                <p className={styles.karma}>Points</p>
+              </h2>
+            </div>
+            <div className={styles.rectangleParent1}>
+              <div className={styles.frameChild1} />
+              <div className={styles.frameWrapper1}>
+                <div className={styles.frameDiv}>
+                  <div className={styles.ellipseParent}>
+                    <div className={styles.townCircle} />
+                    <img
+                      className={styles.assets1Icon}
+                      loading="lazy"
+                      alt=""
+                      src="/assets-1@2x.png"
+                    />
+                  </div>
+                </div>
+              </div>
+              <h2 className={styles.karmaTokenComingContainer}>
+                <p className={styles.karma}>{`Karma `}</p>
+                <p className={styles.token}>{`Token  `}</p>
+                <p className={styles.karma}>Coming Soon</p>
+              </h2>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className={styles.frameSection}>
+        <div className={styles.greenInteriorModernInteriorParent}>
+          <img
+            className={styles.greenInteriorModernInteriorIcon}
+            alt=""
+            src="/greeninteriormoderninteriorlivingroomstylewithsoftsofagreenwall3drendering-2@2x.png"
+            data-scroll-to="greenInteriorModernInteriorImage"
+          />
+          <div className={styles.groupDiv}>
+            <div className={styles.liveLikeALocalWrapper}>
+              <h1 className={styles.liveLikeA1}>LIVE LIKE A LOCAL</h1>
+            </div>
+            <div className={styles.filters}>
+              <div className={styles.rentHouseTypes}>
+                <div className={styles.rectangleParent2}>
+                  <div className={styles.frameChild4} />
+                  <div className={styles.rent}>Rent</div>
+                </div>
+                <div className={styles.rentDropdown} />
+                <div className={styles.rentDropdown1} />
+              </div>
+              <div className={styles.pointsRange}>
+                <div className={styles.pointsRangeChild} />
+                <div className={styles.pointsDropdown}>
+                  <div className={styles.pointsRangeDropdown}>
+                    <div className={styles.frameParent1}>
+                      <div className={styles.frameWrapper3}>
+                        <div className={styles.antDesignhomeOutlinedParent}>
+                          <img
+                            className={styles.antDesignhomeOutlinedIcon}
+                            loading="lazy"
+                            alt=""
+                            src="/antdesignhomeoutlined.svg"
+                          />
+                          <div className={styles.houseTypes}>House Types</div>
+                          <div className={styles.pointsLink}>
+                            <img
+                              className={styles.dashiconsarrowDownAlt2}
+                              loading="lazy"
+                              alt=""
+                              src="/dashiconsarrowdownalt2.svg"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className={styles.searchLocation} />
+                      <div className={styles.pointsRangeMoneyIcon}>
+                        <img
+                          className={styles.akarIconsmoney}
+                          loading="lazy"
+                          alt=""
+                          src="/akariconsmoney.svg"
+                        />
+                      </div>
+                    </div>
+                    <div className={styles.pointsRangeLabel}>
+                      <div className={styles.searchByLocation}>
+                        Points Range
+                      </div>
+                    </div>
+                    <div className={styles.locationFilter}>
+                      <div className={styles.locationDropdown}>
+                        <img
+                          className={styles.dashiconsarrowDownAlt21}
+                          alt=""
+                          src="/dashiconsarrowdownalt2.svg"
+                        />
+                      </div>
+                      <div className={styles.searchButton} />
+                    </div>
+                  </div>
+                  <div className={styles.pointsRangeLabel}>
+                    <div className={styles.searchByLocation}>
+                      search by location, ID, Property
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.rectangleParent3}>
+                  <div className={styles.frameChild5} />
+                  <h1 className={styles.search}>Search</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className={styles.rectangleParent4}>
+          <div className={styles.frameChild6} data-scroll-to="rectangle" />
+          <div className={styles.recommendationsTitle}>
+            <h1 className={styles.homeRecommendationsFor}>
+              Home Recommendations For You
+            </h1>
+          </div>
+          <div className={styles.recommendationCards}>
+            <div className={styles.rectangleParent5}>
+              <div className={styles.frameChild7} />
+              <div className={styles.cardInfo}>
+                <div className={styles.cardInfoChild} />
+                <img
+                  className={styles.maskGroupIcon}
+                  loading="lazy"
+                  alt=""
+                  src="/mask-group@2x.png"
+                />
+                <div className={styles.cardDetails}>
+                  <div className={styles.cardFeatures}>
+                    <div className={styles.cardFeatureIcons}>
+                      <div className={styles.idr200000000}>IDR.200.000.000</div>
+                      <div className={styles.jlSoekarnoHatta}>
+                        Jl. Soekarno Hatta No.1
+                      </div>
+                      <div className={styles.sewa}>Sewa</div>
+                    </div>
+                    <div className={styles.bedroomInfoParent}>
+                      <div className={styles.bedroomInfo}>
+                        <div className={styles.bedroomCount}>
+                          <img
+                            className={styles.mdibedIcon}
+                            loading="lazy"
+                            alt=""
+                            src="/mdibed.svg"
+                          />
+                          <div className={styles.bedroomNumber}>
+                            <div className={styles.div}>3</div>
+                          </div>
+                        </div>
+                        <div className={styles.bathroomCount}>
+                          <img
+                            className={styles.faSolidbathIcon}
+                            alt=""
+                            src="/fasolidbath.svg"
+                          />
+                          <div className={styles.bathroomNumber}>
+                            <div className={styles.bathroomCount1}>4</div>
+                          </div>
+                        </div>
+                        <div className={styles.bedroomCount}>
+                          <img
+                            className={styles.fluentglobeSurface20FilledIcon}
+                            loading="lazy"
+                            alt=""
+                            src="/fluentglobesurface20filled.svg"
+                          />
+                          <div className={styles.bedroomNumber}>
+                            <div className={styles.m}>360m</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className={styles.houseSpecLabel}>
+                        <div className={styles.kamarTidur}>Kamar Tidur</div>
+                        <div className={styles.kamarMandi}>Kamar Mandi</div>
+                        <div className={styles.luasRumah}>Luas Rumah</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={styles.rectangleParent6}>
+              <div className={styles.frameChild7} />
+              <div className={styles.div1}>3</div>
+              <div className={styles.rectangleParent7}>
+                <div className={styles.frameChild9} />
+                <div className={styles.maskGroupWrapper}>
+                  <img
+                    className={styles.maskGroupIcon1}
+                    alt=""
+                    src="/mask-group-1@2x.png"
+                  />
+                </div>
+                <div className={styles.frameParent2}>
+                  <div className={styles.frameWrapper4}>
+                    <div className={styles.idr200000000Parent}>
+                      <div className={styles.idr200000000}>IDR.200.000.000</div>
+                      <div className={styles.jlSoekarnoHatta}>
+                        Jl. Soekarno Hatta No.1
+                      </div>
+                      <div className={styles.jualWrapper}>
+                        <div className={styles.jual}>Jual</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className={styles.houseInfoCard}>
+                    <div className={styles.houseInfoCardChild} />
+                    <div className={styles.infoCardContent}>
+                      <div className={styles.mdibedWrapper}>
+                        <img
+                          className={styles.mdibedIcon1}
+                          alt=""
+                          src="/mdibed.svg"
+                        />
+                      </div>
+                      <div className={styles.bathroomCount}>
+                        <img
+                          className={styles.faSolidbathIcon1}
+                          alt=""
+                          src="/fasolidbath.svg"
+                        />
+                        <div className={styles.bathroomNumber}>
+                          <div className={styles.bathroomCountPlaceholder}>
+                            4
+                          </div>
+                        </div>
+                      </div>
+                      <div className={styles.bedroomCount}>
+                        <img
+                          className={styles.fluentglobeSurface20FilledIcon1}
+                          alt=""
+                          src="/fluentglobesurface20filled.svg"
+                        />
+                        <div className={styles.bedroomNumber}>
+                          <div className={styles.m1}>360m</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className={styles.houseSpecLabel}>
+                      <div className={styles.kamarTidur1}>Kamar Tidur</div>
+                      <div className={styles.kamarMandi1}>Kamar Mandi</div>
+                      <div className={styles.luasRumah1}>Luas Rumah</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={styles.rectangleParent6}>
+              <div className={styles.frameChild7} />
+              <div className={styles.rectangleParent9}>
+                <div className={styles.cardInfoChild} />
+                <img
+                  className={styles.maskGroupIcon2}
+                  alt=""
+                  src="/mask-group-2@2x.png"
+                />
+                <div className={styles.frameWrapper5}>
+                  <div className={styles.cardFeatures}>
+                    <div className={styles.cardFeatureIcons}>
+                      <div className={styles.idr200000000}>IDR.200.000.000</div>
+                      <div className={styles.jlSoekarnoHatta}>
+                        Jl. Soekarno Hatta No.1
+                      </div>
+                      <div className={styles.propertyBaru}>Property Baru</div>
+                    </div>
+                    <div className={styles.bedroomInfoParent}>
+                      <div className={styles.bedroomInfo}>
+                        <div className={styles.bedroomCount}>
+                          <img
+                            className={styles.mdibedIcon}
+                            alt=""
+                            src="/mdibed.svg"
+                          />
+                          <div className={styles.bedroomNumber}>
+                            <div className={styles.div}>3</div>
+                          </div>
+                        </div>
+                        <div className={styles.bathroomCount}>
+                          <img
+                            className={styles.faSolidbathIcon}
+                            alt=""
+                            src="/fasolidbath.svg"
+                          />
+                          <div className={styles.bathroomNumber}>
+                            <div className={styles.bathroomCount1}>4</div>
+                          </div>
+                        </div>
+                        <div className={styles.bedroomCount}>
+                          <img
+                            className={styles.fluentglobeSurface20FilledIcon}
+                            alt=""
+                            src="/fluentglobesurface20filled-2.svg"
+                          />
+                          <div className={styles.bedroomNumber}>
+                            <div className={styles.m}>360m</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className={styles.houseSpecLabel}>
+                        <div className={styles.kamarTidur}>Kamar Tidur</div>
+                        <div className={styles.kamarMandi}>Kamar Mandi</div>
+                        <div className={styles.luasRumah}>Luas Rumah</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={styles.rectangleParent6}>
+              <div className={styles.frameChild12} />
+              <div className={styles.rectangleParent11}>
+                <div className={styles.cardInfoChild} />
+                <img
+                  className={styles.maskGroupIcon3}
+                  alt=""
+                  src="/mask-group-3@2x.png"
+                />
+                <div className={styles.frameWrapper6}>
+                  <div className={styles.cardFeatures}>
+                    <div className={styles.cardFeatureIcons}>
+                      <div className={styles.idr2000000003}>
+                        IDR.200.000.000
+                      </div>
+                      <div className={styles.jlSoekarnoHatta3}>
+                        Jl. Soekarno Hatta No.1
+                      </div>
+                      <div className={styles.sewa1}>Sewa</div>
+                    </div>
+                    <div className={styles.bedroomInfoParent}>
+                      <div className={styles.bedroomInfo}>
+                        <div className={styles.bedroomCount}>
+                          <img
+                            className={styles.fluentglobeSurface20FilledIcon1}
+                            alt=""
+                            src="/mdibed.svg"
+                          />
+                          <div className={styles.bedroomNumber}>
+                            <div className={styles.div4}>3</div>
+                          </div>
+                        </div>
+                        <div className={styles.bathroomCount}>
+                          <img
+                            className={styles.faSolidbathIcon3}
+                            alt=""
+                            src="/fasolidbath.svg"
+                          />
+                          <div className={styles.bathroomNumber}>
+                            <div className={styles.div5}>4</div>
+                          </div>
+                        </div>
+                        <div className={styles.bedroomCount}>
+                          <img
+                            className={styles.fluentglobeSurface20FilledIcon1}
+                            alt=""
+                            src="/fluentglobesurface20filled.svg"
+                          />
+                          <div className={styles.bedroomNumber}>
+                            <div className={styles.m3}>360m</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className={styles.houseSpecLabel}>
+                        <div className={styles.kamarTidur1}>Kamar Tidur</div>
+                        <div className={styles.luasRumah1}>Kamar Mandi</div>
+                        <div className={styles.luasRumah1}>Luas Rumah</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={styles.rectangleParent6}>
+              <div className={styles.frameChild7} />
+              <div className={styles.rectangleParent13}>
+                <div className={styles.cardInfoChild} />
+                <img
+                  className={styles.maskGroupIcon2}
+                  alt=""
+                  src="/mask-group-4@2x.png"
+                />
+                <div className={styles.frameWrapper7}>
+                  <div className={styles.cardFeatures}>
+                    <div className={styles.cardFeatureIcons}>
+                      <div className={styles.idr200000000}>IDR.200.000.000</div>
+                      <div className={styles.jlSoekarnoHatta}>
+                        Jl. Soekarno Hatta No.1
+                      </div>
+                      <div className={styles.sewa}>Sewa</div>
+                    </div>
+                    <div className={styles.bedroomInfoParent}>
+                      <div className={styles.bedroomInfo}>
+                        <div className={styles.bedroomCount}>
+                          <img
+                            className={styles.mdibedIcon}
+                            alt=""
+                            src="/mdibed.svg"
+                          />
+                          <div className={styles.bedroomNumber}>
+                            <div className={styles.div}>3</div>
+                          </div>
+                        </div>
+                        <div className={styles.bathroomCount}>
+                          <img
+                            className={styles.faSolidbathIcon}
+                            alt=""
+                            src="/fasolidbath.svg"
+                          />
+                          <div className={styles.bathroomNumber}>
+                            <div className={styles.bathroomCount1}>4</div>
+                          </div>
+                        </div>
+                        <div className={styles.bedroomCount}>
+                          <img
+                            className={styles.fluentglobeSurface20FilledIcon}
+                            alt=""
+                            src="/fluentglobesurface20filled.svg"
+                          />
+                          <div className={styles.bedroomNumber}>
+                            <div className={styles.m}>360m</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className={styles.houseSpecLabel}>
+                        <div className={styles.kamarTidur}>Kamar Tidur</div>
+                        <div className={styles.kamarMandi}>Kamar Mandi</div>
+                        <div className={styles.luasRumah}>Luas Rumah</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={styles.rectangleParent6}>
+              <div className={styles.frameChild7} />
+              <div className={styles.rectangleParent13}>
+                <div className={styles.cardInfoChild} />
+                <img
+                  className={styles.maskGroupIcon2}
+                  alt=""
+                  src="/mask-group-5@2x.png"
+                />
+                <div className={styles.frameWrapper7}>
+                  <div className={styles.cardFeatures}>
+                    <div className={styles.cardFeatureIcons}>
+                      <div className={styles.idr200000000}>IDR.200.000.000</div>
+                      <div className={styles.jlSoekarnoHatta}>
+                        Jl. Soekarno Hatta No.1
+                      </div>
+                      <div className={styles.sewa}>Sewa</div>
+                    </div>
+                    <div className={styles.bedroomInfoParent}>
+                      <div className={styles.bedroomInfo}>
+                        <div className={styles.bedroomCount}>
+                          <img
+                            className={styles.mdibedIcon}
+                            alt=""
+                            src="/mdibed.svg"
+                          />
+                          <div className={styles.bedroomNumber}>
+                            <div className={styles.div}>3</div>
+                          </div>
+                        </div>
+                        <div className={styles.bathroomCount}>
+                          <img
+                            className={styles.faSolidbathIcon}
+                            alt=""
+                            src="/fasolidbath.svg"
+                          />
+                          <div className={styles.bathroomNumber}>
+                            <div className={styles.bathroomCount1}>4</div>
+                          </div>
+                        </div>
+                        <div className={styles.bedroomCount}>
+                          <img
+                            className={styles.fluentglobeSurface20FilledIcon}
+                            alt=""
+                            src="/fluentglobesurface20filled-2.svg"
+                          />
+                          <div className={styles.bedroomNumber}>
+                            <div className={styles.m}>360m</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className={styles.houseSpecLabel}>
+                        <div className={styles.kamarTidur}>Kamar Tidur</div>
+                        <div className={styles.kamarMandi}>Kamar Mandi</div>
+                        <div className={styles.luasRumah}>Luas Rumah</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div className={styles.seeMoreButton}>
+        <div className={styles.seeMore}>See More...</div>
+      </div>
+      <section className={styles.karmaacomInner}>
+        <div className={styles.rectangleParent16}>
+          <div className={styles.frameChild18} />
+          <div className={styles.featuresHeader}>
+            <h1 className={styles.homeFeatures}>Home Features</h1>
+            <button className={styles.seeAllButtonContainer}>
+              <div className={styles.seeAllButton}>
+                <div className={styles.seeAllButtonChild} />
+                <div className={styles.seeAll}>See All..</div>
+                <div className={styles.vectorWrapper}>
+                  <img className={styles.vectorIcon} alt="" src="/vector.svg" />
+                </div>
+              </div>
+            </button>
+          </div>
+          <div className={styles.featuredHomes}>
+            <div className={styles.featuredHomeCardContainer}>
+              <div className={styles.featuredHomeCard}>
+                <img
+                  className={styles.maskGroupIcon6}
+                  alt=""
+                  src="/mask-group-6@2x.png"
+                />
+                <div className={styles.homeInfoContainer}>
+                  <div className={styles.homeInfoDetails}>
+                    <div className={styles.homeInfoDetailsChild} />
+                    <img
+                      className={styles.vectorIcon1}
+                      alt=""
+                      src="/vector-1.svg"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className={styles.featuredHomeDescription}>
+                <div className={styles.homeDescriptionDetails}>
+                  <img
+                    className={styles.maskGroupIcon7}
+                    alt=""
+                    src="/mask-group-7@2x.png"
+                  />
+                  <div className={styles.homeDescriptionContent}>
+                    <div className={styles.homeDescriptionContentChild} />
+                    <div className={styles.kamarTidurParent2}>
+                      <h1 className={styles.kamarTidur6}>Kamar Tidur</h1>
+                      <div className={styles.homeNameAndPrice}>
+                        <div className={styles.idr200000000Parent}>
+                          <div className={styles.rumahMinimalistTypeA2}>
+                            Rumah minimalist Type-A2
+                          </div>
+                          <div className={styles.homePrice}>
+                            <div className={styles.idr200jt}>IDR.200jt</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <button className={styles.viewHomeButton}>
+                      <div className={styles.viewHomeButtonContainer}>
+                        <div className={styles.viewHomeButtonContainerChild} />
+                        <div className={styles.lihatRumah}>Lihat Rumah</div>
+                      </div>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <img
+                className={styles.maskGroupIcon8}
+                alt=""
+                src="/mask-group-8@2x.png"
+              />
+              <div className={styles.featuredHomeCard1}>
+                <img
+                  className={styles.maskGroupIcon9}
+                  alt=""
+                  src="/mask-group-9@2x.png"
+                />
+                <div className={styles.featuredHomeCardInner}>
+                  <div className={styles.homeInfoDetails}>
+                    <div className={styles.frameChild19} />
+                    <img
+                      className={styles.vectorIcon2}
+                      alt=""
+                      src="/vector-2.svg"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className={styles.maskGroupParent}>
+        <img
+          className={styles.maskGroupIcon10}
+          alt=""
+          src="/mask-group-10@2x.png"
+        />
+        <div
+          className={styles.secondHomeImagePlaceholder}
+          data-scroll-to="secondHomeImagePlaceholder"
+        />
+        <div className={styles.consultationContentWrapper}>
+          <div className={styles.consultationContent}>
+            <div className={styles.needConsultationPleaseCoWrapper}>
+              <h1 className={styles.needConsultationPleaseContainer}>
+                <p className={styles.karma}>Need Consultation..?</p>
+                <p className={styles.karma}>Please contact us</p>
+                <p className={styles.karma}>We are ready to help</p>
+              </h1>
+            </div>
+            <div className={styles.contactButtonContainer}>
+              <div className={styles.contactButton}>
+                <div className={styles.contact1}>Contact</div>
+                <div className={styles.contactButtonInner}>
+                  <div className={styles.frameParent15}>
+                    <div className={styles.frameParent16}>
+                      <div className={styles.vectorContainer}>
+                        <img
+                          className={styles.vectorIcon3}
+                          alt=""
+                          src="/vector-3.svg"
+                        />
+                      </div>
+                      <img
+                        className={styles.groupIcon}
+                        loading="lazy"
+                        alt=""
+                        src="/group.svg"
+                      />
+                      <img
+                        className={styles.contactInfoIcon}
+                        alt=""
+                        src="/vector-4.svg"
+                      />
+                    </div>
+                    <div className={styles.locationAndEmail}>
+                      <div className={styles.bornovazmr}>
+                        <p className={styles.karma}>Bornova/İZMİR</p>
+                      </div>
+                      <div className={styles.emailContainer}>
+                        <div className={styles.bornovazmr}>
+                          <p className={styles.karma}>123-456-7890</p>
+                        </div>
+                        <div className={styles.bornovazmr}>info@karmaa.com</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={styles.socialMediaHeaderParent}>
+              <div className={styles.socialMediaHeader}>
+                <div className={styles.socialMedia}>Social Media</div>
+              </div>
+              <div className={styles.socialMediaIcons}>
+                <div className={styles.instagramIconContainer}>
+                  <img
+                    className={styles.instagramIcon}
+                    alt=""
+                    src="/vector-5.svg"
+                  />
+                </div>
+                <div className={styles.instagramIconContainer1}>
+                  <img
+                    className={styles.groupIcon1}
+                    alt=""
+                    src="/group-1.svg"
+                  />
+                </div>
+                <img
+                  className={styles.akarIconsinstagramFill}
+                  loading="lazy"
+                  alt=""
+                  src="/akariconsinstagramfill.svg"
+                />
+                <div className={styles.bathroomNumber}>
+                  <div className={styles.karmaa}>karmaa</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className={styles.rectangleParent17}>
+          <div className={styles.frameChild20} />
+          <div className={styles.frameWrapper9}>
+            <form className={styles.questionPromptParent}>
+              <div className={styles.questionPrompt}>
+                <h1 className={styles.anyQuestion}>{`Any Question..? `}</h1>
+              </div>
+              <input
+                className={styles.formFields}
+                placeholder="Email"
+                type="text"
+              />
+              <input
+                className={styles.formFields}
+                placeholder="Context"
+                type="text"
+              />
+              <button className={styles.formFields2}>
+                <div className={styles.formFieldsChild} />
+                <div className={styles.send}>Send</div>
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+      <footer className={styles.frameFooter}>
+        <div className={styles.frameChild21} />
+        <div className={styles.rectangleParent18}>
+          <div className={styles.frameItem} />
+          <img
+            className={styles.treeHouse1Icon1}
+            alt=""
+            src="/treehouse-1@2x.png"
+          />
+        </div>
+        <div className={styles.copyright}>
+          <div className={styles.copyrightByDeu}>
+            Copyright by Deu Ceng Software
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default Karmaacom;
