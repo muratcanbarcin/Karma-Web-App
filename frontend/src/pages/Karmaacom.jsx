@@ -1,7 +1,22 @@
-import { useCallback } from "react";
+import { useState, useCallback } from "react";
 import styles from "./Karmaacom.module.css";
 
 const Karmaacom = () => {
+ 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showLogin, setShowLogin] = useState(true);
+  const openModal = useCallback(() => {
+    setIsModalOpen(true);
+    setShowLogin(true);
+  }, []);
+
+  // Modalı kapatan fonksiyon
+  const closeModal = useCallback(() => {
+    setIsModalOpen(false);
+  }, []);
+  const toggleFormToLogin = () => setShowLogin(true);
+  const toggleFormToRegister = () => setShowLogin(false);
+
   const onHOMETextClick = useCallback(() => {
     const anchor = document.querySelector("[data-scroll-to='rectangle1']");
     if (anchor) {
@@ -86,10 +101,11 @@ const Karmaacom = () => {
             <div className={styles.pointsLink}>
               <a className={styles.points}>POINTS</a>
             </div>
-            <button className={styles.accountLink}>
+            <button className={styles.accountLink}onClick={openModal}>
               <div className={styles.accountLinkChild} />
-              <a className={styles.myAccount}>My Account</a>
-            </button>
+              <span className={styles.myAccount}>My Account</span>              </button>
+            
+
           </div>
         </header>
         <div className={styles.liveLocalContentParent}>
@@ -900,6 +916,71 @@ const Karmaacom = () => {
           </div>
         </div>
       </footer>
+      {isModalOpen && (
+        <div className={styles.modalOverlay} onClick={closeModal}>
+          <div
+            className={styles.modalContent}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button className={styles.closeModalBtn} onClick={closeModal}>
+              ×
+            </button>
+
+            {/* Üstte “Giriş Yap” ve “Kayıt Ol” sekmeleri */}
+            <div className={styles.tabButtons}>
+              <button
+                className={
+                  showLogin ? styles.tabButtonActive : styles.tabButton
+                }
+                onClick={toggleFormToLogin}
+              >
+                Giriş Yap
+              </button>
+              <button
+                className={
+                  !showLogin ? styles.tabButtonActive : styles.tabButton
+                }
+                onClick={toggleFormToRegister}
+              >
+                Kayıt Ol
+              </button>
+            </div>
+
+            {/* Form container */}
+            <div className={styles.formContainer}>
+            {showLogin ? (
+  <form className={styles.authForm}>
+    <label>Kullanıcı Adı</label>
+    <input type="text" placeholder="Kullanıcı adı" />
+
+    <label>Şifre</label>
+    <input type="password" placeholder="Şifre" />
+
+    <button type="submit" className={styles.submitBtn}>
+      Giriş Yap
+    </button>
+  </form>
+) : (
+  <form className={styles.authForm}>
+    <label>Kullanıcı Adı</label>
+    <input type="text" placeholder="Kullanıcı adı" />
+
+    <label>E-posta</label>
+    <input type="email" placeholder="E-posta" />
+
+    <label>Şifre</label>
+    <input type="password" placeholder="Şifre" />
+
+    <button type="submit" className={styles.submitBtn}>
+      Kayıt Ol
+    </button>
+  </form>
+)}
+
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -95,6 +95,157 @@
   justify-content: flex-start;
   padding: var(--padding-11xs) 0 0;
 }
+/* karmaacom.module.css */
+
+/* Modal arka planı */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6); /* Daha koyu bir overlay */
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Modal kutusu */
+.modalContent {
+  position: relative; /* Close butonu için gerekli */
+  background: #fff;
+  width: 420px;
+  max-width: 90%;
+  padding: 2rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  animation: fadeInDown 0.4s ease forwards;
+}
+
+/* Modal açılırken hafif bir animasyon (isteğe bağlı) */
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Kapatma butonu (X) */
+.closeModalBtn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  border: none;
+  background: transparent;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: #999;
+  transition: color 0.2s;
+}
+.closeModalBtn:hover {
+  color: #333;
+}
+
+/* Tab butonlarının olduğu bölüm */
+.tabButtons {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 1rem;
+}
+
+/* Sekme (Tab) buton stili (pasif) */
+.tabButton {
+  flex: 1;
+  padding: 0.75rem 0;
+  font-size: 1rem;
+  background: #f5f5f5;
+  border: none;
+  border-radius: 8px 8px 0 0;
+  cursor: pointer;
+  color: #666;
+  transition: background-color 0.2s;
+  margin-right: 0.5rem;
+}
+
+/* Son butona margin-left eklemek istersen, ya da margin sıfırlamak istersen burayı düzenleyebilirsin */
+.tabButton:last-of-type {
+  margin-right: 0;
+}
+
+/* Sekme (Tab) buton aktifken daha koyu arka plan, koyu yazı rengi */
+.tabButtonActive {
+  flex: 1;
+  padding: 0.75rem 0;
+  font-size: 1rem;
+  background: #2b90d9;
+  border: none;
+  border-radius: 8px 8px 0 0;
+  cursor: pointer;
+  color: #fff;
+  margin-right: 0.5rem;
+}
+
+/* Tab butona hover efekti */
+.tabButton:hover {
+  background-color: #eaeaea;
+}
+.tabButtonActive:hover {
+  background-color: #2478b2;
+}
+
+/* Form container */
+.formContainer {
+  background-color: #fafafa;
+  border-radius: 0 8px 8px 8px;
+  padding: 1rem;
+}
+
+.authForm {
+  display: flex;
+  flex-direction: column; /* Alt alta sıralamak için */
+  gap: 1rem;             /* Elemanlar arası boşluk */
+  width: 100%;           /* Genişlik olarak %100 */
+  max-width: 320px;      /* Maksimum genişlik (örnek) */
+  margin: 0 auto;        /* Ortalamak için */
+}
+
+.authForm label {
+  font-weight: 500;
+  color: #333;
+}
+
+.authForm input {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  width: 100%;           /* Input'lar form genişliği kadar uzasın */
+}
+
+
+/* Giriş/Kayıt butonu */
+.submitBtn {
+  margin-top: 0.5rem;
+  border: none;
+  background-color: #2b90d9;
+  color: #fff;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+.submitBtn:hover {
+  background-color: #2478b2;
+}
+
+
 .explore {
   text-decoration: none;
   position: relative;

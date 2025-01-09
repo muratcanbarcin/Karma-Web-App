@@ -6,6 +6,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import Karmaacom from "./pages/Karmaacom";
+import SearchForm from "./pages/SearchForm"; // Yeni eklenen SearchForm bileşeni
 
 function App() {
   const action = useNavigationType();
@@ -24,9 +25,16 @@ function App() {
 
     switch (pathname) {
       case "/":
-        title = "";
-        metaDescription = "";
+        title = "Home Page";
+        metaDescription = "Welcome to the homepage.";
         break;
+      case "/search":
+        title = "Search Accommodations";
+        metaDescription = "Search for your desired accommodations.";
+        break;
+      default:
+        title = "KarmaaCom";
+        metaDescription = "Default meta description.";
     }
 
     if (title) {
@@ -46,6 +54,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Karmaacom />} />
+      <Route path="/search" element={<SearchForm />} /> {/* Yeni rota */}
     </Routes>
   );
 }
