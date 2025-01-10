@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const accommodationsRoutes = require('./routes/accommodations'); // Accommodations routes'u dahil ettik
+const accommodationsRoutes = require('./routes/accommodations');
 
 const app = express();
 const PORT = 3000;
