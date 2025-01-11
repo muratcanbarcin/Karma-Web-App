@@ -3,6 +3,8 @@ import { Routes, Route, useNavigationType, useLocation } from "react-router-dom"
 import Karmaacom from "./pages/Karmaacom";
 import SearchForm from "./pages/SearchForm";
 import AccommodationDetails from "./pages/AccommodationDetails";
+import AuthForm from "./pages/AuthForm";
+
 
 function App() {
   // React Router Hooks
@@ -61,6 +63,8 @@ function App() {
       <Route path="/" element={<Karmaacom />} />
       <Route path="/search" element={<SearchForm />} />
       <Route path="/accommodation-:id" element={<AccommodationDetails />} />
+      <Route path="/AuthForm" element={<AuthForm />} /> {/* Yeni rota */}
+
     </Routes>
   );
 }
