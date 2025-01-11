@@ -9,6 +9,7 @@
   margin: 0;
 }
 .karmaSustainableAccommodatioContainer {
+  color: whitesmoke;
   margin: 0 !important;
   position: absolute;
   top: 12.688rem;
@@ -728,6 +729,7 @@
   object-fit: cover;
 }
 .liveLikeA1 {
+  color: whitesmoke;
   margin: 0;
   flex: 1;
   position: relative;

@@ -3,7 +3,7 @@ body {
   font-family: 'Poppins', sans-serif; /* Modern bir yazı tipi */
   margin: 0;
   padding: 0;
-  background: linear-gradient(135deg, #a1c4fd, #c2e9fb); /* Arka planda hoş bir gradient */
+  background: linear-gradient(135deg, #f3fff4, #f3fff4); /* Arka planda hoş bir gradient */
   display: flex;
   justify-content: center;
   align-items: center;
