@@ -1,28 +1,29 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
+import "./SearchForm.css"; // Yeni bir CSS dosyası oluşturacağız
 
 const SearchForm = () => {
-  const [location, setLocation] = useState('');
+  const [location, setLocation] = useState("");
   const [minCost, setMinCost] = useState(0);
   const [maxCost, setMaxCost] = useState(2000);
   const [results, setResults] = useState([]);
 
   const handleSearch = async () => {
     try {
-      const response = await axios.post('http://localhost:3000/api/accommodations/search', {
+      const response = await axios.post("http://localhost:3000/api/accommodations/search", {
         location,
         pointsRange: [minCost, maxCost],
       });
       setResults(response.data);
     } catch (error) {
-      console.error('Search failed:', error);
+      console.error("Search failed:", error);
     }
   };
 
   return (
-    <div>
-      <h1>Search Accommodations</h1>
-      <div>
+    <div className="search-container">
+      <h1>LIVE LIKE A LOCAL</h1>
+      <div className="search-form">
         <label>
           Location:
           <input
@@ -31,8 +32,6 @@ const SearchForm = () => {
             onChange={(e) => setLocation(e.target.value)}
           />
         </label>
-      </div>
-      <div>
         <label>
           Min Cost:
           <input
@@ -49,33 +48,28 @@ const SearchForm = () => {
             onChange={(e) => setMaxCost(Number(e.target.value))}
           />
         </label>
+        <button onClick={handleSearch}>Search</button>
       </div>
-      <button onClick={handleSearch}>Search</button>
-      <div>
-        <h2>Results:</h2>
+
+      <div className="results">
         {results.length > 0 ? (
-          <table border="1" style={{ width: '100%', borderCollapse: 'collapse' }}>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Location</th>
-                <th>DailyPointCost</th>
-                <th>Description</th>
-                <th>AvailableDates</th>
-              </tr>
-            </thead>
-            <tbody>
-              {results.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.id}</td>
-                  <td>{item.Location}</td>
-                  <td>{item.DailyPointCost}</td>
-                  <td>{item.Description}</td>
-                  <td>{item.AvailableDates}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="card-container">
+            {results.map((item) => (
+              <div className="card" key={item.id}>
+                <img src={item.image || "/105m2_934x700.webp"} alt={item.Location} />
+                <div className="card-details">
+                  <h2>{item.DailyPointCost} Points</h2>
+                  <p>{item.Location}</p>
+                  <div className="features">
+                    <span>🛏 {item.bedrooms || "N/A"} Bedrooms</span>
+                    <span>🛁 {item.bathrooms || "N/A"} Bathrooms</span>
+                    <span>📐 {item.size || "N/A"} m²</span>
+                  </div>
+                  <p className="description">{item.Description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         ) : (
           <p>No results found.</p>
         )}
