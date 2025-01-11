@@ -607,7 +607,7 @@ const Karmaacom = () => {
       <div className={styles.seeMoreButton}>
         <button
           className={styles.seeMore}
-          onClick={() => (window.location.href = "http://localhost:3000/api/accommodations")}
+          onClick={() => (window.location.href = "/Search")}
         >
           See More...
         </button>

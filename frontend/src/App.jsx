@@ -1,26 +1,23 @@
 import { useEffect } from "react";
-import {
-  Routes,
-  Route,
-  useNavigationType,
-  useLocation,
-} from "react-router-dom";
+import { Routes, Route, useNavigationType, useLocation } from "react-router-dom";
 import Karmaacom from "./pages/Karmaacom";
-import SearchForm from "./pages/SearchForm"; 
-import AccommodationDetails from "./pages/AccommodationDetails"; 
-
+import SearchForm from "./pages/SearchForm";
+import AccommodationDetails from "./pages/AccommodationDetails";
 
 function App() {
+  // React Router Hooks
   const action = useNavigationType();
   const location = useLocation();
   const pathname = location.pathname;
 
+  // Scroll to top when navigation occurs
   useEffect(() => {
     if (action !== "POP") {
       window.scrollTo(0, 0);
     }
   }, [action, pathname]);
 
+  // Update page title and meta description based on route
   useEffect(() => {
     let title = "";
     let metaDescription = "";
@@ -35,8 +32,13 @@ function App() {
         metaDescription = "Search for your desired accommodations.";
         break;
       default:
-        title = "KarmaaCom";
-        metaDescription = "Default meta description.";
+        if (pathname.startsWith("/accommodation-")) {
+          title = "Accommodation Details";
+          metaDescription = "View the details of the selected accommodation.";
+        } else {
+          title = "KarmaaCom";
+          metaDescription = "Default meta description.";
+        }
     }
 
     if (title) {
@@ -53,12 +55,14 @@ function App() {
     }
   }, [pathname]);
 
+  // Application Routes
   return (
     <Routes>
       <Route path="/" element={<Karmaacom />} />
-      <Route path="/search" element={<SearchForm />} /> {/* Yeni rota */}
-      <Route path="/accommodation-:id" element={<AccommodationDetails />} /> {/* Yeni rota */}
+      <Route path="/search" element={<SearchForm />} />
+      <Route path="/accommodation-:id" element={<AccommodationDetails />} />
     </Routes>
   );
 }
+
 export default App;

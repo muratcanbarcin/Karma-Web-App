@@ -78,22 +78,21 @@ const SearchForm = () => {
           {results.length > 0 ? (
             <div className="card-container">
               {results.map((item) => (
-                <div className="card" key={item.id}>
+                <div className="card" key={item.AccommodationID}>
                   <img src={item.image || "/105m2_934x700.webp"} alt={item.Location} />
                   <div className="card-details">
                     <h2>{item.DailyPointCost} Points</h2>
                     <p>{item.Location}</p>
-                    <div className="features">
-                      <span>🛏 {item.bedrooms || "N/A"} Bedrooms</span>
-                      <span>🛁 {item.bathrooms || "N/A"} Bathrooms</span>
-                      <span>📐 {item.size || "N/A"} m²</span>
-                    </div>
-                    <Link to={`/accommodation-${item.id}`} className="details-button">
+                    <p className="description">{item.Description}</p>
+                    <Link to={`/accommodation-${item.AccommodationID}`} className="details-button">
                       Details...
                     </Link>
+
                   </div>
                 </div>
               ))}
+
+
             </div>
           ) : (
             <p>No results found.</p>

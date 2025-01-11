@@ -7,3 +7,5 @@ export default defineConfig({
   publicDir: "./static",
   base: "./",
 });
+
+
