@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import axios from "axios"; // Axios'u dahil edin
+import axios from "axios";
+import { useNavigate } from "react-router-dom"; // React Router'dan useNavigate // Axios'u dahil edin
 import "./AuthForm.css";
-import { useNavigate } from "react-router-dom";
+
 
 
 const AuthForm = () => {
@@ -11,7 +12,9 @@ const AuthForm = () => {
     email: "",
     password: "",
   });
-  const navigate = useNavigate();
+
+  const navigate = useNavigate(); // Yönlendirme için useNavigate
+
 
 
   const toggleForm = () => {
@@ -39,8 +42,12 @@ const AuthForm = () => {
           toggleForm();
         } else {
           alert("Giriş başarılı!");
-          console.log("Token:", response.data.token);
-          // Token'ı konsolda görüntüleyin (veya localStorage'e kaydedin)
+
+           localStorage.setItem("token", response.data.token);
+            // Kullanıcıyı /myaccount sayfasına yönlendir
+           navigate("/myaccount");
+           
+
         }
       }
     } catch (error) {

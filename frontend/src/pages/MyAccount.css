@@ -1,0 +1,122 @@
+/* General container styles */
+.my-account-container {
+    font-family: 'Poppins', sans-serif;
+    padding: 2rem;
+    background-color: #f5ffe7; /* Hafif yeşil arka plan */
+    border-radius: 8px;
+    max-width: 900px;
+    margin: 2rem auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Profile header */
+  .profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+  
+  .profile-picture {
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+  }
+  
+  .profile-info h2 {
+    font-size: 1.5rem;
+    margin: 0;
+  }
+  
+  .profile-info p {
+    color: #555;
+  }
+  
+  .edit-button {
+    background-color: #048853;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 1.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .edit-button:hover {
+    background-color: #03673e;
+  }
+  
+  /* Profile details section */
+  .profile-details {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+  
+  .details-column {
+    width: 45%;
+  }
+  
+  label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  
+  input {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    color: #555;
+    cursor: not-allowed;
+  }
+  
+  /* Email section */
+  .email-section h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .email-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .email-icon {
+    font-size: 1.5rem;
+    color: #048853;
+    margin-right: 1rem;
+  }
+  
+  .email-info p {
+    margin: 0;
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .email-info small {
+    color: #555;
+  }
+  
+  .add-email-button {
+    background-color: #ffffff;
+    color: #048853;
+    border: 2px solid #048853;
+    border-radius: 6px;
+    padding: 0.5rem 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .add-email-button:hover {
+    background-color: #048853;
+    color: white;
+  }
+  

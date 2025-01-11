@@ -54,14 +54,14 @@ router.post('/login', async (req, res) => {
         }
 
         const user = results[0];
+        const isPasswordValid = password === user.Password;
 
-        // Şifreyi doğrula
-        if (user.Password !== password) {
+        if (!isPasswordValid) {
             return res.status(401).json({ error: 'Geçersiz şifre' });
         }
 
         // JWT oluştur
-        const token = jwt.sign({ id: user.Id, email: user.Email }, SECRET_KEY, {
+        const token = jwt.sign({ email: user.Email }, SECRET_KEY, {
             expiresIn: '1h',
         });
 
@@ -71,5 +71,35 @@ router.post('/login', async (req, res) => {
         res.status(500).json({ error: 'Giriş sırasında hata oluştu' });
     }
 });
+router.get('/MyAccount', async (req, res) => {
+    const token = req.headers.authorization?.split(" ")[1]; // Bearer token
+    if (!token) {
+        return res.status(401).json({ error: 'Authorization token is required' });
+    }
+
+    try {
+        // Token'i doğrula ve email'i al
+        const decoded = jwt.verify(token, SECRET_KEY);
+        const userEmail = decoded.email; // Token'dan email alınır
+
+        // Kullanıcı bilgilerini email'e göre sorgula
+        const query = `
+            SELECT Name, Email, Gender, Country, DateOfBirth, TimeZone 
+            FROM Users WHERE Email = ?
+        `;
+        const [results] = await pool.query(query, [userEmail]);
+
+        if (results.length === 0) {
+            return res.status(404).json({ error: 'Kullanıcı bulunamadı' });
+        }
+
+        const user = results[0];
+        res.status(200).json(user);
+    } catch (err) {
+        console.error('Kullanıcı bilgileri alınırken hata oluştu:', err);
+        res.status(500).json({ error: 'Sunucu hatası' });
+    }
+});
+
 
 module.exports = router;
