@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../database/connection'); // Database bağlantısı
-const bcrypt = require('bcrypt'); // Şifreleme için
 const jwt = require('jsonwebtoken'); // JSON Web Token kullanımı için
 
 const SECRET_KEY = 'your_secret_key'; // JWT için gizli anahtar
@@ -23,15 +22,12 @@ router.post('/register', async (req, res) => {
             return res.status(409).json({ error: 'Bu e-posta zaten kayıtlı.' }); // 409 Conflict
         }
 
-        // Şifreyi hash'le
-        const hashedPassword = await bcrypt.hash(password, 10);
-
         // Kullanıcıyı veritabanına ekle
         const query = `
             INSERT INTO Users (Name, Email, Password)
             VALUES (?, ?, ?)
         `;
-        await pool.query(query, [name, email, hashedPassword]);
+        await pool.query(query, [name, email, password]);
 
         res.status(201).json({ message: 'Kayıt başarılı' });
     } catch (err) {
@@ -39,7 +35,6 @@ router.post('/register', async (req, res) => {
         res.status(500).json({ error: 'Kayıt sırasında hata oluştu' });
     }
 });
-
 
 // Kullanıcı giriş endpoint
 router.post('/login', async (req, res) => {
@@ -61,9 +56,7 @@ router.post('/login', async (req, res) => {
         const user = results[0];
 
         // Şifreyi doğrula
-        const isPasswordValid = await bcrypt.compare(password, user.Password);
-
-        if (!isPasswordValid) {
+        if (user.Password !== password) {
             return res.status(401).json({ error: 'Geçersiz şifre' });
         }
 
