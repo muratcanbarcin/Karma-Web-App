@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 const SearchForm = () => {
     const [houseType, setHouseType] = useState('');
-    const [pointsRange, setPointsRange] = useState([0, 5000]);
+    const [pointsRange, setPointsRange] = useState([0, 2000]);
     const [location, setLocation] = useState('');
     const [accommodationID, setAccommodationID] = useState('');
     const [availableDates, setAvailableDates] = useState({});

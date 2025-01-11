@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 import styles from "./Karmaacom.module.css";
 
 const Karmaacom = () => {
- 
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showLogin, setShowLogin] = useState(true);
   const openModal = useCallback(() => {
@@ -101,10 +101,10 @@ const Karmaacom = () => {
             <div className={styles.pointsLink}>
               <a className={styles.points}>POINTS</a>
             </div>
-            <button className={styles.accountLink}onClick={openModal}>
+            <button className={styles.accountLink} onClick={openModal}>
               <div className={styles.accountLinkChild} />
               <span className={styles.myAccount}>My Account</span>              </button>
-            
+
 
           </div>
         </header>
@@ -230,77 +230,14 @@ const Karmaacom = () => {
             <div className={styles.liveLikeALocalWrapper}>
               <h1 className={styles.liveLikeA1}>LIVE LIKE A LOCAL</h1>
             </div>
-            <div className={styles.filters}>
-              <div className={styles.rentHouseTypes}>
-                <div className={styles.rectangleParent2}>
-                  <div className={styles.frameChild4} />
-                  <div className={styles.rent}>Rent</div>
-                </div>
-                <div className={styles.rentDropdown} />
-                <div className={styles.rentDropdown1} />
+            <div className={styles.rectangleParent3}>
+                <div className={styles.frameChild5} />
+
+                <button className={styles.search} onClick={() => (window.location.href = "/Search")}>
+                  Search
+                </button>
+
               </div>
-              <div className={styles.pointsRange}>
-                <div className={styles.pointsRangeChild} />
-                <div className={styles.pointsDropdown}>
-                  <div className={styles.pointsRangeDropdown}>
-                    <div className={styles.frameParent1}>
-                      <div className={styles.frameWrapper3}>
-                        <div className={styles.antDesignhomeOutlinedParent}>
-                          <img
-                            className={styles.antDesignhomeOutlinedIcon}
-                            loading="lazy"
-                            alt=""
-                            src="/antdesignhomeoutlined.svg"
-                          />
-                          <div className={styles.houseTypes}>House Types</div>
-                          <div className={styles.pointsLink}>
-                            <img
-                              className={styles.dashiconsarrowDownAlt2}
-                              loading="lazy"
-                              alt=""
-                              src="/dashiconsarrowdownalt2.svg"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.searchLocation} />
-                      <div className={styles.pointsRangeMoneyIcon}>
-                        <img
-                          className={styles.akarIconsmoney}
-                          loading="lazy"
-                          alt=""
-                          src="/akariconsmoney.svg"
-                        />
-                      </div>
-                    </div>
-                    <div className={styles.pointsRangeLabel}>
-                      <div className={styles.searchByLocation}>
-                        Points Range
-                      </div>
-                    </div>
-                    <div className={styles.locationFilter}>
-                      <div className={styles.locationDropdown}>
-                        <img
-                          className={styles.dashiconsarrowDownAlt21}
-                          alt=""
-                          src="/dashiconsarrowdownalt2.svg"
-                        />
-                      </div>
-                      <div className={styles.searchButton} />
-                    </div>
-                  </div>
-                  <div className={styles.pointsRangeLabel}>
-                    <div className={styles.searchByLocation}>
-                      search by location, ID, Property
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.rectangleParent3}>
-                  <div className={styles.frameChild5} />
-                  <h1 className={styles.search}>Search</h1>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
         <div className={styles.rectangleParent4}>
@@ -324,11 +261,11 @@ const Karmaacom = () => {
                 <div className={styles.cardDetails}>
                   <div className={styles.cardFeatures}>
                     <div className={styles.cardFeatureIcons}>
-                      <div className={styles.idr200000000}>IDR.200.000.000</div>
+                      <div className={styles.idr200000000}>---KT 774---</div>
                       <div className={styles.jlSoekarnoHatta}>
-                        Jl. Soekarno Hatta No.1
+                        Davidport
                       </div>
-                      <div className={styles.sewa}>Sewa</div>
+                      <div className={styles.sewa}>Lisa</div>
                     </div>
                     <div className={styles.bedroomInfoParent}>
                       <div className={styles.bedroomInfo}>
@@ -366,9 +303,6 @@ const Karmaacom = () => {
                         </div>
                       </div>
                       <div className={styles.houseSpecLabel}>
-                        <div className={styles.kamarTidur}>Kamar Tidur</div>
-                        <div className={styles.kamarMandi}>Kamar Mandi</div>
-                        <div className={styles.luasRumah}>Luas Rumah</div>
                       </div>
                     </div>
                   </div>
@@ -390,12 +324,12 @@ const Karmaacom = () => {
                 <div className={styles.frameParent2}>
                   <div className={styles.frameWrapper4}>
                     <div className={styles.idr200000000Parent}>
-                      <div className={styles.idr200000000}>IDR.200.000.000</div>
+                      <div className={styles.idr200000000}>---KT 535---</div>
                       <div className={styles.jlSoekarnoHatta}>
-                        Jl. Soekarno Hatta No.1
+                        North Travis
                       </div>
                       <div className={styles.jualWrapper}>
-                        <div className={styles.jual}>Jual</div>
+                        <div className={styles.jual}>Tracy</div>
                       </div>
                     </div>
                   </div>
@@ -433,9 +367,6 @@ const Karmaacom = () => {
                       </div>
                     </div>
                     <div className={styles.houseSpecLabel}>
-                      <div className={styles.kamarTidur1}>Kamar Tidur</div>
-                      <div className={styles.kamarMandi1}>Kamar Mandi</div>
-                      <div className={styles.luasRumah1}>Luas Rumah</div>
                     </div>
                   </div>
                 </div>
@@ -453,11 +384,11 @@ const Karmaacom = () => {
                 <div className={styles.frameWrapper5}>
                   <div className={styles.cardFeatures}>
                     <div className={styles.cardFeatureIcons}>
-                      <div className={styles.idr200000000}>IDR.200.000.000</div>
+                      <div className={styles.idr200000000}>---KT 687---</div>
                       <div className={styles.jlSoekarnoHatta}>
-                        Jl. Soekarno Hatta No.1
+                        North Emilyburgh
                       </div>
-                      <div className={styles.propertyBaru}>Property Baru</div>
+                      <div className={styles.propertyBaru}>Barbara</div>
                     </div>
                     <div className={styles.bedroomInfoParent}>
                       <div className={styles.bedroomInfo}>
@@ -493,9 +424,6 @@ const Karmaacom = () => {
                         </div>
                       </div>
                       <div className={styles.houseSpecLabel}>
-                        <div className={styles.kamarTidur}>Kamar Tidur</div>
-                        <div className={styles.kamarMandi}>Kamar Mandi</div>
-                        <div className={styles.luasRumah}>Luas Rumah</div>
                       </div>
                     </div>
                   </div>
@@ -515,12 +443,12 @@ const Karmaacom = () => {
                   <div className={styles.cardFeatures}>
                     <div className={styles.cardFeatureIcons}>
                       <div className={styles.idr2000000003}>
-                        IDR.200.000.000
+                        ---KT 421---
                       </div>
                       <div className={styles.jlSoekarnoHatta3}>
-                        Jl. Soekarno Hatta No.1
+                        South Michaelfort
                       </div>
-                      <div className={styles.sewa1}>Sewa</div>
+                      <div className={styles.sewa1}>Joseph </div>
                     </div>
                     <div className={styles.bedroomInfoParent}>
                       <div className={styles.bedroomInfo}>
@@ -555,11 +483,6 @@ const Karmaacom = () => {
                           </div>
                         </div>
                       </div>
-                      <div className={styles.houseSpecLabel}>
-                        <div className={styles.kamarTidur1}>Kamar Tidur</div>
-                        <div className={styles.luasRumah1}>Kamar Mandi</div>
-                        <div className={styles.luasRumah1}>Luas Rumah</div>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -577,11 +500,10 @@ const Karmaacom = () => {
                 <div className={styles.frameWrapper7}>
                   <div className={styles.cardFeatures}>
                     <div className={styles.cardFeatureIcons}>
-                      <div className={styles.idr200000000}>IDR.200.000.000</div>
+                      <div className={styles.idr200000000}>---KT 932---</div>
                       <div className={styles.jlSoekarnoHatta}>
-                        Jl. Soekarno Hatta No.1
-                      </div>
-                      <div className={styles.sewa}>Sewa</div>
+                        Barbaramouth                      </div>
+                      <div className={styles.sewa}>Mary </div>
                     </div>
                     <div className={styles.bedroomInfoParent}>
                       <div className={styles.bedroomInfo}>
@@ -616,11 +538,7 @@ const Karmaacom = () => {
                           </div>
                         </div>
                       </div>
-                      <div className={styles.houseSpecLabel}>
-                        <div className={styles.kamarTidur}>Kamar Tidur</div>
-                        <div className={styles.kamarMandi}>Kamar Mandi</div>
-                        <div className={styles.luasRumah}>Luas Rumah</div>
-                      </div>
+
                     </div>
                   </div>
                 </div>
@@ -638,11 +556,11 @@ const Karmaacom = () => {
                 <div className={styles.frameWrapper7}>
                   <div className={styles.cardFeatures}>
                     <div className={styles.cardFeatureIcons}>
-                      <div className={styles.idr200000000}>IDR.200.000.000</div>
+                      <div className={styles.idr200000000}>---KT 259---</div>
                       <div className={styles.jlSoekarnoHatta}>
-                        Jl. Soekarno Hatta No.1
+                        Josephmouth
                       </div>
-                      <div className={styles.sewa}>Sewa</div>
+                      <div className={styles.sewa}>Tracy</div>
                     </div>
                     <div className={styles.bedroomInfoParent}>
                       <div className={styles.bedroomInfo}>
@@ -677,11 +595,7 @@ const Karmaacom = () => {
                           </div>
                         </div>
                       </div>
-                      <div className={styles.houseSpecLabel}>
-                        <div className={styles.kamarTidur}>Kamar Tidur</div>
-                        <div className={styles.kamarMandi}>Kamar Mandi</div>
-                        <div className={styles.luasRumah}>Luas Rumah</div>
-                      </div>
+
                     </div>
                   </div>
                 </div>
@@ -691,99 +605,14 @@ const Karmaacom = () => {
         </div>
       </section>
       <div className={styles.seeMoreButton}>
-        <div className={styles.seeMore}>See More...</div>
+        <button
+          className={styles.seeMore}
+          onClick={() => (window.location.href = "http://localhost:3000/api/accommodations")}
+        >
+          See More...
+        </button>
       </div>
-      <section className={styles.karmaacomInner}>
-        <div className={styles.rectangleParent16}>
-          <div className={styles.frameChild18} />
-          <div className={styles.featuresHeader}>
-            <h1 className={styles.homeFeatures}>Home Features</h1>
-            <button className={styles.seeAllButtonContainer}>
-              <div className={styles.seeAllButton}>
-                <div className={styles.seeAllButtonChild} />
-                <div className={styles.seeAll}>See All..</div>
-                <div className={styles.vectorWrapper}>
-                  <img className={styles.vectorIcon} alt="" src="/vector.svg" />
-                </div>
-              </div>
-            </button>
-          </div>
-          <div className={styles.featuredHomes}>
-            <div className={styles.featuredHomeCardContainer}>
-              <div className={styles.featuredHomeCard}>
-                <img
-                  className={styles.maskGroupIcon6}
-                  alt=""
-                  src="/mask-group-6@2x.png"
-                />
-                <div className={styles.homeInfoContainer}>
-                  <div className={styles.homeInfoDetails}>
-                    <div className={styles.homeInfoDetailsChild} />
-                    <img
-                      className={styles.vectorIcon1}
-                      alt=""
-                      src="/vector-1.svg"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className={styles.featuredHomeDescription}>
-                <div className={styles.homeDescriptionDetails}>
-                  <img
-                    className={styles.maskGroupIcon7}
-                    alt=""
-                    src="/mask-group-7@2x.png"
-                  />
-                  <div className={styles.homeDescriptionContent}>
-                    <div className={styles.homeDescriptionContentChild} />
-                    <div className={styles.kamarTidurParent2}>
-                      <h1 className={styles.kamarTidur6}>Kamar Tidur</h1>
-                      <div className={styles.homeNameAndPrice}>
-                        <div className={styles.idr200000000Parent}>
-                          <div className={styles.rumahMinimalistTypeA2}>
-                            Rumah minimalist Type-A2
-                          </div>
-                          <div className={styles.homePrice}>
-                            <div className={styles.idr200jt}>IDR.200jt</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <button className={styles.viewHomeButton}>
-                      <div className={styles.viewHomeButtonContainer}>
-                        <div className={styles.viewHomeButtonContainerChild} />
-                        <div className={styles.lihatRumah}>Lihat Rumah</div>
-                      </div>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <img
-                className={styles.maskGroupIcon8}
-                alt=""
-                src="/mask-group-8@2x.png"
-              />
-              <div className={styles.featuredHomeCard1}>
-                <img
-                  className={styles.maskGroupIcon9}
-                  alt=""
-                  src="/mask-group-9@2x.png"
-                />
-                <div className={styles.featuredHomeCardInner}>
-                  <div className={styles.homeInfoDetails}>
-                    <div className={styles.frameChild19} />
-                    <img
-                      className={styles.vectorIcon2}
-                      alt=""
-                      src="/vector-2.svg"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+
       <section className={styles.maskGroupParent}>
         <img
           className={styles.maskGroupIcon10}
@@ -892,10 +721,14 @@ const Karmaacom = () => {
                 placeholder="Context"
                 type="text"
               />
-              <button className={styles.formFields2}>
+              <button
+                className={styles.formFields2}
+                onClick={() => alert("İletiniz başarıyla gönderildi! En yakın sürede geri dönüş yapacağız")}
+              >
                 <div className={styles.formFieldsChild} />
                 <div className={styles.send}>Send</div>
               </button>
+
             </form>
           </div>
         </div>
@@ -948,34 +781,34 @@ const Karmaacom = () => {
 
             {/* Form container */}
             <div className={styles.formContainer}>
-            {showLogin ? (
-  <form className={styles.authForm}>
-    <label>Kullanıcı Adı</label>
-    <input type="text" placeholder="Kullanıcı adı" />
+              {showLogin ? (
+                <form className={styles.authForm}>
+                  <label>Kullanıcı Adı</label>
+                  <input type="text" placeholder="Kullanıcı adı" />
 
-    <label>Şifre</label>
-    <input type="password" placeholder="Şifre" />
+                  <label>Şifre</label>
+                  <input type="password" placeholder="Şifre" />
 
-    <button type="submit" className={styles.submitBtn}>
-      Giriş Yap
-    </button>
-  </form>
-) : (
-  <form className={styles.authForm}>
-    <label>Kullanıcı Adı</label>
-    <input type="text" placeholder="Kullanıcı adı" />
+                  <button type="submit" className={styles.submitBtn}>
+                    Giriş Yap
+                  </button>
+                </form>
+              ) : (
+                <form className={styles.authForm}>
+                  <label>Kullanıcı Adı</label>
+                  <input type="text" placeholder="Kullanıcı adı" />
 
-    <label>E-posta</label>
-    <input type="email" placeholder="E-posta" />
+                  <label>E-posta</label>
+                  <input type="email" placeholder="E-posta" />
 
-    <label>Şifre</label>
-    <input type="password" placeholder="Şifre" />
+                  <label>Şifre</label>
+                  <input type="password" placeholder="Şifre" />
 
-    <button type="submit" className={styles.submitBtn}>
-      Kayıt Ol
-    </button>
-  </form>
-)}
+                  <button type="submit" className={styles.submitBtn}>
+                    Kayıt Ol
+                  </button>
+                </form>
+              )}
 
             </div>
           </div>

@@ -182,7 +182,7 @@
   flex: 1;
   padding: 0.75rem 0;
   font-size: 1rem;
-  background: #2b90d9;
+  background: #00985b;
   border: none;
   border-radius: 8px 8px 0 0;
   cursor: pointer;
@@ -195,7 +195,7 @@
   background-color: #eaeaea;
 }
 .tabButtonActive:hover {
-  background-color: #2478b2;
+  background-color: #00985b;
 }
 
 /* Form container */
@@ -232,7 +232,7 @@
 .submitBtn {
   margin-top: 0.5rem;
   border: none;
-  background-color: #2b90d9;
+  background-color: #00985b;
   color: #fff;
   padding: 0.6rem 1rem;
   cursor: pointer;
@@ -242,7 +242,7 @@
   transition: background-color 0.2s;
 }
 .submitBtn:hover {
-  background-color: #2478b2;
+  background-color: #00985b;
 }
 
 
@@ -881,12 +881,15 @@
   padding: 0 0 var(--padding-17xl);
 }
 .searchButton {
-  align-self: stretch;
-  width: 0.063rem;
-  position: relative;
-  background-color: var(--color-white);
-  z-index: 1;
+  align-self: stretch; /* Dikey hizalama */
+  width: auto; /* Genişlik */
+  position: relative; /* Pozisyon */
+  background-color: transparent; /* Arka planı şeffaf yapar */
+  z-index: 1; /* Katman düzeni */
+  margin-left: auto; /* Sağ tarafa kaydırır */
+  margin-bottom: auto;
 }
+
 .locationFilter,
 .pointsRangeDropdown {
   display: flex;
@@ -933,6 +936,7 @@
   font-weight: 500;
   font-family: inherit;
   display: inline-block;
+  background-color: transparent;
   min-width: 8.063rem;
   z-index: 2;
 }
@@ -946,7 +950,14 @@
   z-index: 1;
   font-size: var(--font-size-17xl);
   color: var(--color-white);
+  margin: auto; /* 50 piksel sağa kaydırır */
+  width: 500px; /* Genişlik: 200 piksel */
+  height: auto; /* Yükseklik: 100 piksel */
 }
+
+
+
+
 .filters,
 .groupDiv,
 .pointsRange {
@@ -1603,6 +1614,7 @@
   flex: 1;
   position: relative;
   z-index: 3;
+  background-color: transparent;
 }
 .seeMoreButton {
   align-self: stretch;

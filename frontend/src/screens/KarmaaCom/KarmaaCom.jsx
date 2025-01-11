@@ -8,7 +8,7 @@ export const KarmaaCom = () => {
         <img
           className="header-and-navbar"
           alt="Header and navbar"
-          src="https://c.animaapp.com/jxBmwaJz/img/header-and-navbar.png"
+          src=""
         />
 
         <div className="overlap">
