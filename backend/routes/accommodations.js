@@ -15,41 +15,26 @@ router.get('/', async (req, res) => {
 
 // Search endpoint
 router.post('/search', async (req, res) => {
-    const { location, pointsRange, availableDates } = req.body;
-
-    if (!availableDates || !availableDates.start || !availableDates.end) {
-        return res.status(400).json({ error: 'Start and end dates are required for search.' });
-    }
-
-    const startDate = availableDates.start;
-    const endDate = availableDates.end;
+    const { location, pointsRange } = req.body;
 
     try {
-        const [results] = await pool.query(`
+        const query = `
             SELECT * FROM Accommodations
             WHERE Location LIKE ?
             AND DailyPointCost BETWEEN ? AND ?
-            AND JSON_LENGTH(JSON_EXTRACT(AvailableDates, '$')) >= (
-                SELECT COUNT(*)
-                FROM JSON_TABLE(
-                    JSON_ARRAY(?),
-                    "$[*]" COLUMNS (date VARCHAR(10) PATH "$")
-                ) AS requiredDates
-                WHERE JSON_CONTAINS(JSON_EXTRACT(AvailableDates, '$'), JSON_QUOTE(requiredDates.date))
-            )
-        `, [
+        `;
+        const [results] = await pool.query(query, [
             `%${location || ''}%`,
             pointsRange ? pointsRange[0] : 0,
-            pointsRange ? pointsRange[1] : 1000000,
-            generateDateRange(startDate, endDate).join('","'),
+            pointsRange ? pointsRange[1] : 2000,
         ]);
-
         res.status(200).json(results);
     } catch (err) {
         console.error('Database query failed:', err);
         res.status(500).json({ error: 'Database query failed' });
     }
 });
+
 
 // Tarih aralığı üreten yardımcı fonksiyon
 function generateDateRange(start, end) {
