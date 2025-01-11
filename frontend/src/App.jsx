@@ -5,9 +5,9 @@ import {
   useNavigationType,
   useLocation,
 } from "react-router-dom";
+import AuthForm from "./pages/AuthForm";
 import Karmaacom from "./pages/Karmaacom";
-import SearchForm from "./pages/SearchForm"; 
-import AccommodationDetails from "./pages/AccommodationDetails"; 
+import SearchForm from "./pages/SearchForm"; // Yeni eklenen SearchForm bileşeni
 
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
 
   useEffect(() => {
     if (action !== "POP") {
-      window.scrollTo(0, 0);
+      window.scrollTo(0,0);
     }
   }, [action, pathname]);
 
@@ -34,6 +34,7 @@ function App() {
         title = "Search Accommodations";
         metaDescription = "Search for your desired accommodations.";
         break;
+        
       default:
         title = "KarmaaCom";
         metaDescription = "Default meta description.";
@@ -57,7 +58,8 @@ function App() {
     <Routes>
       <Route path="/" element={<Karmaacom />} />
       <Route path="/search" element={<SearchForm />} /> {/* Yeni rota */}
-      <Route path="/accommodation-:id" element={<AccommodationDetails />} /> {/* Yeni rota */}
+      <Route path="/AuthForm" element={<AuthForm />} /> {/* Yeni rota */}
+
     </Routes>
   );
 }

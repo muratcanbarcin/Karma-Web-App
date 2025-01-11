@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const accommodationsRoutes = require('./routes/accommodations');
+const usersRoutes=require('./routes/users');
 
 const app = express();
 const PORT = 3000;
@@ -17,6 +18,7 @@ app.get('/', (req, res) => {
 
 // Accommodations route'u bağla
 app.use('/api/accommodations', accommodationsRoutes);
+app.use('/api/users',usersRoutes)
 
 // Server başlatma
 app.listen(PORT, () => {

@@ -293,20 +293,34 @@
   display: none;
 }
 .myAccount {
-  text-decoration: none;
-  position: relative;
-  font-size: var(--font-size-base);
-  font-weight: 700;
-  font-family: var(--font-poppins);
-  color: var(--color-seagreen);
-  text-align: left;
-  z-index: 2;
+  display: inline-block;
+  padding: 12px 24px; /* İç boşluklar */
+  background-color: #048853; /* Yeşil bir arka plan rengi */
+  color: white; /* Yazı rengi */
+  font-size: 16px; /* Yazı boyutu */
+  font-weight: bold; /* Kalın yazı */
+  border: none; /* Kenarlık yok */
+  border-radius: 8px; /* Yuvarlatılmış kenarlar */
+  text-align: center; /* Yazıyı ortala */
+  text-decoration: none; /* Alt çizgi yok */
+  cursor: pointer; /* İşaretçi imleci */
+  transition: all 0.3s ease; /* Hover animasyonu */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Hafif gölge */
+}
+.myAccount:hover {
+  background-color: #03673e; /* Hoverda koyu yeşil */
+  transform: scale(1.05); /* Hoverda büyüme efekti */
+}
+.navButtonContainer {
+  position: absolute;
+  top: 40px; /* Üstten uzaklık */
+  right: 88px; /* Sağdan uzaklık */
 }
 .accountLink {
   cursor: pointer;
   border: 0;
   padding: var(--padding-5xs) var(--padding-mid);
-  background-color: var(--color-white);
+  background-color: var(--color-red);
   align-items: flex-start;
   justify-content: flex-start;
   z-index: 1;
