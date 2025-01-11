@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios"; // Axios'u dahil edin
 import "./AuthForm.css";
+import { useNavigate } from "react-router-dom";
+
 
 const AuthForm = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -9,6 +11,8 @@ const AuthForm = () => {
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
+
 
   const toggleForm = () => {
     setIsSignUp(!isSignUp);
@@ -36,7 +40,7 @@ const AuthForm = () => {
         } else {
           alert("Giriş başarılı!");
           console.log("Token:", response.data.token);
-           // Token'ı konsolda görüntüleyin (veya localStorage'e kaydedin)
+          // Token'ı konsolda görüntüleyin (veya localStorage'e kaydedin)
         }
       }
     } catch (error) {
@@ -54,7 +58,14 @@ const AuthForm = () => {
   };
 
   return (
+
     <div className="auth-form-container">
+      <nav className="menu-bar">
+        <img src="/treehouse-1@2x.png" alt="Logo" className="menu-logo" />
+        <button className="menu-button" onClick={() => navigate("/")}>
+          Go to Home
+        </button>
+      </nav>
       <h1>{isSignUp ? "Sign Up " : "Login"}</h1>
       <form onSubmit={handleSubmit}>
         {isSignUp && (
@@ -100,7 +111,7 @@ const AuthForm = () => {
       <div className="switch">
         {isSignUp ? (
           <p>
-           Already have an account?{" "}
+            Already have an account?{" "}
             <a href="#" onClick={toggleForm}>
               Sign in
             </a>
