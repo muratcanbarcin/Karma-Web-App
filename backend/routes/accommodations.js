@@ -24,29 +24,35 @@ router.get('/', async (req, res) => {
   });
   
   
-
-// Search endpoint
-router.post('/search', async (req, res) => {
+  router.post('/search', async (req, res) => {
     const { location, pointsRange } = req.body;
   
     try {
       const query = `
-        SELECT AccommodationID, Location, DailyPointCost, bedrooms, bathrooms, size, Description, image 
+        SELECT AccommodationID, Location, DailyPointCost, Description
         FROM Accommodations
         WHERE Location LIKE ?
         AND DailyPointCost BETWEEN ? AND ?
       `;
       const [results] = await pool.query(query, [
-        `%${location || ''}%`,
-        pointsRange ? pointsRange[0] : 0,
-        pointsRange ? pointsRange[1] : 2000,
+        `%${location || ''}%`, // Konum araması
+        pointsRange ? pointsRange[0] : 0, // Minimum günlük puan maliyeti
+        pointsRange ? pointsRange[1] : 1000000, // Maksimum günlük puan maliyeti
       ]);
-      res.status(200).json(results);
+  
+      // Varsayılan görseli ekliyoruz
+      const accommodations = results.map((row) => ({
+        ...row,
+        image: "/105m2_934x700.webp", // Varsayılan görsel
+      }));
+  
+      res.status(200).json(accommodations);
     } catch (err) {
-      console.error("Database query failed:", err);
-      res.status(500).json({ error: "Database query failed" });
+      console.error("Database query failed:", err.message);
+      res.status(500).json({ error: "Database query failed", details: err.message });
     }
   });
+  
   
 
   router.get('/:id', async (req, res) => {
