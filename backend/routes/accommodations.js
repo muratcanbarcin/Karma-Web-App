@@ -57,27 +57,27 @@ router.get('/', async (req, res) => {
 
   router.get('/:id', async (req, res) => {
     const { id } = req.params;
-  
+
     try {
-      const [rows] = await pool.query(`
-        SELECT AccommodationID, Location, DailyPointCost, Description
-        FROM Accommodations
-        WHERE AccommodationID = ?
-      `, [id]);
-  
-      if (rows.length > 0) {
-        const accommodation = rows[0];
-        // image alanı veritabanında yok, varsayılan görseli ekliyoruz
-        accommodation.image = "/105m2_934x700.webp";
-        res.json(accommodation);
-      } else {
-        res.status(404).json({ error: "Accommodation not found" });
-      }
+        const [rows] = await pool.query(`
+            SELECT AccommodationID, Title, Description, Location, Amenities, HouseRules, DailyPointCost, AvailableDates, CreatedAt, UpdatedAt
+            FROM Accommodations
+            WHERE AccommodationID = ?
+        `, [id]);
+
+        if (rows.length > 0) {
+            const accommodation = rows[0];
+            accommodation.image = "/105m2_934x700.webp"; // Default image
+            res.json(accommodation);
+        } else {
+            res.status(404).json({ error: "Accommodation not found" });
+        }
     } catch (err) {
-      console.error("Database query failed:", err.message);
-      res.status(500).json({ error: "Database query failed", details: err.message });
+        console.error("Database query failed:", err.message);
+        res.status(500).json({ error: "Database query failed", details: err.message });
     }
-  });
+});
+
   
   
   
