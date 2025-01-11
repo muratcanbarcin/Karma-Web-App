@@ -101,12 +101,19 @@ const Karmaacom = () => {
             <div className={styles.pointsLink}>
               <a className={styles.points}>POINTS</a>
             </div>
-            <button className={styles.accountLink} onClick={openModal}>
-              <div className={styles.accountLinkChild} />
-              <span className={styles.myAccount}>My Account</span>              </button>
+            </div>
+            
+            <div className={styles.navButtonContainer}>
+      <button
+        className={styles.myAccount}
+        onClick={() => (window.location.href = "/AuthForm")}
+      >
+        My Account
+      </button>
+    </div>
 
 
-          </div>
+          
         </header>
         <div className={styles.liveLocalContentParent}>
           <div className={styles.liveLocalContent}>
@@ -129,6 +136,7 @@ const Karmaacom = () => {
               </div>
             </div>
           </div>
+          
           <img
             className={styles.frameInner}
             loading="lazy"
@@ -755,62 +763,11 @@ const Karmaacom = () => {
             className={styles.modalContent}
             onClick={(e) => e.stopPropagation()}
           >
-            <button className={styles.closeModalBtn} onClick={closeModal}>
-              ×
-            </button>
+           
 
-            {/* Üstte “Giriş Yap” ve “Kayıt Ol” sekmeleri */}
-            <div className={styles.tabButtons}>
-              <button
-                className={
-                  showLogin ? styles.tabButtonActive : styles.tabButton
-                }
-                onClick={toggleFormToLogin}
-              >
-                Giriş Yap
-              </button>
-              <button
-                className={
-                  !showLogin ? styles.tabButtonActive : styles.tabButton
-                }
-                onClick={toggleFormToRegister}
-              >
-                Kayıt Ol
-              </button>
-            </div>
+          
 
-            {/* Form container */}
-            <div className={styles.formContainer}>
-              {showLogin ? (
-                <form className={styles.authForm}>
-                  <label>Kullanıcı Adı</label>
-                  <input type="text" placeholder="Kullanıcı adı" />
-
-                  <label>Şifre</label>
-                  <input type="password" placeholder="Şifre" />
-
-                  <button type="submit" className={styles.submitBtn}>
-                    Giriş Yap
-                  </button>
-                </form>
-              ) : (
-                <form className={styles.authForm}>
-                  <label>Kullanıcı Adı</label>
-                  <input type="text" placeholder="Kullanıcı adı" />
-
-                  <label>E-posta</label>
-                  <input type="email" placeholder="E-posta" />
-
-                  <label>Şifre</label>
-                  <input type="password" placeholder="Şifre" />
-
-                  <button type="submit" className={styles.submitBtn}>
-                    Kayıt Ol
-                  </button>
-                </form>
-              )}
-
-            </div>
+            
           </div>
         </div>
       )}
