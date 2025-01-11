@@ -35,6 +35,23 @@ router.post('/search', async (req, res) => {
     }
 });
 
+router.get('/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const [rows] = await pool.query(`SELECT * FROM Accommodations WHERE id = ?`, [id]);
+        if (rows.length > 0) {
+            res.json(rows[0]);
+        } else {
+            res.status(404).json({ error: "Accommodation not found" });
+        }
+    } catch (err) {
+        console.error('Database query failed:', err);
+        res.status(500).json({ error: 'Database query failed' });
+    }
+});
+
+
 
 // Tarih aralığı üreten yardımcı fonksiyon
 function generateDateRange(start, end) {
