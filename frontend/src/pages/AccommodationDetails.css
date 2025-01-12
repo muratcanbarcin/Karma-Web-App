@@ -1,30 +1,45 @@
 .details-container {
-    max-width: 800px;
-    margin: 20px auto;
-    text-align: center;
-    background-color: #f3fff4;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .details-image {
-    max-width: 100%;
-    border-radius: 10px;
-    margin-bottom: 20px;
-  }
-  
-  .back-button {
-    padding: 10px 20px;
-    background-color: #048853;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-bottom: 20px;
-  }
-  
-  .back-button:hover {
-    background-color: #036b42;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Yatayda ortalama */
+  justify-content: center; /* Dikeyde ortalama */
+  text-align: center; /* Metni ortala */
+  padding: 20px;
+  margin: 0 auto;
+  max-width: 800px; /* İçeriğin genişliğini sınırlandır */
+}
+
+.details-image {
+  max-width: 100%; /* Görüntüyü alan içinde ölçeklendir */
+  height: auto; /* Oranını koru */
+  border-radius: 10px; /* Görüntüye köşelerde hafif bir yuvarlaklık ekle */
+  margin-bottom: 20px; /* Görüntü ve diğer içerik arasında boşluk bırak */
+}
+
+.back-button {
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #00bcd4;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background-color: #008394;
+}
+
+h1, h2, h3 {
+  color: #00ffff;
+  margin-bottom: 10px;
+}
+
+pre {
+  background-color: #121828;
+  padding: 10px;
+  border-radius: 5px;
+  overflow-x: auto; /* Geniş metinler için yatay kaydırma */
+  text-align: left; /* JSON formatlı veriler soldan hizalı olmalı */
+}

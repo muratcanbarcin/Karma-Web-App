@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./SearchForm.css";
 
 const SearchForm = () => {
@@ -10,7 +10,6 @@ const SearchForm = () => {
   const [results, setResults] = useState([]);
   const navigate = useNavigate();
 
-  // Sayfa yüklendiğinde tüm accommodations'ları yükle
   useEffect(() => {
     const fetchAllAccommodations = async () => {
       try {
@@ -23,7 +22,6 @@ const SearchForm = () => {
     fetchAllAccommodations();
   }, []);
 
-  // Arama butonuna tıklandığında filtreleme yap
   const handleSearch = async () => {
     try {
       const response = await axios.post("http://localhost:3000/api/accommodations/search", {
@@ -84,15 +82,15 @@ const SearchForm = () => {
                     <h2>{item.DailyPointCost} Points</h2>
                     <p>{item.Location}</p>
                     <p className="description">{item.Description}</p>
-                    <Link to={`/accommodation/${item.AccommodationID}`} className="details-button">
+                    <button
+                      onClick={() => navigate(`/accommodation/${item.AccommodationID}`)}
+                      className="details-button"
+                    >
                       Details...
-                    </Link>
-
+                    </button>
                   </div>
                 </div>
               ))}
-
-
             </div>
           ) : (
             <p>No results found.</p>

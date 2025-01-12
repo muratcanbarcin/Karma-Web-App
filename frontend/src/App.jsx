@@ -5,21 +5,17 @@ import SearchForm from "./pages/SearchForm";
 import AccommodationDetails from "./pages/AccommodationDetails";
 import AuthForm from "./pages/AuthForm";
 
-
 function App() {
-  // React Router Hooks
   const action = useNavigationType();
   const location = useLocation();
   const pathname = location.pathname;
 
-  // Scroll to top when navigation occurs
   useEffect(() => {
     if (action !== "POP") {
       window.scrollTo(0, 0);
     }
   }, [action, pathname]);
 
-  // Update page title and meta description based on route
   useEffect(() => {
     let title = "";
     let metaDescription = "";
@@ -57,14 +53,12 @@ function App() {
     }
   }, [pathname]);
 
-  // Application Routes
   return (
     <Routes>
       <Route path="/" element={<Karmaacom />} />
       <Route path="/search" element={<SearchForm />} />
       <Route path="/accommodation/:id" element={<AccommodationDetails />} />
-      <Route path="/AuthForm" element={<AuthForm />} /> {/* Yeni rota */}
-
+      <Route path="/AuthForm" element={<AuthForm />} />
     </Routes>
   );
 }
