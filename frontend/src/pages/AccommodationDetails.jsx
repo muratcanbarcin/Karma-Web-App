@@ -8,6 +8,8 @@ const AccommodationDetails = () => {
   const navigate = useNavigate();
   const [accommodation, setAccommodation] = useState(null);
   const [reviews, setReviews] = useState([]);
+  const [newReview, setNewReview] = useState({ rating: "", comment: "" });
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const fetchAccommodation = async () => {
@@ -28,9 +30,54 @@ const AccommodationDetails = () => {
       }
     };
 
+    const checkLogin = () => {
+      const token = localStorage.getItem("token");
+      setIsLoggedIn(!!token);
+    };
+
     fetchAccommodation();
     fetchReviews();
+    checkLogin();
   }, [id]);
+
+  const handleReviewSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("You must be logged in to submit a review.");
+        return;
+      }
+  
+      const decodedToken = JSON.parse(atob(token.split(".")[1])); // JWT decode
+      const userId = decodedToken.userId;
+  
+      await axios.post(
+        `http://localhost:3000/api/accommodations/${id}/reviews`,
+        {
+          BookingID: 1, // Replace with a valid BookingID
+          ReviewerID: userId,
+          Rating: newReview.rating,
+          Comment: newReview.comment,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      alert("Review submitted successfully!");
+      setNewReview({ rating: "", comment: "" });
+      const response = await axios.get(`http://localhost:3000/api/accommodations/${id}/reviews`);
+      setReviews(response.data);
+    } catch (error) {
+      console.error("Failed to submit review:", error);
+      alert("Failed to submit review. Please try again.");
+    }
+  };
+  
+  
 
   if (!accommodation) {
     return <p>Loading...</p>;
@@ -49,50 +96,7 @@ const AccommodationDetails = () => {
       />
       <h2>{accommodation.DailyPointCost} Points</h2>
       <p>{accommodation.Description}</p>
-
-      <div>
-        <h3>Location</h3>
-        <p>{accommodation.Location}</p>
-      </div>
-
-      <table className="details-table">
-        <thead>
-          <tr>
-            <th>Amenities</th>
-            <th>House Rules</th>
-            <th>Available Dates</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <ul>
-                {Object.entries(accommodation.Amenities || {}).map(([key, value]) => (
-                  <li key={key}>{key}: {value}</li>
-                ))}
-              </ul>
-            </td>
-            <td>
-              <ul>
-                {Object.entries(accommodation.HouseRules || {}).map(([key, value]) => (
-                  <li key={key}>{key}: {value}</li>
-                ))}
-              </ul>
-            </td>
-            <td>
-              <div className="dates-buttons">
-                {Array.isArray(accommodation.AvailableDates)
-                  ? accommodation.AvailableDates.map((date) => (
-                      <button key={date} className="date-button">
-                        {date}
-                      </button>
-                    ))
-                  : "No dates available"}
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <p><strong>Average Rating:</strong> {accommodation.AverageRating !== "No ratings yet" ? `${accommodation.AverageRating} / 5` : "No ratings yet"}</p>
 
       <div className="reviews-section">
         <h3>Ratings and Reviews</h3>
@@ -109,6 +113,34 @@ const AccommodationDetails = () => {
           <p>No reviews available for this accommodation.</p>
         )}
       </div>
+
+      {isLoggedIn && (
+        <div className="review-form">
+          <h3>Submit Your Review</h3>
+          <form onSubmit={handleReviewSubmit}>
+            <label>
+              Rating:
+              <input
+                type="number"
+                min="1"
+                max="5"
+                value={newReview.rating}
+                onChange={(e) => setNewReview({ ...newReview, rating: e.target.value })}
+                required
+              />
+            </label>
+            <label>
+              Comment:
+              <textarea
+                value={newReview.comment}
+                onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
+                required
+              ></textarea>
+            </label>
+            <button type="submit">Submit Review</button>
+          </form>
+        </div>
+      )}
     </div>
   );
 };

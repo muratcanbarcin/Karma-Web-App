@@ -52,15 +52,31 @@ router.post("/search", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    const [rows] = await pool.query(
-      `SELECT AccommodationID, Title, Description, Location, Amenities, HouseRules, DailyPointCost, AvailableDates, CreatedAt, UpdatedAt 
+    const [accommodationRows] = await pool.query(
+      `SELECT AccommodationID, Title, Description, Location, Amenities, HouseRules, DailyPointCost, AvailableDates, CreatedAt, UpdatedAt
        FROM Accommodations 
-       WHERE AccommodationID = ?`, 
+       WHERE AccommodationID = ?`,
       [id]
     );
-    if (rows.length > 0) {
-      const accommodation = rows[0];
+
+    if (accommodationRows.length > 0) {
+      const accommodation = accommodationRows[0];
       accommodation.image = "/105m2_934x700.webp"; // Default image
+
+      // Average Rating Query
+      const [ratingRows] = await pool.query(
+        `SELECT AVG(Rating) AS AverageRating 
+         FROM RatingsAndReviews rr
+         JOIN Bookings b ON rr.BookingID = b.BookingID
+         WHERE b.AccommodationID = ?`,
+        [id]
+      );
+
+      accommodation.AverageRating = ratingRows[0]?.AverageRating
+        ? parseFloat(ratingRows[0].AverageRating).toFixed(2) // Virgülden sonra 2 basamak
+        : "No ratings yet";
+
+
       res.json(accommodation);
     } else {
       res.status(404).json({ error: "Accommodation not found" });
@@ -71,24 +87,45 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.get("/:id/reviews", async (req, res) => {
-  const { id } = req.params;
+
+
+
+router.post("/:id/reviews", async (req, res) => {
+  const { id } = req.params; // AccommodationID
+  const { BookingID, ReviewerID, Rating, Comment } = req.body;
+
+  if (!BookingID || !ReviewerID || !Rating || !Comment) {
+    return res.status(400).json({ error: "All fields are required" });
+  }
+
   try {
-    const [rows] = await pool.query(
-      `
-      SELECT rr.Rating, rr.Comment, u.Name AS ReviewerName
-      FROM RatingsAndReviews rr
-      JOIN Bookings b ON rr.BookingID = b.BookingID
-      JOIN Users u ON rr.ReviewerID = u.UserID
-      WHERE b.AccommodationID = ?
-      `,
-      [id]
+    // BookingID ve AccommodationID eşleşmesini doğrula
+    const [bookingCheck] = await pool.query(
+      `SELECT BookingID FROM Bookings WHERE BookingID = ? AND AccommodationID = ?`,
+      [BookingID, id]
     );
-    res.json(rows);
+
+    if (bookingCheck.length === 0) {
+      return res.status(400).json({ error: "Invalid BookingID for this Accommodation." });
+    }
+
+    // Review ekle
+    await pool.query(
+      `INSERT INTO RatingsAndReviews (BookingID, ReviewerID, RevieweeID, Rating, Comment, CreatedAt)
+       VALUES (?, ?, ?, ?, ?, NOW())`,
+      [BookingID, ReviewerID, id, Rating, Comment]
+    );
+
+    res.status(201).json({ message: "Review submitted successfully." });
   } catch (err) {
-    console.error("Failed to fetch reviews:", err.message);
-    res.status(500).json({ error: "Failed to fetch reviews" });
+    console.error("Failed to submit review:", err.message);
+    res.status(500).json({ error: "Failed to submit review." });
   }
 });
+
+
+
+
+
 
 module.exports = router;
