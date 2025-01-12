@@ -84,7 +84,7 @@ const SearchForm = () => {
                     <h2>{item.DailyPointCost} Points</h2>
                     <p>{item.Location}</p>
                     <p className="description">{item.Description}</p>
-                    <Link to={`/accommodation-${item.AccommodationID}`} className="details-button">
+                    <Link to={`/accommodation/${item.AccommodationID}`} className="details-button">
                       Details...
                     </Link>
 

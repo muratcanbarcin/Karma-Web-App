@@ -62,7 +62,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Karmaacom />} />
       <Route path="/search" element={<SearchForm />} />
-      <Route path="/accommodation-:id" element={<AccommodationDetails />} />
+      <Route path="/accommodation/:id" element={<AccommodationDetails />} />
       <Route path="/AuthForm" element={<AuthForm />} /> {/* Yeni rota */}
 
     </Routes>
