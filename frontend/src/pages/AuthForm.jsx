@@ -39,7 +39,9 @@ const AuthForm = () => {
           toggleForm();
         } else {
           alert("Giriş başarılı!");
-          console.log("Token:", response.data.token);
+          localStorage.setItem("token", response.data.token);
+          // Kullanıcıyı /myaccount sayfasına yönlendir
+         navigate("/myaccount");
           // Token'ı konsolda görüntüleyin (veya localStorage'e kaydedin)
         }
       }
