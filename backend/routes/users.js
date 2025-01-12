@@ -3,7 +3,9 @@ const router = express.Router();
 const pool = require('../database/connection'); // Database bağlantısı
 const jwt = require('jsonwebtoken'); // JSON Web Token kullanımı için
 
-const SECRET_KEY = 'your_secret_key'; // JWT için gizli anahtar
+const SECRET_KEY = process.env.SECRET_KEY;
+
+
 
 // Kullanıcı kaydı endpoint
 router.post('/register', async (req, res) => {
@@ -35,38 +37,44 @@ router.post('/register', async (req, res) => {
 });
 
 // Kullanıcı giriş endpoint
-router.post('/login', async (req, res) => {
+router.post("/login", async (req, res) => {
     const { email, password } = req.body;
-
+  
     if (!email || !password) {
-        return res.status(400).json({ error: 'Lütfen tüm alanları doldurun' });
+      return res.status(400).json({ error: "Please fill in all fields." });
     }
-
+  
     try {
-        // Kullanıcıyı veritabanından al
-        const query = `SELECT * FROM Users WHERE Email = ?`;
-        const [results] = await pool.query(query, [email]);
-
-        if (results.length === 0) {
-            return res.status(404).json({ error: 'Kullanıcı bulunamadı' });
-        }
-
-        const user = results[0];
-
-        // Şifreyi doğrula
-        if (password !== user.Password) {
-            return res.status(401).json({ error: 'Geçersiz şifre' });
-        }
-        // JWT oluştur
-        const token = jwt.sign({ email: user.Email }, SECRET_KEY, { expiresIn: '1h' });
-
-
-        res.status(200).json({ message: 'Giriş başarılı', token });
+      const query = `SELECT * FROM Users WHERE Email = ?`;
+      const [results] = await pool.query(query, [email]);
+  
+      if (results.length === 0) {
+        return res.status(404).json({ error: "User not found." });
+      }
+  
+      const user = results[0];
+  
+      // Şifre doğrulaması
+      if (password !== user.Password) {
+        return res.status(401).json({ error: "Invalid password." });
+      }
+  
+      // JWT oluşturulurken UserID dahil ediliyor
+      const token = jwt.sign(
+        { userID: user.UserID, email: user.Email }, // `userID` ve `email` ekleniyor
+        SECRET_KEY,
+        { expiresIn: "1h" }
+      );
+  
+      res.status(200).json({ message: "Login successful", token });
     } catch (err) {
-        console.error('Giriş sırasında hata oluştu:', err);
-        res.status(500).json({ error: 'Giriş sırasında hata oluştu' });
+      console.error("Login error:", err);
+      res.status(500).json({ error: "Server error" });
     }
-});
+  });
+  
+  
+  
 router.get('/MyAccount', async (req, res) => {
     const token = req.headers.authorization?.split(" ")[1];
     if (!token) {

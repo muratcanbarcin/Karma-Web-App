@@ -5,6 +5,7 @@ import SearchForm from "./pages/SearchForm";
 import AccommodationDetails from "./pages/AccommodationDetails";
 import AuthForm from "./pages/AuthForm";
 import MyAccount from "./pages/MyAccount";
+import AddAccommodation from "./pages/AddAccommodation";
 import {jwtDecode} from "jwt-decode"; // JWT token'ı doğrulamak için
 
 // Kullanıcının giriş yapıp yapmadığını kontrol eden bir fonksiyon
@@ -88,12 +89,16 @@ function App() {
         <Route path="/search" element={<SearchForm />} />
         <Route path="/accommodation/:id" element={<AccommodationDetails />} />
         <Route path="/AuthForm" element={<AuthForm />} />
+        
         <Route
           path="/MyAccount"
           element={
             isAuthenticated() ? <MyAccount /> : <Navigate to="/AuthForm" replace />
           }
+
         />
+         <Route path="/myaccount/addaccommodations" element={<AddAccommodation />} />
+
       </Routes>
   );
 }

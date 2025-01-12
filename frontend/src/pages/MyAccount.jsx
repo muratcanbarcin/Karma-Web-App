@@ -13,38 +13,42 @@ const formatDateForMySQL = (dateString) => {
 };
 
 const MyAccount = () => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [isEditing, setIsEditing] = useState(false);
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [isEditing, setIsEditing] = useState(false);
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) throw new Error("Token bulunamadı. Lütfen giriş yapın.");
-
-        const response = await axios.get("http://localhost:3000/api/users/MyAccount", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setUser(response.data);
-        setLoading(false);
-      } catch (err) {
-        console.error("Kullanıcı bilgileri alınırken hata:", err);
-        setError("Kullanıcı bilgileri alınamadı.");
-        setLoading(false);
-      }
+    const navigate = useNavigate();
+    useEffect(() => {
+        const fetchUserData = async () => {
+          try {
+            const token = localStorage.getItem("token");
+            if (!token) throw new Error("Token bulunamadı. Lütfen giriş yapın.");
+      
+            const response = await axios.get("http://localhost:3000/api/users/MyAccount", {
+              headers: { Authorization: `Bearer ${token}` },
+            });
+      
+            setUser(response.data);
+            setLoading(false);
+          } catch (err) {
+            console.error("Kullanıcı bilgileri alınırken hata:", err);
+            setError("Kullanıcı bilgileri alınamadı.");
+            setLoading(false);
+          }
+        };
+      
+        fetchUserData();
+      }, []);
+      
+  
+    const handleLogout = () => {
+      localStorage.removeItem("token");
+      navigate("/");
     };
-
-    fetchUserData();
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/");
+  const handleAddAccommodation = () => {
+    navigate("/myaccount/addaccommodations");
   };
-
   const handleSave = async () => {
     const formattedDate = formatDateForMySQL(user.DateOfBirth);
     const updatedUser = { ...user, DateOfBirth: formattedDate };
@@ -77,6 +81,9 @@ const MyAccount = () => {
           <h2>{user.Name}</h2>
           <p>{user.Email}</p>
         </div>
+        <button onClick={handleAddAccommodation} className="edit-button">
+          Add Accommodation
+        </button>
         <button className="edit-button" onClick={() => setIsEditing(!isEditing)}>
           {isEditing ? "Cancel" : "Edit"}
         </button>
@@ -137,7 +144,9 @@ const MyAccount = () => {
           />
         </div>
       </div>
-
+      
+      
+    
       {isEditing && (
         <button className="save-button" onClick={handleSave}>Save</button>
       )}

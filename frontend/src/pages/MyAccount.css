@@ -147,3 +147,25 @@
       grid-template-columns: 1fr;
     }
   }
+  .accommodations-list {
+    margin-top: 20px;
+  }
+  
+  .accommodation-card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .accommodation-card h4 {
+    margin: 0;
+    font-size: 1.2em;
+  }
+  
+  .accommodation-card p {
+    margin: 5px 0;
+    font-size: 0.9em;
+    color: #666;
+  }
