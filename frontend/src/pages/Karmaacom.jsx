@@ -104,13 +104,21 @@ const Karmaacom = () => {
             </div>
             
             <div className={styles.navButtonContainer}>
-      <button
-        className={styles.myAccount}
-        onClick={() => (window.location.href = "/AuthForm")}
-      >
-        My Account
-      </button>
-    </div>
+  <button
+    className={styles.myAccount}
+    onClick={() => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        window.location.href = "/myaccount"; // Kullanıcı giriş yapmışsa MyAccount sayfasına yönlendir
+      } else {
+        window.location.href = "/AuthForm"; // Kullanıcı giriş yapmamışsa AuthForm sayfasına yönlendir
+      }
+    }}
+  >
+    My Account
+  </button>
+</div>
+
 
 
           
