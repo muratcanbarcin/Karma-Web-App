@@ -4,6 +4,8 @@ import Karmaacom from "./pages/Karmaacom";
 import SearchForm from "./pages/SearchForm";
 import AccommodationDetails from "./pages/AccommodationDetails";
 import AuthForm from "./pages/AuthForm";
+import MyAccount from "./pages/MyAccount";
+
 
 function App() {
   const action = useNavigationType();
@@ -59,6 +61,7 @@ function App() {
       <Route path="/search" element={<SearchForm />} />
       <Route path="/accommodation/:id" element={<AccommodationDetails />} />
       <Route path="/AuthForm" element={<AuthForm />} />
+      <Route path="/myaccount" element={<MyAccount />} />
     </Routes>
   );
 }
