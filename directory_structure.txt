@@ -1,100 +1,106 @@
 Folder PATH listing
 Volume serial number is A82C-40E9
 C:.
-│   directory_structure.txt
-│   dosyayapisi.txt
-│   package-lock.json
-│   
-├───backend
-│   │   .env
-│   │   app.js
-│   │   index.js
-│   │   package-lock.json
-│   │   package.json
-│   │   testDbConnection.js
-│   │   
-│   ├───database
-│   │       connection.js
-│   │       
-│   ├───routes
-│   │       accommodations.js
-│    
-│           
-├───Database
-│       DBCreateTablesCode.sql
-│       KARMA_Dataset_Final.xlsx
-│       KARMA_ER_Diagram.png
-│       KARMA_Final_ER_Diagram.png
-│       KARMA_Insert_Statements.sql
-│       
-└───frontend
-    │   .gitignore
-    │   global.css
-    │   index.html
-    │   package-lock.json
-    │   package.json
-    │   README.md
-    │   vite.config.mjs
-    │   viteconfig.js
-    │   
-    ├───dist
-    │   │   index.html
-    │   │   
-    │   └───assets
-    │           index-B5Qt9EMX.js
-    ├───public
-    │       akariconsinstagramfill.svg
-    │       akariconsmoney.svg
-    │       antdesignhomeoutlined.svg
-    │       assets-1@2x.png
-    │       dashiconsarrowdownalt2.svg
-    │       evaarrowiosforwardfill.svg
-    │       fasolidbath.svg
-    │       fluentglobesurface20filled-2.svg
-    │       fluentglobesurface20filled.svg
-    │       greeninteriormoderninteriorlivingroomstylewithsoftsofagreenwall3drendering-2@2x.png
-    │       group-1.svg
-    │       group-7@2x.png
-    │       group.svg
-    │       house-1@2x.png
-    │       index.html
-    │       layer-x0020-1@2x.png
-    │       mask-group-10@2x.png
-    │       mask-group-1@2x.png
-    │       mask-group-2@2x.png
-    │       mask-group-3@2x.png
-    │       mask-group-4@2x.png
-    │       mask-group-5@2x.png
-    │       mask-group-6@2x.png
-    │       mask-group-7@2x.png
-    │       mask-group-8@2x.png
-    │       mask-group-9@2x.png
-    │       mask-group@2x.png
-    │       mdibed.svg
-    │       rectangle-12.svg
-    │       town-1@2x.png
-    │       treehouse-1@2x.png
-    │       vector-1.svg
-    │       vector-2.svg
-    │       vector-3.svg
-    │       vector-4.svg
-    │       vector-5.svg
-    │       vector.svg
-    │       vite.svg
-    │       
-    └───src
-        │   App.jsx
-        │   global.css
-        │   index.jsx
-        │   reportWebVitals.jsx
-        │   
-        ├───pages
-        │       Karmaacom.jsx
-        │       Karmaacom.module.css
-        │       SearchForm.jsx
-        │       
-        └───screens
-            └───KarmaaCom
+|   directory_structure.txt
+|   package-lock.json
+|   tree.txt
+|   
++---backend
+|   |   .env
+|   |   app.js
+|   |   index.js
+|   |   package-lock.json
+|   |   package.json
+|   |   testDbConnection.js
+|   |   
+|   +---database
+|   |       connection.js
+|   | |   \---routes
+|           accommodations.js
+|           users.js
+|           
++---Database
+|       DBCreateTablesCode.sql
+|       KARMA_Dataset_Final.xlsx
+|       KARMA_ER_Diagram.png
+|       KARMA_Final_ER_Diagram.png
+|       KARMA_Insert_Statements.sql
+|       
+\---frontend
+    |   .gitignore
+    |   global.css
+    |   index.html
+    |   package-lock.json
+    |   package.json
+    |   README.md
+    |   vite.config.mjs
+    |   viteconfig.js
+    |   
+    +---dist
+    |   |   index.html
+    |   |   
+    |   \---assets
+    |           index-B5Qt9EMX.js
+    |           
+    +---public
+    |       105m2_934x700.webp
+    |       akariconsinstagramfill.svg
+    |       akariconsmoney.svg
+    |       antdesignhomeoutlined.svg
+    |       assets-1@2x.png
+    |       dashiconsarrowdownalt2.svg
+    |       evaarrowiosforwardfill.svg
+    |       fasolidbath.svg
+    |       fluentglobesurface20filled-2.svg
+    |       fluentglobesurface20filled.svg
+    |       greeninteriormoderninteriorlivingroomstylewithsoftsofagreenwall3drendering-2@2x.png
+    |       group-1.svg
+    |       group-7@2x.png
+    |       group.svg
+    |       house-1@2x.png
+    |       index.html
+    |       layer-x0020-1@2x.png
+    |       mask-group-10@2x.png
+    |       mask-group-1@2x.png
+    |       mask-group-2@2x.png
+    |       mask-group-3@2x.png
+    |       mask-group-4@2x.png
+    |       mask-group-5@2x.png
+    |       mask-group-6@2x.png
+    |       mask-group-7@2x.png
+    |       mask-group-8@2x.png
+    |       mask-group-9@2x.png
+    |       mask-group@2x.png
+    |       mdibed.svg
+    |       rectangle-12.svg
+    |       town-1@2x.png
+    |       treehouse-1@2x.png
+    |       vector-1.svg
+    |       vector-2.svg
+    |       vector-3.svg
+    |       vector-4.svg
+    |       vector-5.svg
+    |       vector.svg
+    |       vite.svg
+    |       
+    \---src
+        |   App.jsx
+        |   global.css
+        |   index.jsx
+        |   reportWebVitals.jsx
+        |   
+        +---pages
+        |       AccommodationDetails.css
+        |       AccommodationDetails.jsx
+        |       AuthForm.css
+        |       AuthForm.jsx
+        |       Karmaacom.jsx
+        |       Karmaacom.module.css
+        |       SearchForm.css
+        |       SearchForm.jsx
+        |       
+        \---screens
+            \---KarmaaCom
                     index.js
                     KarmaaCom.jsx
                     style.css

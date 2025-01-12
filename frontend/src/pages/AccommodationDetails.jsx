@@ -11,7 +11,9 @@ const AccommodationDetails = () => {
   useEffect(() => {
     const fetchAccommodation = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/accommodations/${id}`);
+        const response = await axios.get(
+          `http://localhost:3000/api/accommodations/${id}`
+        );
         setAccommodation(response.data);
       } catch (error) {
         console.error("Failed to fetch accommodation details:", error);
@@ -25,9 +27,10 @@ const AccommodationDetails = () => {
     return <p>Loading...</p>;
   }
 
-  const formattedDates = Array.isArray(accommodation.AvailableDates)
-    ? accommodation.AvailableDates.join(", ")
-    : "No dates available";
+  const handleDateClick = (date) => {
+    alert(`You selected ${date} for booking.`);
+    // Booking işlemleri için bu alanda gerekli API çağrıları yapılabilir
+  };
 
   return (
     <div className="details-container">
@@ -42,22 +45,58 @@ const AccommodationDetails = () => {
       />
       <h2>{accommodation.DailyPointCost} Points</h2>
       <p>{accommodation.Description}</p>
+
       <div>
         <h3>Location</h3>
         <p>{accommodation.Location}</p>
       </div>
-      <div>
-        <h3>Amenities</h3>
-        <pre>{JSON.stringify(accommodation.Amenities, null, 2)}</pre>
-      </div>
-      <div>
-        <h3>House Rules</h3>
-        <pre>{JSON.stringify(accommodation.HouseRules, null, 2)}</pre>
-      </div>
-      <div>
-        <h3>Available Dates</h3>
-        <p>{formattedDates}</p>
-      </div>
+
+      <table className="details-table">
+        <thead>
+          <tr>
+            <th>Amenities</th>
+            <th>House Rules</th>
+            <th>Available Dates</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <ul>
+                {Object.entries(accommodation.Amenities || {}).map(([key, value]) => (
+                  <li key={key}>
+                    {key}: {value}
+                  </li>
+                ))}
+              </ul>
+            </td>
+            <td>
+              <ul>
+                {Object.entries(accommodation.HouseRules || {}).map(([key, value]) => (
+                  <li key={key}>
+                    {key}: {value}
+                  </li>
+                ))}
+              </ul>
+            </td>
+            <td>
+              <div className="dates-buttons">
+                {Array.isArray(accommodation.AvailableDates)
+                  ? accommodation.AvailableDates.map((date) => (
+                      <button
+                        key={date}
+                        className="date-button"
+                        onClick={() => handleDateClick(date)}
+                      >
+                        {date}
+                      </button>
+                    ))
+                  : "No dates available"}
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 };
