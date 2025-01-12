@@ -7,30 +7,34 @@ const AccommodationDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [accommodation, setAccommodation] = useState(null);
+  const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
     const fetchAccommodation = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:3000/api/accommodations/${id}`
-        );
+        const response = await axios.get(`http://localhost:3000/api/accommodations/${id}`);
         setAccommodation(response.data);
       } catch (error) {
         console.error("Failed to fetch accommodation details:", error);
       }
     };
 
+    const fetchReviews = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3000/api/accommodations/${id}/reviews`);
+        setReviews(response.data);
+      } catch (error) {
+        console.error("Failed to fetch reviews:", error);
+      }
+    };
+
     fetchAccommodation();
+    fetchReviews();
   }, [id]);
 
   if (!accommodation) {
     return <p>Loading...</p>;
   }
-
-  const handleDateClick = (date) => {
-    alert(`You selected ${date} for booking.`);
-    // Booking işlemleri için bu alanda gerekli API çağrıları yapılabilir
-  };
 
   return (
     <div className="details-container">
@@ -64,18 +68,14 @@ const AccommodationDetails = () => {
             <td>
               <ul>
                 {Object.entries(accommodation.Amenities || {}).map(([key, value]) => (
-                  <li key={key}>
-                    {key}: {value}
-                  </li>
+                  <li key={key}>{key}: {value}</li>
                 ))}
               </ul>
             </td>
             <td>
               <ul>
                 {Object.entries(accommodation.HouseRules || {}).map(([key, value]) => (
-                  <li key={key}>
-                    {key}: {value}
-                  </li>
+                  <li key={key}>{key}: {value}</li>
                 ))}
               </ul>
             </td>
@@ -83,11 +83,7 @@ const AccommodationDetails = () => {
               <div className="dates-buttons">
                 {Array.isArray(accommodation.AvailableDates)
                   ? accommodation.AvailableDates.map((date) => (
-                      <button
-                        key={date}
-                        className="date-button"
-                        onClick={() => handleDateClick(date)}
-                      >
+                      <button key={date} className="date-button">
                         {date}
                       </button>
                     ))
@@ -97,6 +93,22 @@ const AccommodationDetails = () => {
           </tr>
         </tbody>
       </table>
+
+      <div className="reviews-section">
+        <h3>Ratings and Reviews</h3>
+        {reviews.length > 0 ? (
+          reviews.map((review, index) => (
+            <div key={index} className="review-card">
+              <p>
+                <strong>{review.ReviewerName}:</strong> {review.Rating} / 5
+              </p>
+              <p>{review.Comment}</p>
+            </div>
+          ))
+        ) : (
+          <p>No reviews available for this accommodation.</p>
+        )}
+      </div>
     </div>
   );
 };

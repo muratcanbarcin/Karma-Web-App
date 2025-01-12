@@ -15,7 +15,7 @@ C:.
 |   |   
 |   +---database
 |   |       connection.js
-|   | |   \---routes
+|   |       |   \---routes
 |           accommodations.js
 |           users.js
 |           
@@ -41,8 +41,7 @@ C:.
     |   |   
     |   \---assets
     |           index-B5Qt9EMX.js
-    |           
-    +---public
+    |            +---public
     |       105m2_934x700.webp
     |       akariconsinstagramfill.svg
     |       akariconsmoney.svg
@@ -96,8 +95,12 @@ C:.
         |       AuthForm.jsx
         |       Karmaacom.jsx
         |       Karmaacom.module.css
+        |       MyAccount.css
+        |       MyAccount.jsx
         |       SearchForm.css
         |       SearchForm.jsx
+        |       UserProfile.css
+        |       UserProfile.jsx
         |       
         \---screens
             \---KarmaaCom
