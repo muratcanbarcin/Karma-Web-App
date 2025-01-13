@@ -65,7 +65,7 @@ const MyAccount = () => {
         setLoadingAccommodations(false);
       } catch (err) {
         console.error("Kullanıcıya ait konaklamalar alınırken hata:", err);
-        setErrorAccommodations("Konaklamalar alınamadı.");
+        setErrorAccommodations("No Accommodations");
         setLoadingAccommodations(false);
       }
     };

@@ -1,14 +1,38 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
+
 import styles from "./Karmaacom.module.css";
 
 const Karmaacom = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [points, setPoints] = useState(null); // Points bilgisini tutuyoruz
   const [showLogin, setShowLogin] = useState(true);
   const openModal = useCallback(() => {
     setIsModalOpen(true);
     setShowLogin(true);
   }, []);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      // Eğer token varsa, points bilgisi çekilir
+      fetch("http://localhost:3000/api/users/points", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Failed to fetch points.");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setPoints(data.pointsBalance); // Points bilgisini state'e kaydet
+        })
+        .catch((error) => {
+          console.error("Error fetching points balance:", error);
+        });
+    }
+  }, []);
+
 
   // Modalı kapatan fonksiyon
   const closeModal = useCallback(() => {
@@ -97,12 +121,13 @@ const Karmaacom = () => {
 
     {/* Sağ grup (POINTS, My Account) */}
     <div className={styles.rightNav}>
-      <button
-        className={styles.navButton}
-        onClick={() => (window.location.href = "/points")}
-      >
-        POINTS
-      </button>
+            {/* Kullanıcı giriş yapmışsa points'i göster */}
+            {points !== null && (
+              <div className={styles.pointsDisplay}>
+                {`Points: ${points}`}
+              </div>
+            )}
+
       <button
         className={styles.myAccount}
         onClick={() => {
