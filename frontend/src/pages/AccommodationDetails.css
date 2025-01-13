@@ -116,3 +116,18 @@
   font-weight: bold;
 }
 
+.reservation-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.reservation-button:hover {
+  background-color: #45a049;
+}
+
+

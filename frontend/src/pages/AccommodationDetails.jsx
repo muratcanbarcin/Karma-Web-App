@@ -29,7 +29,9 @@ const AccommodationDetails = () => {
         setLoadingAccommodation(false);
       } catch (err) {
         console.error("Failed to fetch accommodation details:", err);
-        setError(err.response?.data?.error || "An error occurred while fetching data.");
+        setError(
+          err.response?.data?.error || "An error occurred while fetching data."
+        );
         setLoadingAccommodation(false);
       }
     };
@@ -67,6 +69,31 @@ const AccommodationDetails = () => {
     fetchAverageRating();
   }, [id]);
 
+  const handleReservation = async (selectedDate) => {
+    if (!localStorage.getItem("token")) {
+      alert("You need to log in to make a reservation.");
+      navigate("/AuthForm");
+      return;
+    }
+
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await axios.post(
+        `http://localhost:3000/api/accommodations/${accommodation.AccommodationID}/bookings`,
+        {
+          startDate: selectedDate,
+          endDate: selectedDate,
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      alert("Reservation successful!");
+    } catch (error) {
+      alert(error.response?.data?.error || "Reservation failed.");
+    }
+  };
+
   if (error) {
     // Show error message to user
     return (
@@ -84,11 +111,6 @@ const AccommodationDetails = () => {
 
   const handleEdit = () => {
     navigate(`/edit-accommodation/${accommodation.AccommodationID}`);
-  };
-
-  const handleDateClick = (date) => {
-    alert(`You selected ${date} for booking.`);
-    // Add booking logic here
   };
 
   return (
@@ -122,20 +144,24 @@ const AccommodationDetails = () => {
           <tr>
             <td>
               <ul>
-                {Object.entries(accommodation.Amenities || {}).map(([key, value]) => (
-                  <li key={key}>
-                    {key}: {value}
-                  </li>
-                ))}
+                {Object.entries(accommodation.Amenities || {}).map(
+                  ([key, value]) => (
+                    <li key={key}>
+                      {key}: {value}
+                    </li>
+                  )
+                )}
               </ul>
             </td>
             <td>
               <ul>
-                {Object.entries(accommodation.HouseRules || {}).map(([key, value]) => (
-                  <li key={key}>
-                    {key}: {value}
-                  </li>
-                ))}
+                {Object.entries(accommodation.HouseRules || {}).map(
+                  ([key, value]) => (
+                    <li key={key}>
+                      {key}: {value}
+                    </li>
+                  )
+                )}
               </ul>
             </td>
             <td>
@@ -144,10 +170,10 @@ const AccommodationDetails = () => {
                   ? accommodation.AvailableDates.map((date) => (
                       <button
                         key={date}
-                        className="date-button"
-                        onClick={() => handleDateClick(date)}
+                        className="date-button reservation-button"
+                        onClick={() => handleReservation(date)}
                       >
-                        {date}
+                        Reserve {date}
                       </button>
                     ))
                   : "No dates available"}
