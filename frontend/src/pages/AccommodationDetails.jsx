@@ -12,14 +12,15 @@ const AccommodationDetails = () => {
   useEffect(() => {
     const fetchAccommodation = async () => {
       try {
-        const token = localStorage.getItem("token"); // Kullanıcı token'ını al
+        const token = localStorage.getItem("token"); // Get user token if available
+        const headers = token ? { Authorization: `Bearer ${token}` } : {}; // Add headers conditionally
+
         const response = await axios.get(
           `http://localhost:3000/api/accommodations/${id}`,
-          {
-            headers: { Authorization: `Bearer ${token}` }, // Token'i backend'e gönder
-          }
+          { headers }
         );
-        setAccommodation(response.data); // Backend'den dönen veriyi state'e ata
+
+        setAccommodation(response.data); // Store data in state
       } catch (err) {
         console.error("Failed to fetch accommodation details:", err);
         setError(err.response?.data?.error || "An error occurred while fetching data.");
@@ -30,7 +31,7 @@ const AccommodationDetails = () => {
   }, [id]);
 
   if (error) {
-    // Eğer hata varsa kullanıcıya hata mesajı göster
+    // Show error message to user
     return (
       <div>
         <p>Error: {error}</p>
@@ -40,7 +41,7 @@ const AccommodationDetails = () => {
   }
 
   if (!accommodation) {
-    // Veri yüklenirken kullanıcıya yükleme mesajı göster
+    // Show loading message
     return <p>Loading...</p>;
   }
 
@@ -50,7 +51,7 @@ const AccommodationDetails = () => {
 
   const handleDateClick = (date) => {
     alert(`You selected ${date} for booking.`);
-    // Booking işlemleri burada gerçekleştirilebilir
+    // Add booking logic here
   };
 
   return (
@@ -119,7 +120,7 @@ const AccommodationDetails = () => {
         </tbody>
       </table>
 
-      {/* Sadece konaklamanın sahibi düzenleme yapabilir */}
+      {/* Show edit button only if the user is the owner */}
       {accommodation.isOwner && (
         <button className="edit-button" onClick={handleEdit}>
           Edit Accommodation
