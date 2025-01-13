@@ -76,6 +76,9 @@ const AccommodationDetails = () => {
       return;
     }
 
+    const confirmation = window.confirm("Are you sure you want to reserve this date?");
+    if (!confirmation) return;
+
     const token = localStorage.getItem("token");
 
     try {
@@ -87,6 +90,12 @@ const AccommodationDetails = () => {
         },
         { headers: { Authorization: `Bearer ${token}` } }
       );
+
+      // Eğer rezervasyon başarılı olursa, tarihi available dates'ten kaldır
+      setAccommodation((prev) => ({
+        ...prev,
+        AvailableDates: prev.AvailableDates.filter((date) => date !== selectedDate),
+      }));
 
       alert("Reservation successful!");
     } catch (error) {
