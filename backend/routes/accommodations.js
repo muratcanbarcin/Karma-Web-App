@@ -241,6 +241,28 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+router.get("/:id/reviews", async (req, res) => {
+  console.log(`Fetching reviews for accommodation ID: ${req.params.id}`);
+  const { id } = req.params;
+
+  try {
+    const query = `
+      SELECT rr.ReviewID, rr.Rating, rr.Comment, u.Name AS ReviewerName, rr.CreatedAt
+      FROM RatingsAndReviews rr
+      JOIN Bookings b ON rr.BookingID = b.BookingID
+      JOIN Users u ON rr.ReviewerID = u.UserID
+      WHERE b.AccommodationID = ?
+    `;
+    const [reviews] = await pool.query(query, [id]);
+    console.log("Fetched reviews:", reviews);
+
+    res.status(200).json(reviews);
+  } catch (err) {
+    console.error("Error fetching reviews:", err.message);
+    res.status(500).json({ error: "Failed to fetch reviews." });
+  }
+});
+
 
 
 module.exports = router;

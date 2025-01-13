@@ -10,6 +10,9 @@ CREATE TABLE Users (
     PointsBalance INT,
     CreatedAt DATETIME,
     UpdatedAt DATETIME
+    Gender VARCHAR(10),
+    Country VARCHAR(50),
+    TimeZone VARCHAR(50)
 );
 
 -- Accommodations Table

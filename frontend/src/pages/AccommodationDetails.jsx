@@ -7,6 +7,8 @@ const AccommodationDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [accommodation, setAccommodation] = useState(null);
+  const [reviews, setReviews] = useState([]);
+  const [loadingReviews, setLoadingReviews] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -27,7 +29,21 @@ const AccommodationDetails = () => {
       }
     };
 
+    const fetchReviews = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/accommodations/${id}/reviews`
+        );
+        setReviews(response.data);
+        setLoadingReviews(false);
+      } catch (err) {
+        console.error("Failed to fetch reviews:", err);
+        setLoadingReviews(false);
+      }
+    };
+
     fetchAccommodation();
+    fetchReviews();
   }, [id]);
 
   if (error) {
@@ -126,6 +142,25 @@ const AccommodationDetails = () => {
           Edit Accommodation
         </button>
       )}
+
+      {/* Reviews Section */}
+      <div className="reviews-section">
+        <h3>Reviews & Ratings</h3>
+        {loadingReviews ? (
+          <p>Loading reviews...</p>
+        ) : reviews.length > 0 ? (
+          reviews.map((review) => (
+            <div key={review.ReviewID} className="review-card">
+              <p><strong>{review.ReviewerName}</strong></p>
+              <p>Rating: {review.Rating}/5</p>
+              <p>{review.Comment}</p>
+              <p className="review-date">{new Date(review.CreatedAt).toLocaleDateString()}</p>
+            </div>
+          ))
+        ) : (
+          <p>No reviews yet.</p>
+        )}
+      </div>
     </div>
   );
 };
