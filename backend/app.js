@@ -14,9 +14,7 @@ const PORT = 3000;
 app.use(cors());
 app.use(bodyParser.json());
 
-app.get("/", (req, res) => {
-  res.send("Backend is running. Use /api/accommodations to interact.");
-});
+
 
 app.use("/api/accommodations", accommodationsRoutes);
 app.use("/api/users", usersRoutes);

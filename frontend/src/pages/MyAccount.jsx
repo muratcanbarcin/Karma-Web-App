@@ -13,42 +13,72 @@ const formatDateForMySQL = (dateString) => {
 };
 
 const MyAccount = () => {
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [isEditing, setIsEditing] = useState(false);
+  const [user, setUser] = useState(null);
+  const [accommodations, setAccommodations] = useState([]);
+  const [loadingUser, setLoadingUser] = useState(true);
+  const [loadingAccommodations, setLoadingAccommodations] = useState(true);
+  const [errorUser, setErrorUser] = useState(null);
+  const [errorAccommodations, setErrorAccommodations] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
 
-    const navigate = useNavigate();
-    useEffect(() => {
-        const fetchUserData = async () => {
-          try {
-            const token = localStorage.getItem("token");
-            if (!token) throw new Error("Token bulunamadı. Lütfen giriş yapın.");
-      
-            const response = await axios.get("http://localhost:3000/api/users/MyAccount", {
-              headers: { Authorization: `Bearer ${token}` },
-            });
-      
-            setUser(response.data);
-            setLoading(false);
-          } catch (err) {
-            console.error("Kullanıcı bilgileri alınırken hata:", err);
-            setError("Kullanıcı bilgileri alınamadı.");
-            setLoading(false);
-          }
-        };
-      
-        fetchUserData();
-      }, []);
-      
-  
-    const handleLogout = () => {
-      localStorage.removeItem("token");
-      navigate("/");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) throw new Error("Token bulunamadı. Lütfen giriş yapın.");
+
+        const response = await axios.get("http://localhost:3000/api/users/MyAccount", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        setUser(response.data);
+        setLoadingUser(false);
+      } catch (err) {
+        console.error("Kullanıcı bilgileri alınırken hata:", err);
+        setErrorUser("Kullanıcı bilgileri alınamadı.");
+        setLoadingUser(false);
+      }
     };
+
+    fetchUserData();
+  }, []);
+
+  useEffect(() => {
+    const fetchAccommodations = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) throw new Error("Token bulunamadı. Lütfen giriş yapın.");
+
+        const response = await axios.get("http://localhost:3000/api/accommodations/myAccommodations", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        setAccommodations(response.data);
+        setLoadingAccommodations(false);
+      } catch (err) {
+        console.error("Kullanıcıya ait konaklamalar alınırken hata:", err);
+        setErrorAccommodations("Konaklamalar alınamadı.");
+        setLoadingAccommodations(false);
+      }
+    };
+
+    // Only fetch accommodations if user data is successfully fetched
+    if (!loadingUser && !errorUser) {
+      fetchAccommodations();
+    }
+  }, [loadingUser, errorUser]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
+
   const handleAddAccommodation = () => {
     navigate("/myaccount/addaccommodations");
   };
+
   const handleSave = async () => {
     const formattedDate = formatDateForMySQL(user.DateOfBirth);
     const updatedUser = { ...user, DateOfBirth: formattedDate };
@@ -66,8 +96,8 @@ const MyAccount = () => {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+  if (loadingUser) return <p>Loading user data...</p>;
+  if (errorUser) return <p>{errorUser}</p>;
 
   return (
     <div className="my-account-container">
@@ -144,12 +174,37 @@ const MyAccount = () => {
           />
         </div>
       </div>
-      
-      
-    
+
       {isEditing && (
         <button className="save-button" onClick={handleSave}>Save</button>
       )}
+
+      <div className="accommodations-section">
+        <h3>My Accommodations</h3>
+        {loadingAccommodations ? (
+          <p>Loading accommodations...</p>
+        ) : errorAccommodations ? (
+          <p>{errorAccommodations}</p>
+        ) : accommodations.length === 0 ? (
+          <p>Henüz bir konaklama eklemediniz.</p>
+        ) : (
+          <div className="accommodations-list">
+            {accommodations.map((acc) => (
+              <div key={acc.AccommodationID} className="accommodation-card">
+                <img src={acc.image} alt={acc.Title} className="accommodation-image" />
+                <div className="accommodation-details">
+                  <h4>{acc.Title}</h4>
+                  <p><strong>Location:</strong> {acc.Location}</p>
+                  <p><strong>Daily Points Cost:</strong> {acc.DailyPointCost}</p>
+                  <p>{acc.Description}</p>
+                  <button onClick={() => navigate(`/accommodation/${acc.AccommodationID}`)}>View Details</button>
+                  {/* Add Edit/Delete buttons if needed */}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

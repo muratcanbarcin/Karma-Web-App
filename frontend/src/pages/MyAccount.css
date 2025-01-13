@@ -169,3 +169,57 @@
     font-size: 0.9em;
     color: #666;
   }
+  .accommodations-section {
+    margin-top: 40px;
+  }
+  
+  .accommodations-section h3 {
+    margin-bottom: 20px;
+  }
+  
+  .accommodations-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .accommodation-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 300px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .accommodation-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .accommodation-details {
+    padding: 15px;
+  }
+  
+  .accommodation-details h4 {
+    margin-bottom: 10px;
+  }
+  
+  .accommodation-details p {
+    margin: 5px 0;
+  }
+  
+  .accommodation-details button {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .accommodation-details button:hover {
+    background-color: #45a049;
+  }
+  
