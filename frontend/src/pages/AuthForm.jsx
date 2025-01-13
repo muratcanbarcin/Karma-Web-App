@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-import axios from "axios"; // Axios'u dahil edin
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./AuthForm.css";
 import { useNavigate } from "react-router-dom";
-
 
 const AuthForm = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -13,6 +12,14 @@ const AuthForm = () => {
   });
   const navigate = useNavigate();
 
+  // Kullanıcının giriş yapıp yapmadığını kontrol et
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      // Kullanıcı giriş yapmışsa, /myaccount sayfasına yönlendir
+      navigate("/myaccount");
+    }
+  }, [navigate]);
 
   const toggleForm = () => {
     setIsSignUp(!isSignUp);
@@ -41,8 +48,7 @@ const AuthForm = () => {
           alert("Giriş başarılı!");
           localStorage.setItem("token", response.data.token);
           // Kullanıcıyı /myaccount sayfasına yönlendir
-         navigate("/myaccount");
-          // Token'ı konsolda görüntüleyin (veya localStorage'e kaydedin)
+          navigate("/myaccount");
         }
       }
     } catch (error) {
@@ -60,7 +66,6 @@ const AuthForm = () => {
   };
 
   return (
-
     <div className="auth-form-container">
       <nav className="menu-bar">
         <img src="/treehouse-1@2x.png" alt="Logo" className="menu-logo" />

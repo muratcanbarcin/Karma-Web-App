@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -28,6 +28,16 @@ const AddAccommodation = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  // Kullanıcının giriş yapıp yapmadığını kontrol et
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      // Kullanıcı giriş yapmamışsa, anasayfaya yönlendir
+      alert("You need to log in to access this page.");
+      navigate("/");
+    }
+  }, [navigate]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
@@ -48,7 +58,6 @@ const AddAccommodation = () => {
   };
 
   const addDate = (date) => {
-    // Tarih zaten listede değilse ekle
     if (!form.AvailableDates.includes(date.toISOString().split("T")[0])) {
       setForm({
         ...form,
@@ -96,9 +105,6 @@ const AddAccommodation = () => {
       setError("Please check your input fields.");
     }
   };
-  
-  
-  
 
   return (
     <div className="add-accommodation-container">
