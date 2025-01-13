@@ -125,9 +125,7 @@ const MyAccount = () => {
           <h2>{user.Name}</h2>
           <p>{user.Email}</p>
         </div>
-        <button onClick={handleAddAccommodation} className="edit-button">
-          Add Accommodation
-        </button>
+        
         <button className="edit-button" onClick={() => setIsEditing(!isEditing)}>
           {isEditing ? "Cancel" : "Edit"}
         </button>
@@ -196,7 +194,9 @@ const MyAccount = () => {
       )}
 
       <div className="accommodations-section">
+        
         <h3>My Accommodations</h3>
+        
         {loadingAccommodations ? (
           <p>Loading accommodations...</p>
         ) : errorAccommodations ? (
@@ -204,7 +204,9 @@ const MyAccount = () => {
         ) : accommodations.length === 0 ? (
           <p>You have not added any accommodations.</p>
         ) : (
+          
           <div className="accommodations-list">
+            
             {accommodations.map((acc) => (
               <div key={acc.AccommodationID} className="accommodation-card">
                 <h4>{acc.Title}</h4>
@@ -214,12 +216,19 @@ const MyAccount = () => {
                 <button onClick={() => handleEditAccommodation(acc.AccommodationID)}>
                   Edit
                 </button>
+                
               </div>
             ))}
+           
           </div>
+          
         )}
       </div>
+      <button onClick={handleAddAccommodation} className="edit-button">
+          Add Accommodation
+        </button>
     </div>
+    
   );
 };
 
