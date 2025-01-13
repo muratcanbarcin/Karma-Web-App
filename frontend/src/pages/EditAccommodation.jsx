@@ -120,6 +120,12 @@ const EditAccommodation = () => {
 
   return (
     <div className="add-accommodation-container">
+      <nav className="menu-bar">
+        <img src="/treehouse-1@2x.png" alt="Logo" className="menu-logo" />
+        <button className="menu-button" onClick={() => navigate("/")}>
+          Go to Home
+        </button>
+      </nav>
       <h2 className="form-title">Edit Accommodation</h2>
       {error && <p className="error-message">{error}</p>}
       <form onSubmit={handleSubmit} className="add-accommodation-form">
