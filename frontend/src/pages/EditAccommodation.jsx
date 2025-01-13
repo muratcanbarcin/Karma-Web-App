@@ -23,27 +23,34 @@ const EditAccommodation = () => {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-
+  
         const data = response.data;
-
+  
+        if (!data.isOwner) {
+          alert("You are not authorized to edit this accommodation.");
+          navigate("/myaccount"); // Kullanıcıyı başka bir sayfaya yönlendirin
+          return;
+        }
+  
         setForm({
           ...data,
-          Amenities: data.Amenities || {}, // Varsayılan olarak boş obje
+          Amenities: data.Amenities || {},
           HouseRules: data.HouseRules || {},
           AvailableDates: data.AvailableDates || [],
         });
       } catch (err) {
         if (err.response?.status === 403) {
-          setUnauthorized(true); // Yetkisiz erişim
+          setUnauthorized(true);
         } else {
           console.error("Error fetching accommodation details:", err.response?.data || err);
           setError("Failed to fetch accommodation details.");
         }
       }
     };
-
+  
     fetchAccommodation();
   }, [id]);
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;

@@ -196,10 +196,14 @@ router.put("/:id", async (req, res) => {
     const userID = decoded.userID;
 
     // Kullanıcının bu konaklamanın sahibi olup olmadığını kontrol et
-    const checkQuery = `SELECT * FROM Accommodations WHERE AccommodationID = ? AND UserID = ?`;
-    const [checkRows] = await pool.query(checkQuery, [id, userID]);
+    const checkQuery = `SELECT UserID FROM Accommodations WHERE AccommodationID = ?`;
+    const [checkRows] = await pool.query(checkQuery, [id]);
 
     if (checkRows.length === 0) {
+      return res.status(404).json({ error: "Accommodation not found." });
+    }
+
+    if (checkRows[0].UserID !== userID) {
       return res.status(403).json({ error: "You are not authorized to edit this accommodation." });
     }
 
