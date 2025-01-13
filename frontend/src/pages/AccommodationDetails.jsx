@@ -8,7 +8,10 @@ const AccommodationDetails = () => {
   const navigate = useNavigate();
   const [accommodation, setAccommodation] = useState(null);
   const [reviews, setReviews] = useState([]);
+  const [loadingAccommodation, setLoadingAccommodation] = useState(true);
   const [loadingReviews, setLoadingReviews] = useState(true);
+  const [loadingAverageRating, setLoadingAverageRating] = useState(true);
+  const [averageRating, setAverageRating] = useState(0);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -23,9 +26,11 @@ const AccommodationDetails = () => {
         );
 
         setAccommodation(response.data); // Store data in state
+        setLoadingAccommodation(false);
       } catch (err) {
         console.error("Failed to fetch accommodation details:", err);
         setError(err.response?.data?.error || "An error occurred while fetching data.");
+        setLoadingAccommodation(false);
       }
     };
 
@@ -42,8 +47,24 @@ const AccommodationDetails = () => {
       }
     };
 
+    const fetchAverageRating = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/accommodations/${id}/average-rating`
+        );
+        const rating = parseFloat(response.data.averageRating) || 0; // Gelen değeri sayıya dönüştür
+        setAverageRating(rating);
+        setLoadingAverageRating(false);
+      } catch (err) {
+        console.error("Failed to fetch average rating:", err);
+        setAverageRating(0); // Hata durumunda default değeri 0 olarak ayarla
+        setLoadingAverageRating(false);
+      }
+    };
+
     fetchAccommodation();
     fetchReviews();
+    fetchAverageRating();
   }, [id]);
 
   if (error) {
@@ -56,9 +77,9 @@ const AccommodationDetails = () => {
     );
   }
 
-  if (!accommodation) {
+  if (loadingAccommodation) {
     // Show loading message
-    return <p>Loading...</p>;
+    return <p>Loading accommodation details...</p>;
   }
 
   const handleEdit = () => {
@@ -142,6 +163,17 @@ const AccommodationDetails = () => {
           Edit Accommodation
         </button>
       )}
+
+      {/* Average Rating Section */}
+      <div className="average-rating-section">
+        <h3>
+          Average Rating: {loadingAverageRating
+            ? "Loading..."
+            : averageRating > 0
+            ? `⭐ ${averageRating.toFixed(1)} / 5`
+            : "No ratings yet"}
+        </h3>
+      </div>
 
       {/* Reviews Section */}
       <div className="reviews-section">

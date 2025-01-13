@@ -93,3 +93,26 @@
   font-size: 0.85em;
   color: #888;
 }
+
+.average-rating-section {
+  margin-top: 20px;
+  padding: 15px;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.average-rating-section h3 {
+  font-size: 1.2rem;
+  color: #03673e;
+  margin-bottom: 10px;
+}
+
+.average-rating-value {
+  font-size: 1.5rem;
+  color: #048853;
+  font-weight: bold;
+}
+

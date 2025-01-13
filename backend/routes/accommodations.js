@@ -263,6 +263,33 @@ router.get("/:id/reviews", async (req, res) => {
   }
 });
 
+router.get("/:id/average-rating", async (req, res) => {
+  console.log(`Received request for average rating of accommodation ID: ${req.params.id}`);
+  const { id } = req.params;
+
+  try {
+    const query = `
+      SELECT CAST(AVG(rr.Rating) AS DECIMAL(10,2)) AS AverageRating
+      FROM RatingsAndReviews rr
+      JOIN Bookings b ON rr.BookingID = b.BookingID
+      WHERE b.AccommodationID = ?
+    `;
+    const [result] = await pool.query(query, [id]);
+
+    const averageRating = result[0]?.AverageRating || 0; // Eğer sonuç yoksa 0 döndür
+    console.log("Average Rating Result:", result);
+
+    res.status(200).json({ averageRating });
+  } catch (err) {
+    console.error("Error fetching average rating:", err.message);
+    res.status(500).json({ error: "Failed to fetch average rating." });
+  }
+});
+
+
+
+
+
 
 
 module.exports = router;
