@@ -2,12 +2,16 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./SearchForm.css";
+import styles from "./Karmaacom.module.css";
+
 
 const SearchForm = () => {
   const [location, setLocation] = useState("");
   const [minCost, setMinCost] = useState(0);
   const [maxCost, setMaxCost] = useState(2000);
   const [results, setResults] = useState([]);
+  const [points, setPoints] = useState(null); // Points bilgisini tutuyoruz
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,6 +24,28 @@ const SearchForm = () => {
       }
     };
     fetchAllAccommodations();
+  }, []);
+  
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      // Eğer token varsa, points bilgisi çekilir
+      fetch("http://localhost:3000/api/users/points", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Failed to fetch points.");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setPoints(data.pointsBalance); // Points bilgisini state'e kaydet
+        })
+        .catch((error) => {
+          console.error("Error fetching points balance:", error);
+        });
+    }
   }, []);
 
   const handleSearch = async () => {
@@ -38,6 +64,15 @@ const SearchForm = () => {
     <div>
       <nav className="menu-bar">
         <img src="/treehouse-1@2x.png" alt="Logo" className="menu-logo" />
+        <div className="menu-button">
+                    {/* Kullanıcı giriş yapmışsa points'i göster */}
+                    {points !== null && (
+                      <div className={styles.button}>
+                        {`Points: ${points}`}
+                      </div>
+                    )}
+          </div>
+
         <button className="menu-button" onClick={() => navigate("/")}>
           Go to Home
         </button>

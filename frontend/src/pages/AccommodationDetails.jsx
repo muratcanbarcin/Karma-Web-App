@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./AccommodationDetails.css";
+import styles from "./Karmaacom.module.css";
+
+
 
 const AccommodationDetails = () => {
   const { id } = useParams();
@@ -13,6 +16,30 @@ const AccommodationDetails = () => {
   const [loadingAverageRating, setLoadingAverageRating] = useState(true);
   const [averageRating, setAverageRating] = useState(0);
   const [error, setError] = useState(null);
+ const [points, setPoints] = useState(null); // Points bilgisini tutuyoruz
+
+
+ useEffect(() => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    // Eğer token varsa, points bilgisi çekilir
+    fetch("http://localhost:3000/api/users/points", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch points.");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setPoints(data.pointsBalance); // Points bilgisini state'e kaydet
+      })
+      .catch((error) => {
+        console.error("Error fetching points balance:", error);
+      });
+  }
+}, []);
 
   useEffect(() => {
     const fetchAccommodation = async () => {
@@ -33,6 +60,8 @@ const AccommodationDetails = () => {
         setLoadingAccommodation(false);
       }
     };
+    
+
 
     const fetchReviews = async () => {
       try {
@@ -93,9 +122,28 @@ const AccommodationDetails = () => {
 
   return (
     <div className="details-container">
-      <button className="back-button" onClick={() => navigate("/search")}>
+            <nav className="menu-bar">
+              <img src="/treehouse-1@2x.png" alt="Logo" className="menu-logo" />
+                      
+                        <button className="menu-button" onClick={() => navigate("/search")}>
         Back to Search
       </button>
+              
+                      <button className="menu-button" onClick={() => navigate("/")}>
+                        Go to Home
+                      </button>
+                      <div className="menu-button">
+                        
+                                  {/* Kullanıcı giriş yapmışsa points'i göster */}
+                                  {points !== null && (
+                                    <div className={styles.button}>
+                                      {`Points: ${points}`}
+                                    </div>
+                                  )}
+                        </div>
+                    </nav>
+
+    
       <h1>{accommodation.Title}</h1>
       <img
         src={accommodation.image || "/105m2_934x700.webp"}

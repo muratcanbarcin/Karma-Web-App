@@ -139,3 +139,8 @@ body {
   background-color: #036b42;
   color: white;
 }
+.rightNav {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* POINTS ve My Account arasında boşluk */
+}
