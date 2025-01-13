@@ -151,5 +151,30 @@ router.put('/MyAccount', async (req, res) => {
     }
 });
 
+router.get('/points', async (req, res) => {
+    const token = req.headers.authorization?.split(" ")[1];
+    if (!token) {
+        return res.status(401).json({ error: 'Authorization token is required' });
+    }
+
+    try {
+        const decoded = jwt.verify(token, SECRET_KEY);
+        const userEmail = decoded.email;
+
+        const query = `SELECT PointsBalance FROM Users WHERE Email = ?`;
+        const [results] = await pool.query(query, [userEmail]);
+
+        if (results.length === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.status(200).json({ pointsBalance: results[0].PointsBalance });
+    } catch (err) {
+        console.error('Error fetching points balance:', err);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+
 
 module.exports = router;

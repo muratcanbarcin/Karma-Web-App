@@ -97,12 +97,35 @@ const Karmaacom = () => {
 
     {/* Sağ grup (POINTS, My Account) */}
     <div className={styles.rightNav}>
-      <button
-        className={styles.navButton}
-        onClick={() => (window.location.href = "/points")}
-      >
-        POINTS
-      </button>
+    <button
+    className={styles.navButton}
+    onClick={async () => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            alert("Please log in to view your points.");
+            window.location.href = "/AuthForm";
+            return;
+        }
+
+        try {
+            const response = await fetch("http://localhost:3000/api/users/points", {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            if (!response.ok) {
+                throw new Error("Failed to fetch points.");
+            }
+
+            const data = await response.json();
+            alert(`Your Points Balance: ${data.pointsBalance}`);
+        } catch (error) {
+            console.error("Error fetching points balance:", error);
+            alert("Could not fetch points balance.");
+        }
+    }}
+>
+    POINTS
+</button>
+
       <button
         className={styles.myAccount}
         onClick={() => {
