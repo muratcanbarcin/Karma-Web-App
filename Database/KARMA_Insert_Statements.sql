@@ -940,4 +940,46 @@ Clearly base resource window direction. Design growth yeah must goal future. Pre
     VALUES (10, 38, 73, 33, 1.59, 
     'A citizen government. Center avoid church. Conference contain election live must and under.
 Government blood peace. Question marriage art.', '2024-11-27 14:51:24');
+
+ALTER TABLE Users
+ADD COLUMN Gender VARCHAR(10) DEFAULT 'Not Specified';
+
+ALTER TABLE Users
+ADD COLUMN Country VARCHAR(50) DEFAULT 'Unknown';
+
+ALTER TABLE Users
+ADD COLUMN TimeZone VARCHAR(50) DEFAULT 'UTC';
+
+SET SQL_SAFE_UPDATES = 0;
+
+
+-- Rastgele cinsiyet ataması
+UPDATE Users
+SET Gender = CASE 
+    WHEN RAND() < 0.5 THEN 'Male' 
+    ELSE 'Female' 
+END;
+
+-- Rastgele ülke ataması
+UPDATE Users
+SET Country = CASE FLOOR(1 + (RAND() * 5))
+    WHEN 1 THEN 'United States'
+    WHEN 2 THEN 'Turkey'
+    WHEN 3 THEN 'Germany'
+    WHEN 4 THEN 'Canada'
+    WHEN 5 THEN 'Australia'
+END;
+
+-- Rastgele zaman dilimi ataması
+UPDATE Users
+SET TimeZone = CASE FLOOR(1 + (RAND() * 5))
+    WHEN 1 THEN 'UTC'
+    WHEN 2 THEN 'GMT+3'
+    WHEN 3 THEN 'EST'
+    WHEN 4 THEN 'PST'
+    WHEN 5 THEN 'CST'
+END;
+
+SET SQL_SAFE_UPDATES = 1;
+
     

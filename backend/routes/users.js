@@ -3,8 +3,7 @@ const router = express.Router();
 const pool = require('../database/connection'); // Database bağlantısı
 const jwt = require('jsonwebtoken'); // JSON Web Token kullanımı için
 
-const SECRET_KEY = process.env.SECRET_KEY;
-
+const SECRET_KEY = "your_secret_key"
 
 
 // Kullanıcı kaydı endpoint

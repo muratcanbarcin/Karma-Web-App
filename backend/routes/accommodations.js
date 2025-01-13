@@ -2,8 +2,7 @@ const express = require("express");
 const router = express.Router();
 const pool = require("../database/connection");
 const jwt = require('jsonwebtoken'); // Eksik olan import
-const SECRET_KEY = process.env.SECRET_KEY;
-
+const SECRET_KEY = "your_secret_key";
 
 
 router.get("/myAccommodations", async (req, res) => {
