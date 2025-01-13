@@ -29,9 +29,12 @@ const MyAccount = () => {
         const token = localStorage.getItem("token");
         if (!token) throw new Error("Token bulunamadı. Lütfen giriş yapın.");
 
-        const response = await axios.get("http://localhost:3000/api/users/MyAccount", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axios.get(
+          "http://localhost:3000/api/users/MyAccount",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
 
         setUser(response.data);
         setLoadingUser(false);
@@ -51,9 +54,12 @@ const MyAccount = () => {
         const token = localStorage.getItem("token");
         if (!token) throw new Error("Token bulunamadı. Lütfen giriş yapın.");
 
-        const response = await axios.get("http://localhost:3000/api/accommodations/myAccommodations", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axios.get(
+          "http://localhost:3000/api/accommodations/myAccommodations",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
 
         setAccommodations(response.data);
         setLoadingAccommodations(false);
@@ -64,7 +70,6 @@ const MyAccount = () => {
       }
     };
 
-    // Only fetch accommodations if user data is successfully fetched
     if (!loadingUser && !errorUser) {
       fetchAccommodations();
     }
@@ -79,7 +84,7 @@ const MyAccount = () => {
     navigate("/myaccount/addaccommodations");
   };
 
-  const handleSave = async () => {
+  const handleSaveProfile = async () => {
     const formattedDate = formatDateForMySQL(user.DateOfBirth);
     const updatedUser = { ...user, DateOfBirth: formattedDate };
 
@@ -96,6 +101,10 @@ const MyAccount = () => {
     }
   };
 
+  const handleEditAccommodation = (accID) => {
+    navigate(`/edit-accommodation/${accID}`);
+  };
+
   if (loadingUser) return <p>Loading user data...</p>;
   if (errorUser) return <p>{errorUser}</p>;
 
@@ -103,9 +112,14 @@ const MyAccount = () => {
     <div className="my-account-container">
       <nav className="menu-bar">
         <img src="/treehouse-1@2x.png" alt="Logo" className="menu-logo" />
-        <button className="menu-button" onClick={() => navigate("/")}>Go to Home</button>
-        <button className="menu-button" onClick={handleLogout}>Logout</button>
+        <button className="menu-button" onClick={() => navigate("/")}>
+          Go to Home
+        </button>
+        <button className="menu-button" onClick={handleLogout}>
+          Logout
+        </button>
       </nav>
+
       <div className="profile-header">
         <div>
           <h2>{user.Name}</h2>
@@ -176,7 +190,9 @@ const MyAccount = () => {
       </div>
 
       {isEditing && (
-        <button className="save-button" onClick={handleSave}>Save</button>
+        <button className="save-button" onClick={handleSaveProfile}>
+          Save
+        </button>
       )}
 
       <div className="accommodations-section">
@@ -186,20 +202,18 @@ const MyAccount = () => {
         ) : errorAccommodations ? (
           <p>{errorAccommodations}</p>
         ) : accommodations.length === 0 ? (
-          <p>Henüz bir konaklama eklemediniz.</p>
+          <p>You have not added any accommodations.</p>
         ) : (
           <div className="accommodations-list">
             {accommodations.map((acc) => (
               <div key={acc.AccommodationID} className="accommodation-card">
-                <img src={acc.image} alt={acc.Title} className="accommodation-image" />
-                <div className="accommodation-details">
-                  <h4>{acc.Title}</h4>
-                  <p><strong>Location:</strong> {acc.Location}</p>
-                  <p><strong>Daily Points Cost:</strong> {acc.DailyPointCost}</p>
-                  <p>{acc.Description}</p>
-                  <button onClick={() => navigate(`/accommodation/${acc.AccommodationID}`)}>View Details</button>
-                  {/* Add Edit/Delete buttons if needed */}
-                </div>
+                <h4>{acc.Title}</h4>
+                <p>{acc.Description}</p>
+                <p>Location: {acc.Location}</p>
+                <p>Daily Points: {acc.DailyPointCost}</p>
+                <button onClick={() => handleEditAccommodation(acc.AccommodationID)}>
+                  Edit
+                </button>
               </div>
             ))}
           </div>

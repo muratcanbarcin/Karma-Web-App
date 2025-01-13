@@ -72,56 +72,54 @@ const Karmaacom = () => {
           </div>
         </div>
         <header className={styles.frameParent}>
-          <div className={styles.rectangleParent}>
-            <div className={styles.frameItem} />
-            <img
-              className={styles.treeHouse1Icon}
-              loading="lazy"
-              alt=""
-              src="/treehouse-1@2x.png"
-            />
-          </div>
-          <div className={styles.links}>
-            <div className={styles.exploreContact}>
-              <div className={styles.homeLink}>
-                <a className={styles.home} onClick={onHOMETextClick}>
-                  <b className={styles.span}>{`HOME        `}</b>
-                  <span className={styles.span}>{`              `}</span>
-                </a>
-              </div>
-              <a className={styles.explore} onClick={onEXPLORETextClick}>
-                EXPLORE
-              </a>
-              <a className={styles.explore} onClick={onCONTACTTextClick}>
-                CONTACT
-              </a>
-            </div>
-          </div>
-          <div className={styles.pointsAccount}>
-            <div className={styles.pointsLink}>
-              <a className={styles.points}>POINTS</a>
-            </div>
-            </div>
-            
-            <div className={styles.navButtonContainer}>
-            <button
-    className={styles.myAccount}
-    onClick={() => {
-      const token = localStorage.getItem("token");
-      if (token) {
-        window.location.href = "/myaccount"; // Kullanıcı giriş yapmışsa MyAccount sayfasına yönlendir
-      } else {
-        window.location.href = "/AuthForm"; // Kullanıcı giriş yapmamışsa AuthForm sayfasına yönlendir
-      }
-    }}
-  >
-    My Account
-  </button>
+  <div className={styles.rectangleParent}>
+    <div className={styles.frameItem} />
+    <img
+      className={styles.treeHouse1Icon}
+      loading="lazy"
+      alt=""
+      src="/treehouse-1@2x.png"
+    />
+  </div>
+  <div className={styles.navBar}>
+    {/* Sol grup (HOME, EXPLORE, CONTACT) */}
+    <div className={styles.leftNav}>
+      <button className={styles.navButton} onClick={onHOMETextClick}>
+        HOME
+      </button>
+      <button className={styles.navButton} onClick={onEXPLORETextClick}>
+        EXPLORE
+      </button>
+      <button className={styles.navButton} onClick={onCONTACTTextClick}>
+        CONTACT
+      </button>
     </div>
 
+    {/* Sağ grup (POINTS, My Account) */}
+    <div className={styles.rightNav}>
+      <button
+        className={styles.navButton}
+        onClick={() => (window.location.href = "/points")}
+      >
+        POINTS
+      </button>
+      <button
+        className={styles.myAccount}
+        onClick={() => {
+          const token = localStorage.getItem("token");
+          if (token) {
+            window.location.href = "/myaccount";
+          } else {
+            window.location.href = "/AuthForm";
+          }
+        }}
+      >
+        My Account
+      </button>
+    </div>
+  </div>
+</header>
 
-          
-        </header>
         <div className={styles.liveLocalContentParent}>
           <div className={styles.liveLocalContent}>
             <div className={styles.liveLocalWrapper}>

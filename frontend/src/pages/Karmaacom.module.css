@@ -293,9 +293,59 @@
   background-color: var(--color-white);
   display: none;
 }
+
+
+.navButtonContainer {
+  display: flex; /* Flexbox düzeni */
+  justify-content: center; /* Butonları yatayda ortalar */
+  align-items: center; /* Butonları dikeyde ortalar */
+  width: 100%; /* Kapsayıcı element tam genişlikte */
+  padding: 10px 0; /* Yukarı ve aşağı boşluk ekler */
+  gap: 20px; /* Butonlar arasında eşit boşluk bırakır */
+  position: relative; /* Üst üste gelme sorunlarını önler */
+  z-index: 10; /* Butonları ön plana taşır */
+}
+
+.navBar {
+  display: flex;
+  justify-content: space-between; /* Sol ve sağ hizalama */
+  align-items: center; /* Dikey ortalama */
+  padding: 10px 20px; /* İç boşluk */
+  background-color: transparent; /* Arka plan rengi */
+  width: 100%; /* Tam genişlik */
+  z-index: 10; /* Örtücü elementlerden önde olmasını sağlar */
+  position: relative; 
+}
+
+.leftNav {
+  display: flex;
+  align-items: center; /* Butonları hizalar */
+  gap: 20px; /* Butonlar arasında boşluk */
+}
+
+.rightNav {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* POINTS ve My Account arasında boşluk */
+}
+
+.navButton {
+  padding: 10px 20px;
+  background-color: #048853; /* Buton rengi */
+  color: white; /* Yazı rengi */
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.navButton:hover {
+  background-color: #45a049; /* Hover rengi */
+}
+
 .myAccount {
-  display: inline-block;
-  padding: 12px 24px; /* İç boşluklar */
+  padding: 10px 20px; /* İç boşluk */
   background-color: #048853; /* Yeşil bir arka plan rengi */
   color: white; /* Yazı rengi */
   font-size: 16px; /* Yazı boyutu */
@@ -305,18 +355,39 @@
   text-align: center; /* Yazıyı ortala */
   text-decoration: none; /* Alt çizgi yok */
   cursor: pointer; /* İşaretçi imleci */
-  transition: all 0.3s ease; /* Hover animasyonu */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Hafif gölge */
 }
+
 .myAccount:hover {
   background-color: #03673e; /* Hoverda koyu yeşil */
-  transform: scale(1.05); /* Hoverda büyüme efekti */
 }
-.navButtonContainer {
-  position: absolute;
-  top: 40px; /* Üstten uzaklık */
-  right: 88px; /* Sağdan uzaklık */
+
+
+
+
+
+
+
+.logo {
+  height: 50px; /* Logonun yüksekliği */
 }
+
+.navLinks {
+  display: flex;
+  gap: 15px; /* Butonlar arasında boşluk */
+}
+
+
+
+
+
+.navButton:active {
+  transform: scale(0.98); /* Tıklama efekti */
+}
+
+
+
+
+
 .accountLink {
   cursor: pointer;
   border: 0;
@@ -429,6 +500,11 @@
   max-width: 100%;
   z-index: 1;
 }
+.covering-element {
+  z-index: 0; /* Bu element geri plana alınır */
+  position: relative;
+}
+
 .headerAndNavbar,
 .liveLocalContentParent {
   align-self: stretch;
