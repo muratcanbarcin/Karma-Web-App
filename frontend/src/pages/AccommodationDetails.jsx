@@ -75,12 +75,12 @@ const AccommodationDetails = () => {
       navigate("/AuthForm");
       return;
     }
-
+  
     const confirmation = window.confirm("Are you sure you want to reserve this date?");
     if (!confirmation) return;
-
+  
     const token = localStorage.getItem("token");
-
+  
     try {
       const response = await axios.post(
         `http://localhost:3000/api/accommodations/${accommodation.AccommodationID}/bookings`,
@@ -90,18 +90,13 @@ const AccommodationDetails = () => {
         },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-
-      // Eğer rezervasyon başarılı olursa, tarihi available dates'ten kaldır
-      setAccommodation((prev) => ({
-        ...prev,
-        AvailableDates: prev.AvailableDates.filter((date) => date !== selectedDate),
-      }));
-
+  
       alert("Reservation successful!");
     } catch (error) {
-      alert(error.response?.data?.error || "Reservation failed.");
+      alert(error.response?.data?.error || "Reservation failed. Please try again.");
     }
   };
+  
 
   if (error) {
     // Show error message to user

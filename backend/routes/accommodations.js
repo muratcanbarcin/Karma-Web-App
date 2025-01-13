@@ -292,36 +292,37 @@ router.post("/:id/bookings", async (req, res) => {
   const { startDate, endDate } = req.body;
 
   if (!token) {
-      return res.status(401).json({ error: "Authorization token is required" });
+    return res.status(401).json({ error: "Authorization token is required" });
   }
 
   try {
-      const decoded = jwt.verify(token, SECRET_KEY);
-      const guestID = decoded.userID;
+    const decoded = jwt.verify(token, SECRET_KEY);
+    const guestID = decoded.userID;
 
-      const accommodationQuery = `SELECT DailyPointCost, UserID FROM Accommodations WHERE AccommodationID = ?`;
-      const [accommodation] = await pool.query(accommodationQuery, [id]);
+    const accommodationQuery = `SELECT DailyPointCost, UserID FROM Accommodations WHERE AccommodationID = ?`;
+    const [accommodation] = await pool.query(accommodationQuery, [id]);
 
-      if (accommodation.length === 0) {
-          return res.status(404).json({ error: "Accommodation not found" });
-      }
+    if (accommodation.length === 0) {
+      return res.status(404).json({ error: "Accommodation not found" });
+    }
 
-      const { DailyPointCost, UserID: hostID } = accommodation[0];
-      const totalDays = Math.ceil((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24)) + 1;
-      const totalPointsUsed = totalDays * DailyPointCost;
+    const { DailyPointCost, UserID: hostID } = accommodation[0];
+    const totalDays = Math.ceil((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24)) + 1;
+    const totalPointsUsed = totalDays * DailyPointCost;
 
-      const guestQuery = `SELECT PointsBalance FROM Users WHERE UserID = ?`;
-      const [guest] = await pool.query(guestQuery, [guestID]);
+    const guestQuery = `SELECT PointsBalance FROM Users WHERE UserID = ?`;
+    const [guest] = await pool.query(guestQuery, [guestID]);
 
-      if (guest[0].PointsBalance < totalPointsUsed) {
-          return res.status(400).json({ error: "Insufficient points." });
-      }
+    if (guest[0].PointsBalance < totalPointsUsed) {
+      return res.status(400).json({ error: "Insufficient points." });
+    }
 
-      await pool.query("START TRANSACTION");
+    await pool.query("START TRANSACTION");
 
+    try {
       const bookingQuery = `
-          INSERT INTO Bookings (GuestID, HostID, AccommodationID, StartDate, EndDate, TotalPointsUsed, Status)
-          VALUES (?, ?, ?, ?, ?, ?, 'Pending')
+        INSERT INTO Bookings (GuestID, HostID, AccommodationID, StartDate, EndDate, TotalPointsUsed, Status)
+        VALUES (?, ?, ?, ?, ?, ?, 'Pending')
       `;
       const [bookingResult] = await pool.query(bookingQuery, [guestID, hostID, id, startDate, endDate, totalPointsUsed]);
 
@@ -332,20 +333,24 @@ router.post("/:id/bookings", async (req, res) => {
       await pool.query(updateHostPoints, [totalPointsUsed, hostID]);
 
       const transactionQuery = `
-          INSERT INTO PointTransactions (UserID, TransactionType, Points, Description, ReviewImpact)
-          VALUES (?, 'Spent', ?, 'Accommodation Booking', '{"reviewScore": 5, "totalReviews": 10}')
+        INSERT INTO PointTransactions (UserID, TransactionType, Points, Description, ReviewImpact)
+        VALUES (?, 'Spent', ?, 'Accommodation Booking', '{"reviewScore": 5, "totalReviews": 10}')
       `;
       await pool.query(transactionQuery, [guestID, totalPointsUsed]);
 
       await pool.query("COMMIT");
-
       res.status(201).json({ message: "Booking created successfully.", bookingID: bookingResult.insertId });
-  } catch (err) {
+    } catch (error) {
       await pool.query("ROLLBACK");
-      console.error("Error creating booking:", err);
-      res.status(500).json({ error: "Internal server error" });
+      console.error("Transaction failed:", error);
+      res.status(500).json({ error: "Reservation failed." });
+    }
+  } catch (err) {
+    console.error("Error creating booking:", err);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
+
 
 
 
