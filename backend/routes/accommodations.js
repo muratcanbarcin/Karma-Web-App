@@ -161,6 +161,44 @@ router.get("/random", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch accommodations." });
   }
 });
+router.get("/myBookings", async (req, res) => {
+  const token = req.headers.authorization?.split(" ")[1];
+  
+  if (!token) {
+    return res.status(401).json({ error: "Authorization token is required" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, SECRET_KEY);
+    const guestID = decoded.userID; // Kullanıcı ID'sini token'dan alıyoruz
+    console.log("GuestID:", guestID); // Debug için log ekleyin
+
+    const query = `
+      SELECT 
+        BookingID, 
+        AccommodationID, 
+        StartDate, 
+        EndDate, 
+        TotalPointsUsed, 
+        Status 
+      FROM Bookings 
+      WHERE GuestID = ?
+    `;
+
+    const [results] = await pool.query(query, [guestID]);
+    console.log("Bookings Results:", results); // Debug için log ekleyin
+
+    if (results.length === 0) {
+      return res.status(404).json({ error: "No bookings found for this user." });
+    }
+
+    res.status(200).json(results);
+  } catch (err) {
+    console.error("Error fetching bookings:", err.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
@@ -275,6 +313,50 @@ router.put("/:id", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+router.put("/bookings/:id/cancel", async (req, res) => {
+  const bookingID = req.params.id; // URL'den BookingID alınıyor
+  const token = req.headers.authorization?.split(" ")[1]; // Token kontrolü
+
+  if (!token) {
+    return res.status(401).json({ error: "Authorization token is required" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, SECRET_KEY); // Token doğrulama
+
+    // Silinecek booking'i kontrol et
+    const checkQuery = `
+      SELECT GuestID, Status FROM Bookings WHERE BookingID = ?
+    `;
+    const [checkRows] = await pool.query(checkQuery, [bookingID]);
+
+    if (checkRows.length === 0) {
+      return res.status(404).json({ error: "Booking not found." });
+    }
+
+    // Kullanıcının yetkisi var mı kontrol et
+    if (checkRows[0].GuestID !== decoded.userID) {
+      return res.status(403).json({ error: "You are not authorized to cancel this booking." });
+    }
+
+    // Eğer zaten cancelled ise hata döndür
+    if (checkRows[0].Status === "Cancelled") {
+      return res.status(400).json({ error: "Booking is already cancelled." });
+    }
+
+    // Booking'in Status değerini "Cancelled" olarak güncelle
+    const updateQuery = `
+      UPDATE Bookings SET Status = 'Cancelled' WHERE BookingID = ?
+    `;
+    await pool.query(updateQuery, [bookingID]);
+
+    res.status(200).json({ message: "Booking successfully cancelled." });
+  } catch (err) {
+    console.error("Error cancelling booking:", err.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 
 router.get("/:id/reviews", async (req, res) => {
   console.log(`Fetching reviews for accommodation ID: ${req.params.id}`);
@@ -381,6 +463,9 @@ router.delete("/:id", async (req, res) => {
       res.status(500).json({ error: "Internal server error", details: err.message });
   }
 });
+
+
+
 router.post("/:id/bookings", async (req, res) => {
   const token = req.headers.authorization?.split(" ")[1];
   const { id } = req.params;
@@ -445,8 +530,8 @@ router.post("/:id/bookings", async (req, res) => {
           res.status(500).json({ error: "Internal server error" });
         }
       });
-    
-
+  
+      
 
 
 

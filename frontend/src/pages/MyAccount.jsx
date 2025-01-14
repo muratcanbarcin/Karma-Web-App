@@ -20,8 +20,15 @@ const MyAccount = () => {
   const [errorUser, setErrorUser] = useState(null);
   const [errorAccommodations, setErrorAccommodations] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-
   const navigate = useNavigate();
+  const [bookings, setBookings] = useState([]);
+  const [loadingBookings, setLoadingBookings] = useState(true);
+  const [errorBookings, setErrorBookings] = useState(null);
+  
+
+
+
+
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -47,6 +54,37 @@ const MyAccount = () => {
 
     fetchUserData();
   }, []);
+
+  useEffect(() => {
+    const fetchBookings = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        console.log("Token:", token);
+    
+        const response = await axios.get(
+          "http://localhost:3000/api/accommodations/myBookings",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+    
+        console.log("Bookings Response:", response.data);
+        setBookings(response.data);
+        setLoadingBookings(false);
+      } catch (err) {
+        console.error("Rezervasyonlar alınırken hata:", err.response.data);
+        setErrorBookings("Rezervasyonlar alınamadı.");
+        setLoadingBookings(false);
+      }
+    };
+    
+    
+    
+  
+    if (!loadingUser && !errorUser) {
+      fetchBookings();
+    }
+  }, [loadingUser, errorUser]);
 
   useEffect(() => {
     const fetchAccommodations = async () => {
@@ -79,11 +117,50 @@ const MyAccount = () => {
     localStorage.removeItem("token");
     navigate("/");
   };
+  const handleViewDetails = (accommodationID) => {
+    navigate(`/accommodation/${accommodationID}`);
+  };
 
   const handleAddAccommodation = () => {
     navigate("/myaccount/addaccommodations");
   };
+  const handleCancelBooking = async (bookingID) => {
+    const confirmCancel = window.confirm(
+      "Are you sure you want to cancel this booking?"
+    );
+  
+    if (!confirmCancel) return;
+  
+    try {
+      const token = localStorage.getItem("token");
+      await axios.put(
+        `http://localhost:3000/api/accommodations/bookings/${bookingID}/cancel`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      // UI'den güncellemek için booking listesini güncelle
+      setBookings((prevBookings) =>
+        prevBookings.map((booking) =>
+          booking.BookingID === bookingID
+            ? { ...booking, Status: "Cancelled" }
+            : booking
+        )
+      );
+  
+      alert("Booking successfully cancelled!");
+    } catch (err) {
+      console.error("Error cancelling booking:", err.response?.data || err);
+      alert("Failed to cancel booking. Please try again.");
+    }
+  };
+  
 
+  
   const handleSaveProfile = async () => {
     const formattedDate = formatDateForMySQL(user.DateOfBirth);
     const updatedUser = { ...user, DateOfBirth: formattedDate };
@@ -132,11 +209,11 @@ const MyAccount = () => {
       </div>
 
       <div className="profile-details">
-        <div className="details-column">
+      <div className="details-column">
           <label>Full Name</label>
           <input
             type="text"
-            value={user.Name}
+            value={user?.Name || ""}
             onChange={(e) => setUser({ ...user, Name: e.target.value })}
             disabled={!isEditing}
           />
@@ -144,14 +221,14 @@ const MyAccount = () => {
           <label>Gender</label>
           <div className="gender-buttons">
             <button
-              className={user.Gender === "Male" ? "active" : ""}
+              className={user?.Gender === "Male" ? "active" : ""}
               onClick={() => setUser({ ...user, Gender: "Male" })}
               disabled={!isEditing}
             >
               Male
             </button>
             <button
-              className={user.Gender === "Female" ? "active" : ""}
+              className={user?.Gender === "Female" ? "active" : ""}
               onClick={() => setUser({ ...user, Gender: "Female" })}
               disabled={!isEditing}
             >
@@ -162,7 +239,7 @@ const MyAccount = () => {
           <label>Date of Birth</label>
           <input
             type="date"
-            value={user.DateOfBirth ? user.DateOfBirth.split("T")[0] : ""}
+            value={user?.DateOfBirth ? user.DateOfBirth.split("T")[0] : ""}
             onChange={(e) => setUser({ ...user, DateOfBirth: e.target.value })}
             disabled={!isEditing}
           />
@@ -172,7 +249,7 @@ const MyAccount = () => {
           <label>Country</label>
           <input
             type="text"
-            value={user.Country}
+            value={user?.Country || ""}
             onChange={(e) => setUser({ ...user, Country: e.target.value })}
             disabled={!isEditing}
           />
@@ -180,18 +257,80 @@ const MyAccount = () => {
           <label>Time Zone</label>
           <input
             type="text"
-            value={user.TimeZone}
+            value={user?.TimeZone || ""}
             onChange={(e) => setUser({ ...user, TimeZone: e.target.value })}
             disabled={!isEditing}
           />
         </div>
       </div>
-
       {isEditing && (
         <button className="save-button" onClick={handleSaveProfile}>
           Save
         </button>
       )}
+        <div className="bookings-section">
+      <h3>My Bookings</h3>
+
+      {loadingBookings ? (
+        <p>Loading bookings...</p>
+      ) : errorBookings ? (
+        <p>{errorBookings}</p>
+      ) : bookings.length === 0 ? (
+        <p>You have not made any bookings.</p>
+      ) : (
+        <div className="bookings-list">
+          {bookings.map((booking) => (
+            <div key={booking.BookingID} className="booking-card">
+              <div className="booking-header">
+                <h4>Booking ID: {booking.BookingID}</h4>
+                <p>
+                  Status:{" "}
+                  <span
+                    className={`status ${booking.Status.toLowerCase()}`}
+                  >
+                    {booking.Status}
+                  </span>
+                </p>
+              </div>
+              <div className="booking-details">
+                <p>
+                  <strong>Accommodation ID:</strong> {booking.AccommodationID}
+                </p>
+                <p>
+                  <strong>Start Date:</strong> {booking.StartDate.split("T")[0]}
+                </p>
+                <p>
+                  <strong>End Date:</strong> {booking.EndDate.split("T")[0]}
+                </p>
+                <p>
+                  <strong>Total Points Used:</strong>{" "}
+                  {booking.TotalPointsUsed}
+                </p>
+              </div>
+                          <div className="booking-actions">
+              <button
+                className="details-button"
+                onClick={() => handleViewDetails(booking.AccommodationID)}
+              >
+                Accommodation Details
+              </button>
+              {booking.Status !== "Confirmed" && booking.Status !== "Cancelled" && (
+                <button
+                  className="cancel-button"
+                  onClick={() => handleCancelBooking(booking.BookingID)}
+                >
+                  Cancel Booking
+                </button>
+              )}
+            </div>
+
+              
+            </div>
+            
+          ))}
+        </div>
+      )}
+    </div>
 
       <div className="accommodations-section">
         

@@ -222,4 +222,118 @@
   .accommodation-details button:hover {
     background-color: #45a049;
   }
+  .bookings-section {
+    margin-top: 20px;
+  }
+  
+  .bookings-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .booking-card {
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 300px;
+  }
+  
+  .booking-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .booking-header h4 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .booking-header .status {
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    text-transform: capitalize;
+  }
+  
+  .status.pending {
+    background: #fffae5;
+    color: #b59f0f;
+  }
+  
+  .status.confirmed {
+    background: #e5ffec;
+    color: #22a047;
+  }
+  
+  .status.cancelled {
+    background: #ffe5e5;
+    color: #c02424;
+  }
+  
+  .booking-details p {
+    margin: 5px 0;
+    color: #555;
+    font-size: 14px;
+  }
+  
+  .booking-details strong {
+    color: #333;
+  }
+  .details-button,
+.delete-button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.details-button {
+  background-color: #008037;
+  color: white;
+}
+
+.details-button:hover {
+  background-color: #0f553b;
+}
+  .delete-button {
+    background-color: #093a12;
+    color: white;
+  }
+  
+
+.delete-button:hover {
+  background-color: #8f0b18;
+}
+
+.delete-button:focus,
+.details-button:focus {
+  outline: none;
+}
+
+.cancel-button {
+  background-color: #ffc107;
+  color: #333;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.cancel-button:hover {
+  background-color: #e0a800;
+}
+
+.cancel-button:focus {
+  outline: none;
+}
+
   
