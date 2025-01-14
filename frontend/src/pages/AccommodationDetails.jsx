@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./AccommodationDetails.css";
+import Rating from "react-rating-stars-component"; // Yıldız derecelendirme için
 import styles from "./Karmaacom.module.css";
 
 
@@ -22,6 +23,10 @@ const AccommodationDetails = () => {
 const [alreadyReviewed, setAlreadyReviewed] = useState([]);
 const [currentUserID, setCurrentUserID] = useState(null);
 const [selectedBooking, setSelectedBooking] = useState("");
+
+const handleRatingChange = (newRating) => {
+  setRating(parseFloat(newRating)); // Float olarak işlenmesini sağlıyoruz
+};
 
 
 useEffect(() => {
@@ -387,16 +392,21 @@ useEffect(() => {
 </div>
 
 
-     {/* Reviews Section */}
-     <div className="reviews-section">
+<div className="reviews-section">
   <h3>Reviews & Ratings</h3>
   {loadingReviews ? (
     <p>Loading reviews...</p>
-  ) : reviews && reviews.length > 0 ? (
+  ) : reviews.length > 0 ? (
     reviews.map((review) => (
       <div key={review.ReviewID} className="review-card">
-        <p><strong>{review.ReviewerName || "Anonymous"}</strong></p>
-        <p>Rating: {review.Rating}/5</p>
+        <p><strong>{review.ReviewerName}</strong></p>
+        <p>
+  Rating:{" "}
+  {review.Rating !== null && !isNaN(review.Rating)
+    ? `${parseFloat(review.Rating).toFixed(1)}/5`
+    : "No rating available"}
+</p>
+
         <p>{review.Comment}</p>
         <p className="review-date">{new Date(review.CreatedAt).toLocaleDateString()}</p>
       </div>
@@ -408,47 +418,45 @@ useEffect(() => {
 
   {/* Add Review Section */}
   {confirmedBookings.length > 0 ? (
-  <div className="add-review-section">
-    <h3>Leave a Review</h3>
-    <select
-      id="booking"
-      value={selectedBooking}
-      onChange={(e) => setSelectedBooking(e.target.value)}
-    >
-      <option value="">Select a Booking</option>
-      {confirmedBookings
-        .filter((booking) => !alreadyReviewed.includes(booking.BookingID))
-        .map((booking) => (
-          <option key={booking.BookingID} value={booking.BookingID}>
-            Booking ID: {booking.BookingID}
-          </option>
-        ))}
-    </select>
+    <div className="add-review-section">
+      <h3>Leave a Review</h3>
+      <Rating
+        count={5}
+        size={30}
+        isHalf={true} 
+        value={rating}
+        activeColor="#ffd700"
+        onChange={handleRatingChange}
+      />
+      <select
+        id="booking"
+        value={selectedBooking}
+        onChange={(e) => setSelectedBooking(e.target.value)}
+      >
+        <option value="">Select a Booking</option>
+        {confirmedBookings
+          .filter((booking) => !alreadyReviewed.includes(booking.BookingID))
+          .map((booking) => (
+            <option key={booking.BookingID} value={booking.BookingID}>
+              Booking ID: {booking.BookingID}
+            </option>
+          ))}
+      </select>
 
-        <label htmlFor="rating">Rating:</label>
-        <input
-          type="number"
-          id="rating"
-          value={rating}
-          onChange={(e) => setRating(e.target.value)}
-          min="1"
-          max="5"
-          required
-        />
 
-        <label htmlFor="comment">Comment:</label>
-        <textarea
-          id="comment"
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-          required
-        ></textarea>
+      <textarea
+        id="comment"
+        value={comment}
+        onChange={(e) => setComment(e.target.value)}
+        placeholder="Write your comment here..."
+        required
+      ></textarea>
 
-        <button onClick={handleAddReview}>Submit Review</button>
-          </div>
-        ) : (
-          <p>Only users who have stayed here can leave a review.</p>
-        )}
+      <button onClick={handleAddReview}>Submit Review</button>
+    </div>
+  ) : (
+    <p>Only users who have stayed here can leave a review.</p>
+  )}
 </div>
 
     </div>

@@ -457,7 +457,7 @@ router.post("/:id/reviews", async (req, res) => {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
-  if (rating < 1 || rating > 5) {
+  if (parseFloat(rating) < 0.5 || rating > parseFloat(5)) {
     return res.status(400).json({ error: "Rating must be between 1 and 5" });
   }
 
@@ -481,7 +481,7 @@ router.post("/:id/reviews", async (req, res) => {
         (BookingID, Rating, Comment, ReviewerID, RevieweeID, CreatedAt)
         VALUES (?, ?, ?, ?, ?, NOW())
       `,
-      [bookingID, rating, comment, booking.GuestID, booking.HostID]
+      [bookingID, parseFloat(rating), comment, booking.GuestID, booking.HostID]
     );
 
     res.status(201).json({ message: "Review added successfully" });
