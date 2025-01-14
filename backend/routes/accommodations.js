@@ -127,6 +127,41 @@ router.post("/add", async (req, res) => {
     res.status(500).json({ error: "Server error", details: err.message });
   }
 });
+router.get("/random", async (req, res) => {
+  try {
+    const limit = parseInt(req.query.limit, 10) || 5;
+
+    // Mevcut görsellerin yollarını belirleyin
+    const images = [
+      "http://localhost:5173/mask-group@2x.png",
+      "http://localhost:5173/mask-group-1@2x.png",
+      "http://localhost:5173/mask-group-2@2x.png",
+      "http://localhost:5173/mask-group-3@2x.png",
+      "http://localhost:5173/mask-group-4@2x.png",
+      "http://localhost:5173/mask-group-5@2x.png",
+    ];
+
+    const query = `
+      SELECT AccommodationID, Title, Location, DailyPointCost, Description
+      FROM Accommodations
+      ORDER BY RAND()
+      LIMIT ?
+    `;
+    const [results] = await pool.query(query, [limit]);
+
+    // Görselleri sonuçlara rastgele ata
+    const accommodations = results.map((row, index) => ({
+      ...row,
+      image: images[index % images.length], // Görselleri sırayla kullan
+    }));
+
+    res.status(200).json(accommodations);
+  } catch (err) {
+    console.error("Error fetching random accommodations:", err.message);
+    res.status(500).json({ error: "Failed to fetch accommodations." });
+  }
+});
+
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
   const token = req.headers.authorization?.split(" ")[1];
@@ -346,6 +381,9 @@ router.delete("/:id", async (req, res) => {
       res.status(500).json({ error: "Internal server error", details: err.message });
   }
 });
+
+
+
 
 
 

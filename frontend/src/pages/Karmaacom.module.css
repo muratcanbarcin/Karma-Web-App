@@ -66,6 +66,11 @@
   object-fit: cover;
   z-index: 1;
 }
+.recommendationsSection {
+  margin-top: 40px;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
 .rectangleParent {
   border-radius: var(--br-153xl-5);
   background-color: var(--color-white);
