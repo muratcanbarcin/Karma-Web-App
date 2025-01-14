@@ -13,7 +13,30 @@ const SearchForm = () => {
   const [points, setPoints] = useState(null); // Points bilgisini tutuyoruz
 
   const navigate = useNavigate();
-
+  const handleMinCostChange = (e) => {
+    const value = e.target.value;
+  
+    // Eğer başta 0 varsa ve yanına sayı eklenmişse sıfırı kaldır
+    if (value.length > 1 && value.startsWith("0")) {
+      setMinCost(value.substring(1)); // İlk karakteri kaldır
+    } else {
+      setMinCost(value); // Normal değeri ayarla
+    }
+  };
+  
+  const handleMaxCostChange = (e) => {
+    const value = e.target.value;
+  
+    // Eğer başta 0 varsa ve yanına sayı eklenmişse sıfırı kaldır
+    if (value.length > 1 && value.startsWith("0")) {
+      setMaxCost(value.substring(1)); // İlk karakteri kaldır
+    } else {
+      setMaxCost(value); // Normal değeri ayarla
+    }
+  };
+  
+  
+  
   useEffect(() => {
     const fetchAllAccommodations = async () => {
       try {
@@ -25,7 +48,7 @@ const SearchForm = () => {
     };
     fetchAllAccommodations();
   }, []);
-  
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -78,34 +101,43 @@ const SearchForm = () => {
         </button>
       </nav>
       <div className="search-container">
-        <h1>Live Like A Local</h1>
-        <div className="search-form">
-          <label>
-            Location:
-            <input
-              type="text"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-            />
-          </label>
-          <label>
-            Min Cost:
-            <input
-              type="number"
-              value={minCost}
-              onChange={(e) => setMinCost(Number(e.target.value))}
-            />
-          </label>
-          <label>
-            Max Cost:
-            <input
-              type="number"
-              value={maxCost}
-              onChange={(e) => setMaxCost(Number(e.target.value))}
-            />
-          </label>
-          <button onClick={handleSearch}>Search</button>
-        </div>
+  <h1 className="search-title">Find Your Perfect Stay</h1>
+  <div className="search-form">
+    <label htmlFor="location">
+      Location
+      <input
+        id="location"
+        type="text"
+        value={location}
+        onChange={(e) => setLocation(e.target.value)}
+        placeholder="Enter a location..."
+      />
+    </label>
+    <label htmlFor="min-cost">
+      Min Cost
+      <input
+        id="min-cost"
+        type="number"
+        value={minCost}
+        onChange={handleMinCostChange}
+        placeholder="Min cost..."
+      />
+    </label>
+    <label htmlFor="max-cost">
+      Max Cost
+      <input
+        id="max-cost"
+        type="number"
+        value={maxCost}
+        onChange={handleMaxCostChange}
+        placeholder="Max cost..."
+      />
+    </label>
+    <button onClick={handleSearch}>Search</button>
+  </div>
+
+
+
 
         <div className="results">
           {results.length > 0 ? (

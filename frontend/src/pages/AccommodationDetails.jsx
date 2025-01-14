@@ -126,7 +126,7 @@ const AccommodationDetails = () => {
               <img src="/treehouse-1@2x.png" alt="Logo" className="menu-logo" />
                       
                         <button className="menu-button" onClick={() => navigate("/search")}>
-        Back to Search
+        Search
       </button>
               
                       <button className="menu-button" onClick={() => navigate("/")}>
