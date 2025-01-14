@@ -982,4 +982,26 @@ END;
 
 SET SQL_SAFE_UPDATES = 1;
 
+ALTER TABLE Users
+MODIFY PointsBalance INT DEFAULT 1000; -- Varsayılan değer ekleniyor
+
+ALTER TABLE Users
+MODIFY CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP; -- CreatedAt varsayılan zaman ayarı
+
+ALTER TABLE Users
+MODIFY UpdatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP; -- UpdatedAt otomatik güncelleme
+
+ALTER TABLE accommodations
+MODIFY CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP; -- CreatedAt varsayılan zaman ayarı
+
+ALTER TABLE accommodations
+MODIFY UpdatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP; -- UpdatedAt otomatik güncelleme
+
+ALTER TABLE bookings
+MODIFY CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP; -- CreatedAt varsayılan zaman ayarı
+
+ALTER TABLE bookings
+MODIFY UpdatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP; -- UpdatedAt otomatik güncelleme
+
+
     
