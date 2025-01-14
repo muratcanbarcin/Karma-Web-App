@@ -4,66 +4,36 @@ import axios from "axios";
 import "./AccommodationDetails.css";
 import styles from "./Karmaacom.module.css";
 
-
-
 const AccommodationDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [accommodation, setAccommodation] = useState(null);
   const [reviews, setReviews] = useState([]);
+  const [canReview, setCanReview] = useState(false);
+  const [newReview, setNewReview] = useState({ rating: "", comment: "" });
   const [loadingAccommodation, setLoadingAccommodation] = useState(true);
   const [loadingReviews, setLoadingReviews] = useState(true);
   const [loadingAverageRating, setLoadingAverageRating] = useState(true);
   const [averageRating, setAverageRating] = useState(0);
   const [error, setError] = useState(null);
- const [points, setPoints] = useState(null); // Points bilgisini tutuyoruz
-
-
- useEffect(() => {
   const token = localStorage.getItem("token");
-  if (token) {
-    // Eğer token varsa, points bilgisi çekilir
-    fetch("http://localhost:3000/api/users/points", {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch points.");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setPoints(data.pointsBalance); // Points bilgisini state'e kaydet
-      })
-      .catch((error) => {
-        console.error("Error fetching points balance:", error);
-      });
-  }
-}, []);
 
   useEffect(() => {
     const fetchAccommodation = async () => {
       try {
-        const token = localStorage.getItem("token"); // Get user token if available
-        const headers = token ? { Authorization: `Bearer ${token}` } : {}; // Add headers conditionally
-
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
         const response = await axios.get(
           `http://localhost:3000/api/accommodations/${id}`,
           { headers }
         );
-
-        setAccommodation(response.data); // Store data in state
+        setAccommodation(response.data);
         setLoadingAccommodation(false);
       } catch (err) {
         console.error("Failed to fetch accommodation details:", err);
-        setError(
-          err.response?.data?.error || "An error occurred while fetching data."
-        );
+        setError(err.response?.data?.error || "An error occurred.");
         setLoadingAccommodation(false);
       }
     };
-    
-
 
     const fetchReviews = async () => {
       try {
@@ -83,23 +53,47 @@ const AccommodationDetails = () => {
         const response = await axios.get(
           `http://localhost:3000/api/accommodations/${id}/average-rating`
         );
-        const rating = parseFloat(response.data.averageRating) || 0; // Gelen değeri sayıya dönüştür
-        setAverageRating(rating);
+        setAverageRating(parseFloat(response.data.averageRating) || 0);
         setLoadingAverageRating(false);
       } catch (err) {
         console.error("Failed to fetch average rating:", err);
-        setAverageRating(0); // Hata durumunda default değeri 0 olarak ayarla
+        setAverageRating(0);
         setLoadingAverageRating(false);
       }
     };
 
+    const checkReviewPermission = async () => {
+      setCanReview(true); // Booking kontrolünü kaldırdık, yorum yapabilme izni doğrudan veriliyor.
+    };
+    
+
+
     fetchAccommodation();
     fetchReviews();
     fetchAverageRating();
-  }, [id]);
+    if (token) checkReviewPermission();
+  }, [id, token]);
+
+  const handleReviewSubmit = async (e) => {
+    e.preventDefault();
+    console.log("Submitting review:", newReview); // Bu satırı ekleyin
+    try {
+      await axios.post(
+        `http://localhost:3000/api/accommodations/reviews/add`, // Tam adresi kullanın
+        { accommodationId: id, ...newReview },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      
+      alert("Yorum başarıyla eklendi!");
+      setNewReview({ rating: "", comment: "" });
+      setReviews((prev) => [...prev, { ...newReview, ReviewerName: "You" }]);
+    } catch (err) {
+      console.error("Error submitting review:", err);
+    }
+  };
+  
 
   if (error) {
-    // Show error message to user
     return (
       <div>
         <p>Error: {error}</p>
@@ -109,64 +103,19 @@ const AccommodationDetails = () => {
   }
 
   if (loadingAccommodation) {
-    // Show loading message
     return <p>Loading accommodation details...</p>;
   }
 
-  const handleEdit = () => {
-    navigate(`/edit-accommodation/${accommodation.AccommodationID}`);
-  };
-
-  const handleReservation = async (selectedDate) => {
-    if (!localStorage.getItem("token")) {
-      alert("You need to log in to make a reservation.");
-      navigate("/AuthForm");
-      return;
-    }
-    const confirmation = window.confirm("Are you sure you want to reserve this date?");
-    if (!confirmation) return;
-    const token = localStorage.getItem("token");
-
-    try {
-      const response = await axios.post(
-        `http://localhost:3000/api/accommodations/${accommodation.AccommodationID}/bookings`,
-        {
-          startDate: selectedDate,
-          endDate: selectedDate,
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      
-      alert("Reservation successful!");
-    } catch (error) {
-      alert(error.response?.data?.error || "Reservation failed.");
-    }
-  };
-
   return (
     <div className="details-container">
-            <nav className="menu-bar">
-              <img src="/treehouse-1@2x.png" alt="Logo" className="menu-logo" />
-                      
-                        <button className="menu-button" onClick={() => navigate("/search")}>
-        Search
-      </button>
-              
-                      <button className="menu-button" onClick={() => navigate("/")}>
-                        Go to Home
-                      </button>
-                      <div className="menu-button">
-                        
-                                  {/* Kullanıcı giriş yapmışsa points'i göster */}
-                                  {points !== null && (
-                                    <div className={styles.button}>
-                                      {`Points: ${points}`}
-                                    </div>
-                                  )}
-                        </div>
-                    </nav>
+      <nav className="menu-bar">
+        <img src="/treehouse-1@2x.png" alt="Logo" className="menu-logo" />
+        <button className="menu-button" onClick={() => navigate("/search")}>
+          Search
+        </button>
+        <button className="menu-button" onClick={() => navigate("/")}>Go to Home</button>
+      </nav>
 
-    
       <h1>{accommodation.Title}</h1>
       <img
         src={accommodation.image || "/105m2_934x700.webp"}
@@ -193,79 +142,94 @@ const AccommodationDetails = () => {
           <tr>
             <td>
               <ul>
-              {Object.entries(accommodation.Amenities || {}).map(
-                  ([key, value]) => (
-                    <li key={key}>
-                      {key}: {value}
-                    </li>
-                  )
-                )}
+                {Object.entries(accommodation.Amenities || {}).map(([key, value]) => (
+                  <li key={key}>{key}: {value}</li>
+                ))}
               </ul>
             </td>
             <td>
               <ul>
-              {Object.entries(accommodation.HouseRules || {}).map(
-                  ([key, value]) => (
-                    <li key={key}>
-                      {key}: {value}
-                    </li>
-                  )
-                )}
+                {Object.entries(accommodation.HouseRules || {}).map(([key, value]) => (
+                  <li key={key}>{key}: {value}</li>
+                ))}
               </ul>
             </td>
             <td>
               <div className="dates-buttons">
-                {Array.isArray(accommodation.AvailableDates)
-                  ? accommodation.AvailableDates.map((date) => (
-                      <button
-                        key={date}
-                        className="date-button reservation-button"
-                        onClick={() => handleReservation(date)}
-                      >
-                        Reserve {date}
-                        </button>
-                    ))
-                  : "No dates available"}
+                {Array.isArray(accommodation.AvailableDates) ? (
+                  accommodation.AvailableDates.map((date) => (
+                    <button
+                      key={date}
+                      className="date-button reservation-button"
+                      onClick={() => console.log(`Reserve ${date}`)}
+                    >
+                      Reserve {date}
+                    </button>
+                  ))
+                ) : (
+                  "No dates available"
+                )}
               </div>
             </td>
           </tr>
         </tbody>
       </table>
 
-      {/* Show edit button only if the user is the owner */}
-      {accommodation.isOwner && (
-        <button className="edit-button" onClick={handleEdit}>
-          Edit Accommodation
-        </button>
-      )}
-
-      {/* Average Rating Section */}
       <div className="average-rating-section">
         <h3>
           Average Rating: {loadingAverageRating
             ? "Loading..."
             : averageRating > 0
-            ? `⭐ ${averageRating.toFixed(1)} / 5`
-            : "No ratings yet"}
+              ? `⭐ ${averageRating.toFixed(1)} / 5`
+              : "No ratings yet"}
         </h3>
       </div>
 
-      {/* Reviews Section */}
       <div className="reviews-section">
         <h3>Reviews & Ratings</h3>
         {loadingReviews ? (
           <p>Loading reviews...</p>
         ) : reviews.length > 0 ? (
-          reviews.map((review) => (
-            <div key={review.ReviewID} className="review-card">
+          reviews.map((review, index) => (
+            <div key={index} className="review-card">
               <p><strong>{review.ReviewerName}</strong></p>
-              <p>Rating: {review.Rating}/5</p>
-              <p>{review.Comment}</p>
-              <p className="review-date">{new Date(review.CreatedAt).toLocaleDateString()}</p>
+              <p>Rating: {review.rating || review.Rating}/5</p>
+              <p>{review.comment || review.Comment}</p>
             </div>
           ))
         ) : (
           <p>No reviews yet.</p>
+        )}
+
+        {canReview ? (
+          <form onSubmit={handleReviewSubmit}>
+            <div>
+              <label>
+                Rating:
+                <input
+                  type="number"
+                  min="1"
+                  max="5"
+                  value={newReview.rating}
+                  onChange={(e) => setNewReview({ ...newReview, rating: e.target.value })}
+                  required
+                />
+              </label>
+            </div>
+            <div>
+              <label>
+                Comment:
+                <textarea
+                  value={newReview.comment}
+                  onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
+                  required
+                />
+              </label>
+            </div>
+            <button type="submit">Submit Review</button>
+          </form>
+        ) : (
+          <p>Yorum yapabilmek için önce misafir olmanız gerekmektedir.</p>
         )}
       </div>
     </div>

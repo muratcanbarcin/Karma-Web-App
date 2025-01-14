@@ -14,6 +14,7 @@
   border-radius: 10px;
   margin: 20px 0;
 }
+
 .menu-bar {
   width: 100%;
   background-color: #048853;
@@ -26,13 +27,13 @@
   top: 0;
   z-index: 1000;
 }
+
 .menu-logo {
   height: 40px;
-  /* Logo yüksekliğini sınırlıyoruz */
   width: auto;
-  /* Oranını koruyoruz */
   margin-right: 10px;
 }
+
 .menu-button {
   background-color: white;
   color: #048853;
@@ -129,6 +130,45 @@
   color: #888;
 }
 
+.review-form {
+  margin-top: 20px;
+  padding: 15px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.review-form label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.review-form input,
+.review-form textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.review-form button {
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.review-form button:hover {
+  background-color: #45a049;
+}
+
 .average-rating-section {
   margin-top: 20px;
   padding: 15px;
@@ -150,19 +190,6 @@
   color: #048853;
   font-weight: bold;
 }
-.reservation-button {
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  margin: 20px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.reservation-button:hover {
-  background-color: #45a049;
-}
 
 .reservation-button {
   background-color: #4caf50;
@@ -177,5 +204,3 @@
 .reservation-button:hover {
   background-color: #45a049;
 }
-
-
