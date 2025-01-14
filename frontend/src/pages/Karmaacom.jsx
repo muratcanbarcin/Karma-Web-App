@@ -1,14 +1,43 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
+
 import styles from "./Karmaacom.module.css";
+import Recommendations from "./Recommendations"; // Yeni bileşen içe aktarılıyor
+
 
 const Karmaacom = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [points, setPoints] = useState(null); // Points bilgisini tutuyoruz
   const [showLogin, setShowLogin] = useState(true);
+  const navigate = useNavigate();
   const openModal = useCallback(() => {
     setIsModalOpen(true);
     setShowLogin(true);
   }, []);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      // Eğer token varsa, points bilgisi çekilir
+      fetch("http://localhost:3000/api/users/points", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Failed to fetch points.");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setPoints(data.pointsBalance); // Points bilgisini state'e kaydet
+        })
+        .catch((error) => {
+          console.error("Error fetching points balance:", error);
+        });
+    }
+  }, []);
+
 
   // Modalı kapatan fonksiyon
   const closeModal = useCallback(() => {
@@ -97,34 +126,12 @@ const Karmaacom = () => {
 
     {/* Sağ grup (POINTS, My Account) */}
     <div className={styles.rightNav}>
-    <button
-    className={styles.navButton}
-    onClick={async () => {
-        const token = localStorage.getItem("token");
-        if (!token) {
-            alert("Please log in to view your points.");
-            window.location.href = "/AuthForm";
-            return;
-        }
-
-        try {
-            const response = await fetch("http://localhost:3000/api/users/points", {
-                headers: { Authorization: `Bearer ${token}` },
-            });
-            if (!response.ok) {
-                throw new Error("Failed to fetch points.");
-            }
-
-            const data = await response.json();
-            alert(`Your Points Balance: ${data.pointsBalance}`);
-        } catch (error) {
-            console.error("Error fetching points balance:", error);
-            alert("Could not fetch points balance.");
-        }
-    }}
->
-    POINTS
-</button>
+            {/* Kullanıcı giriş yapmışsa points'i göster */}
+            {points !== null && (
+              <div className={styles.pointsDisplay}>
+                {`Points: ${points}`}
+              </div>
+            )}
 
       <button
         className={styles.myAccount}
@@ -278,367 +285,11 @@ const Karmaacom = () => {
         </div>
         <div className={styles.rectangleParent4}>
           <div className={styles.frameChild6} data-scroll-to="rectangle" />
-          <div className={styles.recommendationsTitle}>
-            <h1 className={styles.homeRecommendationsFor}>
-              Home Recommendations For You
-            </h1>
-          </div>
-          <div className={styles.recommendationCards}>
-            <div className={styles.rectangleParent5}>
-              <div className={styles.frameChild7} />
-              <div className={styles.cardInfo}>
-                <div className={styles.cardInfoChild} />
-                <img
-                  className={styles.maskGroupIcon}
-                  loading="lazy"
-                  alt=""
-                  src="/mask-group@2x.png"
-                />
-                <div className={styles.cardDetails}>
-                  <div className={styles.cardFeatures}>
-                    <div className={styles.cardFeatureIcons}>
-                      <div className={styles.idr200000000}>---KT 774---</div>
-                      <div className={styles.jlSoekarnoHatta}>
-                        Davidport
-                      </div>
-                      <div className={styles.sewa}>Lisa</div>
-                    </div>
-                    <div className={styles.bedroomInfoParent}>
-                      <div className={styles.bedroomInfo}>
-                        <div className={styles.bedroomCount}>
-                          <img
-                            className={styles.mdibedIcon}
-                            loading="lazy"
-                            alt=""
-                            src="/mdibed.svg"
-                          />
-                          <div className={styles.bedroomNumber}>
-                            <div className={styles.div}>3</div>
-                          </div>
-                        </div>
-                        <div className={styles.bathroomCount}>
-                          <img
-                            className={styles.faSolidbathIcon}
-                            alt=""
-                            src="/fasolidbath.svg"
-                          />
-                          <div className={styles.bathroomNumber}>
-                            <div className={styles.bathroomCount1}>4</div>
-                          </div>
-                        </div>
-                        <div className={styles.bedroomCount}>
-                          <img
-                            className={styles.fluentglobeSurface20FilledIcon}
-                            loading="lazy"
-                            alt=""
-                            src="/fluentglobesurface20filled.svg"
-                          />
-                          <div className={styles.bedroomNumber}>
-                            <div className={styles.m}>360m</div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.houseSpecLabel}>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className={styles.rectangleParent6}>
-              <div className={styles.frameChild7} />
-              <div className={styles.div1}>3</div>
-              <div className={styles.rectangleParent7}>
-                <div className={styles.frameChild9} />
-                <div className={styles.maskGroupWrapper}>
-                  <img
-                    className={styles.maskGroupIcon1}
-                    alt=""
-                    src="/mask-group-1@2x.png"
-                  />
-                </div>
-                <div className={styles.frameParent2}>
-                  <div className={styles.frameWrapper4}>
-                    <div className={styles.idr200000000Parent}>
-                      <div className={styles.idr200000000}>---KT 535---</div>
-                      <div className={styles.jlSoekarnoHatta}>
-                        North Travis
-                      </div>
-                      <div className={styles.jualWrapper}>
-                        <div className={styles.jual}>Tracy</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className={styles.houseInfoCard}>
-                    <div className={styles.houseInfoCardChild} />
-                    <div className={styles.infoCardContent}>
-                      <div className={styles.mdibedWrapper}>
-                        <img
-                          className={styles.mdibedIcon1}
-                          alt=""
-                          src="/mdibed.svg"
-                        />
-                      </div>
-                      <div className={styles.bathroomCount}>
-                        <img
-                          className={styles.faSolidbathIcon1}
-                          alt=""
-                          src="/fasolidbath.svg"
-                        />
-                        <div className={styles.bathroomNumber}>
-                          <div className={styles.bathroomCountPlaceholder}>
-                            4
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.bedroomCount}>
-                        <img
-                          className={styles.fluentglobeSurface20FilledIcon1}
-                          alt=""
-                          src="/fluentglobesurface20filled.svg"
-                        />
-                        <div className={styles.bedroomNumber}>
-                          <div className={styles.m1}>360m</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className={styles.houseSpecLabel}>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className={styles.rectangleParent6}>
-              <div className={styles.frameChild7} />
-              <div className={styles.rectangleParent9}>
-                <div className={styles.cardInfoChild} />
-                <img
-                  className={styles.maskGroupIcon2}
-                  alt=""
-                  src="/mask-group-2@2x.png"
-                />
-                <div className={styles.frameWrapper5}>
-                  <div className={styles.cardFeatures}>
-                    <div className={styles.cardFeatureIcons}>
-                      <div className={styles.idr200000000}>---KT 687---</div>
-                      <div className={styles.jlSoekarnoHatta}>
-                        North Emilyburgh
-                      </div>
-                      <div className={styles.propertyBaru}>Barbara</div>
-                    </div>
-                    <div className={styles.bedroomInfoParent}>
-                      <div className={styles.bedroomInfo}>
-                        <div className={styles.bedroomCount}>
-                          <img
-                            className={styles.mdibedIcon}
-                            alt=""
-                            src="/mdibed.svg"
-                          />
-                          <div className={styles.bedroomNumber}>
-                            <div className={styles.div}>3</div>
-                          </div>
-                        </div>
-                        <div className={styles.bathroomCount}>
-                          <img
-                            className={styles.faSolidbathIcon}
-                            alt=""
-                            src="/fasolidbath.svg"
-                          />
-                          <div className={styles.bathroomNumber}>
-                            <div className={styles.bathroomCount1}>4</div>
-                          </div>
-                        </div>
-                        <div className={styles.bedroomCount}>
-                          <img
-                            className={styles.fluentglobeSurface20FilledIcon}
-                            alt=""
-                            src="/fluentglobesurface20filled-2.svg"
-                          />
-                          <div className={styles.bedroomNumber}>
-                            <div className={styles.m}>360m</div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.houseSpecLabel}>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className={styles.rectangleParent6}>
-              <div className={styles.frameChild12} />
-              <div className={styles.rectangleParent11}>
-                <div className={styles.cardInfoChild} />
-                <img
-                  className={styles.maskGroupIcon3}
-                  alt=""
-                  src="/mask-group-3@2x.png"
-                />
-                <div className={styles.frameWrapper6}>
-                  <div className={styles.cardFeatures}>
-                    <div className={styles.cardFeatureIcons}>
-                      <div className={styles.idr2000000003}>
-                        ---KT 421---
-                      </div>
-                      <div className={styles.jlSoekarnoHatta3}>
-                        South Michaelfort
-                      </div>
-                      <div className={styles.sewa1}>Joseph </div>
-                    </div>
-                    <div className={styles.bedroomInfoParent}>
-                      <div className={styles.bedroomInfo}>
-                        <div className={styles.bedroomCount}>
-                          <img
-                            className={styles.fluentglobeSurface20FilledIcon1}
-                            alt=""
-                            src="/mdibed.svg"
-                          />
-                          <div className={styles.bedroomNumber}>
-                            <div className={styles.div4}>3</div>
-                          </div>
-                        </div>
-                        <div className={styles.bathroomCount}>
-                          <img
-                            className={styles.faSolidbathIcon3}
-                            alt=""
-                            src="/fasolidbath.svg"
-                          />
-                          <div className={styles.bathroomNumber}>
-                            <div className={styles.div5}>4</div>
-                          </div>
-                        </div>
-                        <div className={styles.bedroomCount}>
-                          <img
-                            className={styles.fluentglobeSurface20FilledIcon1}
-                            alt=""
-                            src="/fluentglobesurface20filled.svg"
-                          />
-                          <div className={styles.bedroomNumber}>
-                            <div className={styles.m3}>360m</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className={styles.rectangleParent6}>
-              <div className={styles.frameChild7} />
-              <div className={styles.rectangleParent13}>
-                <div className={styles.cardInfoChild} />
-                <img
-                  className={styles.maskGroupIcon2}
-                  alt=""
-                  src="/mask-group-4@2x.png"
-                />
-                <div className={styles.frameWrapper7}>
-                  <div className={styles.cardFeatures}>
-                    <div className={styles.cardFeatureIcons}>
-                      <div className={styles.idr200000000}>---KT 932---</div>
-                      <div className={styles.jlSoekarnoHatta}>
-                        Barbaramouth                      </div>
-                      <div className={styles.sewa}>Mary </div>
-                    </div>
-                    <div className={styles.bedroomInfoParent}>
-                      <div className={styles.bedroomInfo}>
-                        <div className={styles.bedroomCount}>
-                          <img
-                            className={styles.mdibedIcon}
-                            alt=""
-                            src="/mdibed.svg"
-                          />
-                          <div className={styles.bedroomNumber}>
-                            <div className={styles.div}>3</div>
-                          </div>
-                        </div>
-                        <div className={styles.bathroomCount}>
-                          <img
-                            className={styles.faSolidbathIcon}
-                            alt=""
-                            src="/fasolidbath.svg"
-                          />
-                          <div className={styles.bathroomNumber}>
-                            <div className={styles.bathroomCount1}>4</div>
-                          </div>
-                        </div>
-                        <div className={styles.bedroomCount}>
-                          <img
-                            className={styles.fluentglobeSurface20FilledIcon}
-                            alt=""
-                            src="/fluentglobesurface20filled.svg"
-                          />
-                          <div className={styles.bedroomNumber}>
-                            <div className={styles.m}>360m</div>
-                          </div>
-                        </div>
-                      </div>
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className={styles.rectangleParent6}>
-              <div className={styles.frameChild7} />
-              <div className={styles.rectangleParent13}>
-                <div className={styles.cardInfoChild} />
-                <img
-                  className={styles.maskGroupIcon2}
-                  alt=""
-                  src="/mask-group-5@2x.png"
-                />
-                <div className={styles.frameWrapper7}>
-                  <div className={styles.cardFeatures}>
-                    <div className={styles.cardFeatureIcons}>
-                      <div className={styles.idr200000000}>---KT 259---</div>
-                      <div className={styles.jlSoekarnoHatta}>
-                        Josephmouth
-                      </div>
-                      <div className={styles.sewa}>Tracy</div>
-                    </div>
-                    <div className={styles.bedroomInfoParent}>
-                      <div className={styles.bedroomInfo}>
-                        <div className={styles.bedroomCount}>
-                          <img
-                            className={styles.mdibedIcon}
-                            alt=""
-                            src="/mdibed.svg"
-                          />
-                          <div className={styles.bedroomNumber}>
-                            <div className={styles.div}>3</div>
-                          </div>
-                        </div>
-                        <div className={styles.bathroomCount}>
-                          <img
-                            className={styles.faSolidbathIcon}
-                            alt=""
-                            src="/fasolidbath.svg"
-                          />
-                          <div className={styles.bathroomNumber}>
-                            <div className={styles.bathroomCount1}>4</div>
-                          </div>
-                        </div>
-                        <div className={styles.bedroomCount}>
-                          <img
-                            className={styles.fluentglobeSurface20FilledIcon}
-                            alt=""
-                            src="/fluentglobesurface20filled-2.svg"
-                          />
-                          <div className={styles.bedroomNumber}>
-                            <div className={styles.m}>360m</div>
-                          </div>
-                        </div>
-                      </div>
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+          <section className={styles.recommendationsSection}>
+        <Recommendations />
+      </section>
+         
+                </div>    
       </section>
       <div className={styles.seeMoreButton}>
         <button
