@@ -24,6 +24,9 @@ const MyAccount = () => {
   const [bookings, setBookings] = useState([]);
   const [loadingBookings, setLoadingBookings] = useState(true);
   const [errorBookings, setErrorBookings] = useState(null);
+  const [hostBookings, setHostBookings] = useState([]);
+  const [loadingHostBookings, setLoadingHostBookings] = useState(true);
+  const [errorHostBookings, setErrorHostBookings] = useState(null);
   
 
 
@@ -113,6 +116,64 @@ const MyAccount = () => {
     }
   }, [loadingUser, errorUser]);
 
+  const handleConfirmBooking = async (bookingID) => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.put(
+        `http://localhost:3000/api/accommodations/bookings/${bookingID}/confirm`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      // UI güncellemesi
+      setHostBookings((prevBookings) =>
+        prevBookings.map((booking) =>
+          booking.BookingID === bookingID
+            ? { ...booking, Status: "Confirmed" }
+            : booking
+        )
+      );
+  
+      alert("Booking successfully confirmed!");
+    } catch (err) {
+      console.error("Error confirming booking:", err.response?.data || err);
+      alert("Failed to confirm booking. Please try again.");
+    }
+  };
+  
+  const handleRejectBooking = async (bookingID) => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.put(
+        `http://localhost:3000/api/accommodations/bookings/${bookingID}/reject`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      // UI güncellemesi
+      setHostBookings((prevBookings) =>
+        prevBookings.map((booking) =>
+          booking.BookingID === bookingID
+            ? { ...booking, Status: "Rejected" }
+            : booking
+        )
+      );
+  
+      alert("Booking successfully rejected!");
+    } catch (err) {
+      console.error("Error rejecting booking:", err.response?.data || err);
+      alert("Failed to reject booking. Please try again.");
+    }
+  };
+  
   const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/");
@@ -124,6 +185,41 @@ const MyAccount = () => {
   const handleAddAccommodation = () => {
     navigate("/myaccount/addaccommodations");
   };
+
+
+
+  useEffect(() => {
+    const fetchHostBookings = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) throw new Error("Token bulunamadı. Lütfen giriş yapın.");
+  
+        const response = await axios.get(
+          "http://localhost:3000/api/accommodations/my-host-bookings",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+  
+        if (response.data && response.data.length > 0) {
+          setHostBookings(response.data);
+        } else {
+          setHostBookings([]);
+          setErrorHostBookings("There are no hosted bookings.");
+        }
+        setLoadingHostBookings(false);
+      } catch (err) {
+        console.error("Host rezervasyonları alınırken hata:", err);
+        setErrorHostBookings(
+          err.response?.data?.error || "An error occurred while fetching hosted bookings."
+        );
+        setLoadingHostBookings(false);
+      }
+    };
+  
+    fetchHostBookings();
+  }, []);
+  
   const handleCancelBooking = async (bookingID) => {
     const confirmCancel = window.confirm(
       "Are you sure you want to cancel this booking?"
@@ -268,6 +364,71 @@ const MyAccount = () => {
           Save
         </button>
       )}
+      <div className="host-bookings-section">
+  <h3>My Hosted Bookings</h3>
+
+  {loadingHostBookings ? (
+    <p>Loading hosted bookings...</p>
+  ) : errorHostBookings ? (
+    <p>{errorHostBookings}</p>
+  ) : hostBookings.length === 0 ? (
+    <p>You have not hosted any bookings.</p>
+  ) : (
+    <div className="bookings-list">
+      {hostBookings.map((booking) => (
+        <div key={booking.BookingID} className="booking-card">
+          <div className="booking-header">
+            <h4>Booking ID: {booking.BookingID}</h4>
+            <p>
+              Status:{" "}
+              <span
+                className={`status ${booking.Status.toLowerCase()}`}
+              >
+                {booking.Status}
+              </span>
+            </p>
+          </div>
+          <div className="booking-details">
+            <p>
+              <strong>Guest ID:</strong> {booking.GuestID}
+            </p>
+            <p>
+              <strong>Accommodation ID:</strong> {booking.AccommodationID}
+            </p>
+            <p>
+              <strong>Start Date:</strong> {booking.StartDate.split("T")[0]}
+            </p>
+            <p>
+              <strong>End Date:</strong> {booking.EndDate.split("T")[0]}
+            </p>
+            <p>
+              <strong>Total Points Used:</strong> {booking.TotalPointsUsed}
+            </p>
+          </div>
+          <div className="booking-actions">
+            {booking.Status === "Pending" && (
+              <>
+                <button
+                  className="confirm-button"
+                  onClick={() => handleConfirmBooking(booking.BookingID)}
+                >
+                  Confirm
+                </button>
+                <button
+                  className="reject-button"
+                  onClick={() => handleRejectBooking(booking.BookingID)}
+                >
+                  Reject
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  )}
+</div>
+
         <div className="bookings-section">
       <h3>My Bookings</h3>
 

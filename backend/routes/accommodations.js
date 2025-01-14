@@ -198,6 +198,35 @@ router.get("/myBookings", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+router.get("/my-host-bookings", async (req, res) => {
+  const token = req.headers.authorization?.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({ error: "Authorization token is required" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, SECRET_KEY); // Kullanıcının kimliğini doğrula
+    const userID = decoded.userID;
+
+    const query = `
+      SELECT BookingID, GuestID, HostID, AccommodationID, StartDate, EndDate, TotalPointsUsed, Status
+      FROM Bookings
+      WHERE HostID = ?
+    `;
+    const [rows] = await pool.query(query, [userID]);
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: "No host bookings found." });
+    }
+
+    res.status(200).json(rows);
+  } catch (err) {
+    console.error("Error fetching host bookings:", err.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 
 
 router.get("/:id", async (req, res) => {
@@ -313,6 +342,68 @@ router.put("/:id", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
+router.put("/bookings/:id/confirm", async (req, res) => {
+  const bookingID = req.params.id;
+  const token = req.headers.authorization?.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({ error: "Authorization token is required" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, SECRET_KEY);
+
+    const updateQuery = `
+      UPDATE Bookings SET Status = 'Confirmed' WHERE BookingID = ?
+    `;
+    await pool.query(updateQuery, [bookingID]);
+
+    res.status(200).json({ message: "Booking successfully confirmed." });
+  } catch (err) {
+    console.error("Error confirming booking:", err.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+router.put("/bookings/:id/reject", async (req, res) => {
+  const bookingID = req.params.id;
+  const token = req.headers.authorization?.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({ error: "Authorization token is required" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, SECRET_KEY);
+
+    // Booking ID'yi kontrol et
+    const checkQuery = `SELECT HostID FROM Bookings WHERE BookingID = ?`;
+    const [checkRows] = await pool.query(checkQuery, [bookingID]);
+
+    if (checkRows.length === 0) {
+      return res.status(404).json({ error: "Booking not found." });
+    }
+
+    // Kullanıcının yetkisi var mı kontrol et
+    if (checkRows[0].HostID !== decoded.userID) {
+      return res.status(403).json({ error: "You are not authorized to reject this booking." });
+    }
+
+    // Status'u 'Rejected' olarak güncelle
+    const updateQuery = `
+      UPDATE Bookings SET Status = 'Rejected' WHERE BookingID = ?
+    `;
+    await pool.query(updateQuery, [bookingID]);
+
+    res.status(200).json({ message: "Booking successfully rejected." });
+  } catch (err) {
+    console.error("Error rejecting booking:", err.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
+
 router.put("/bookings/:id/cancel", async (req, res) => {
   const bookingID = req.params.id; // URL'den BookingID alınıyor
   const token = req.headers.authorization?.split(" ")[1]; // Token kontrolü
@@ -358,50 +449,103 @@ router.put("/bookings/:id/cancel", async (req, res) => {
 });
 
 
+router.post("/:id/reviews", async (req, res) => {
+  const { id } = req.params; // Accommodation ID
+  const { bookingID, rating, comment } = req.body;
+
+  if (!bookingID || !rating || !comment) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  if (rating < 1 || rating > 5) {
+    return res.status(400).json({ error: "Rating must be between 1 and 5" });
+  }
+
+  try {
+    // Ensure the booking exists and is confirmed
+    const [bookingRows] = await pool.query(
+      "SELECT * FROM Bookings WHERE BookingID = ? AND Status = 'Confirmed'",
+      [bookingID]
+    );
+
+    if (!bookingRows || bookingRows.length === 0) {
+      return res.status(400).json({ error: "Invalid or unconfirmed booking ID" });
+    }
+
+    const booking = bookingRows[0]; // Doğru booking'i alın
+
+    // Insert the review
+    await pool.query(
+      `
+        INSERT INTO RatingsAndReviews 
+        (BookingID, Rating, Comment, ReviewerID, RevieweeID, CreatedAt)
+        VALUES (?, ?, ?, ?, ?, NOW())
+      `,
+      [bookingID, rating, comment, booking.GuestID, booking.HostID]
+    );
+
+    res.status(201).json({ message: "Review added successfully" });
+  } catch (err) {
+    console.error("Error adding review:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
+
+
 router.get("/:id/reviews", async (req, res) => {
-  console.log(`Fetching reviews for accommodation ID: ${req.params.id}`);
   const { id } = req.params;
 
   try {
     const query = `
-      SELECT rr.ReviewID, rr.Rating, rr.Comment, u.Name AS ReviewerName, rr.CreatedAt
+      SELECT 
+        rr.ReviewID,
+        rr.Rating,
+        rr.Comment,
+        u.Name AS ReviewerName,
+        rr.CreatedAt
       FROM RatingsAndReviews rr
-      JOIN Bookings b ON rr.BookingID = b.BookingID
       JOIN Users u ON rr.ReviewerID = u.UserID
+      JOIN Bookings b ON rr.BookingID = b.BookingID
       WHERE b.AccommodationID = ?
     `;
     const [reviews] = await pool.query(query, [id]);
-    console.log("Fetched reviews:", reviews);
+
+    if (!reviews || reviews.length === 0) {
+      return res.status(404).json({ error: "No reviews found for this accommodation." });
+    }
 
     res.status(200).json(reviews);
   } catch (err) {
-    console.error("Error fetching reviews:", err.message);
+    console.error("Error fetching reviews:", err);
     res.status(500).json({ error: "Failed to fetch reviews." });
   }
 });
 
+
+
+
 router.get("/:id/average-rating", async (req, res) => {
-  console.log(`Received request for average rating of accommodation ID: ${req.params.id}`);
   const { id } = req.params;
 
   try {
     const query = `
-      SELECT CAST(AVG(rr.Rating) AS DECIMAL(10,2)) AS AverageRating
+      SELECT AVG(rr.Rating) AS AverageRating
       FROM RatingsAndReviews rr
       JOIN Bookings b ON rr.BookingID = b.BookingID
       WHERE b.AccommodationID = ?
     `;
     const [result] = await pool.query(query, [id]);
-
-    const averageRating = result[0]?.AverageRating || 0; // Eğer sonuç yoksa 0 döndür
-    console.log("Average Rating Result:", result);
-
+    const averageRating = parseFloat(result[0]?.AverageRating) || 0; // Convert to number, default to 0 if null
     res.status(200).json({ averageRating });
   } catch (err) {
-    console.error("Error fetching average rating:", err.message);
+    console.error("Error fetching average rating:", err);
     res.status(500).json({ error: "Failed to fetch average rating." });
   }
 });
+
+
 
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
@@ -463,6 +607,30 @@ router.delete("/:id", async (req, res) => {
       res.status(500).json({ error: "Internal server error", details: err.message });
   }
 });
+router.get("/:id/user-bookings", async (req, res) => {
+  const token = req.headers.authorization?.split(" ")[1];
+  if (!token) {
+    return res.status(401).json({ error: "Authorization token is required" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, SECRET_KEY);
+    const userID = decoded.userID;
+
+    const query = `
+      SELECT BookingID, AccommodationID, Status
+      FROM Bookings
+      WHERE AccommodationID = ? AND GuestID = ? AND Status = 'Confirmed'
+    `;
+    const [rows] = await pool.query(query, [req.params.id, userID]);
+
+    res.status(200).json(rows);
+  } catch (err) {
+    console.error("Error fetching user bookings:", err.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 router.post("/:id/bookings", async (req, res) => {
   const token = req.headers.authorization?.split(" ")[1]; // Extract the token
   const { id } = req.params; // Accommodation ID

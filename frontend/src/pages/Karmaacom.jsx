@@ -37,6 +37,7 @@ const Karmaacom = () => {
         });
     }
   }, []);
+ 
 
 
   // Modalı kapatan fonksiyon
@@ -71,12 +72,24 @@ const Karmaacom = () => {
     }
   }, []);
 
+  
   const onEvaarrowIosForwardFillIconClick = useCallback(() => {
     const anchor = document.querySelector("[data-scroll-to='rectangle']");
     if (anchor) {
       anchor.scrollIntoView({ block: "start", behavior: "smooth" });
     }
   }, []);
+  const handleLogout = () => {
+    // Remove the token from localStorage
+    localStorage.removeItem("token");
+  
+    // Refresh the page
+    window.location.reload();
+  
+    // Optionally, navigate to the home page after refreshing
+    navigate("/");
+  };
+  
 
   return (
     <div className={styles.karmaacom}>
@@ -146,6 +159,15 @@ const Karmaacom = () => {
       >
         My Account
       </button>
+      {localStorage.getItem("token") && (
+    <button
+      className={styles.logoutButton}
+      onClick={handleLogout} // Logout function
+    >
+      Logout
+    </button>
+    )}
+    
     </div>
   </div>
 </header>

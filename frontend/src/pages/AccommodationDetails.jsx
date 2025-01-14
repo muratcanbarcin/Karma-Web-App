@@ -11,14 +11,78 @@ const AccommodationDetails = () => {
   const navigate = useNavigate();
   const [accommodation, setAccommodation] = useState(null);
   const [reviews, setReviews] = useState([]);
-  const [loadingAccommodation, setLoadingAccommodation] = useState(true);
   const [loadingReviews, setLoadingReviews] = useState(true);
-  const [loadingAverageRating, setLoadingAverageRating] = useState(true);
   const [averageRating, setAverageRating] = useState(0);
+  const [rating, setRating] = useState(0); // Default rating is 0
+  const [comment, setComment] = useState(""); // Initialize the comment state as an empty string
+
+  const [loadingAccommodation, setLoadingAccommodation] = useState(true);
+  const [loadingAverageRating, setLoadingAverageRating] = useState(true);
+  const [confirmedBookings, setConfirmedBookings] = useState([]);
+const [alreadyReviewed, setAlreadyReviewed] = useState([]);
+const [currentUserID, setCurrentUserID] = useState(null);
+const [selectedBooking, setSelectedBooking] = useState("");
+
+
+useEffect(() => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    const decodedToken = JSON.parse(atob(token.split(".")[1])); // Decode JWT
+    setCurrentUserID(decodedToken.userID);
+  }
+}, []);
+  
   const [error, setError] = useState(null);
  const [points, setPoints] = useState(null); // Points bilgisini tutuyoruz
 
+ useEffect(() => {
+  const fetchConfirmedBookings = async () => {
+    if (!currentUserID) return;
 
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        `http://localhost:3000/api/accommodations/myBookings`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      // Filter bookings that are "Confirmed" and belong to this accommodation
+      const confirmedForThisAccommodation = response.data.filter(
+        (booking) =>
+          booking.Status === "Confirmed" &&
+          booking.AccommodationID === parseInt(id)
+      );
+
+      setConfirmedBookings(confirmedForThisAccommodation);
+    } catch (error) {
+      console.error("Error fetching bookings:", error);
+    }
+  };
+
+  fetchConfirmedBookings();
+}, [currentUserID, id]);
+
+  useEffect(() => {
+  const fetchAlreadyReviewedBookings = async () => {
+    if (!currentUserID) return; // Wait until currentUserID is set
+
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/api/accommodations/${id}/reviews`
+      );
+      const reviewedBookingIDs = response.data
+        .filter((review) => review.ReviewerID === currentUserID)
+        .map((review) => review.BookingID);
+      setAlreadyReviewed(reviewedBookingIDs);
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+    }
+  };
+
+  fetchAlreadyReviewedBookings();
+}, [currentUserID, id]);
  useEffect(() => {
   const token = localStorage.getItem("token");
   if (token) {
@@ -40,6 +104,22 @@ const AccommodationDetails = () => {
       });
   }
 }, []);
+  const fetchReviews = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/api/accommodations/${id}/reviews`
+      );
+      setReviews(response.data); // Gelen yorumları state'e kaydet
+      setLoadingReviews(false); // Yükleme durumunu kapat
+    } catch (err) {
+      console.error("Error fetching reviews:", err);
+      setLoadingReviews(false); // Hata durumunda da yükleme kapatılmalı
+    }
+  };
+
+  fetchReviews(); // Yorumları çek
+
+
 
   useEffect(() => {
     const fetchAccommodation = async () => {
@@ -65,31 +145,15 @@ const AccommodationDetails = () => {
     
 
 
-    const fetchReviews = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:3000/api/accommodations/${id}/reviews`
-        );
-        setReviews(response.data);
-        setLoadingReviews(false);
-      } catch (err) {
-        console.error("Failed to fetch reviews:", err);
-        setLoadingReviews(false);
-      }
-    };
-
+    
     const fetchAverageRating = async () => {
       try {
         const response = await axios.get(
           `http://localhost:3000/api/accommodations/${id}/average-rating`
         );
-        const rating = parseFloat(response.data.averageRating) || 0; // Gelen değeri sayıya dönüştür
-        setAverageRating(rating);
-        setLoadingAverageRating(false);
+        setAverageRating(response.data.averageRating);
       } catch (err) {
-        console.error("Failed to fetch average rating:", err);
-        setAverageRating(0); // Hata durumunda default değeri 0 olarak ayarla
-        setLoadingAverageRating(false);
+        console.error("Error fetching average rating:", err);
       }
     };
 
@@ -97,6 +161,50 @@ const AccommodationDetails = () => {
     fetchReviews();
     fetchAverageRating();
   }, [id]);
+
+  const handleAddReview = async () => {
+    try {
+      const token = localStorage.getItem("token");
+  
+      if (!token) {
+        alert("You need to log in to submit a review.");
+        return;
+      }
+  
+      const decodedToken = JSON.parse(atob(token.split(".")[1])); // Token'dan userID al
+      const reviewerID = decodedToken.userID; // Oturum açan kullanıcı ID'si
+      const revieweeID = accommodation.OwnerID; // İlan sahibinin ID'si
+  
+      const reviewData = {
+        bookingID: selectedBooking,
+        rating: parseInt(rating),
+        comment,
+        reviewerID,
+        revieweeID,
+      };
+  
+      console.log("Submitting review data:", reviewData);
+  
+      await axios.post(
+        `http://localhost:3000/api/accommodations/${id}/reviews`,
+        reviewData,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+  
+      alert("Review added successfully!");
+  
+      // Yorumları yenile
+      fetchReviews();
+    } catch (err) {
+      console.error("Error adding review:", err);
+      alert("Failed to add review.");
+    }
+  };
+  
+  
+  
 
   if (error) {
     // Show error message to user
@@ -269,33 +377,80 @@ const AccommodationDetails = () => {
 
       {/* Average Rating Section */}
       <div className="average-rating-section">
-        <h3>
-          Average Rating: {loadingAverageRating
-            ? "Loading..."
-            : averageRating > 0
-            ? `⭐ ${averageRating.toFixed(1)} / 5`
-            : "No ratings yet"}
-        </h3>
-      </div>
+  <h3>
+    Average Rating: ⭐{" "}
+    {averageRating && typeof averageRating === "number"
+      ? averageRating.toFixed(2)
+      : "No ratings yet"}{" "}
+    / 5
+  </h3>
+</div>
 
-      {/* Reviews Section */}
-      <div className="reviews-section">
-        <h3>Reviews & Ratings</h3>
-        {loadingReviews ? (
-          <p>Loading reviews...</p>
-        ) : reviews.length > 0 ? (
-          reviews.map((review) => (
-            <div key={review.ReviewID} className="review-card">
-              <p><strong>{review.ReviewerName}</strong></p>
-              <p>Rating: {review.Rating}/5</p>
-              <p>{review.Comment}</p>
-              <p className="review-date">{new Date(review.CreatedAt).toLocaleDateString()}</p>
-            </div>
-          ))
-        ) : (
-          <p>No reviews yet.</p>
-        )}
+
+     {/* Reviews Section */}
+     <div className="reviews-section">
+  <h3>Reviews & Ratings</h3>
+  {loadingReviews ? (
+    <p>Loading reviews...</p>
+  ) : reviews && reviews.length > 0 ? (
+    reviews.map((review) => (
+      <div key={review.ReviewID} className="review-card">
+        <p><strong>{review.ReviewerName || "Anonymous"}</strong></p>
+        <p>Rating: {review.Rating}/5</p>
+        <p>{review.Comment}</p>
+        <p className="review-date">{new Date(review.CreatedAt).toLocaleDateString()}</p>
       </div>
+    ))
+  ) : (
+    <p>No reviews yet.</p>
+  )}
+
+
+  {/* Add Review Section */}
+  {confirmedBookings.length > 0 ? (
+  <div className="add-review-section">
+    <h3>Leave a Review</h3>
+    <select
+      id="booking"
+      value={selectedBooking}
+      onChange={(e) => setSelectedBooking(e.target.value)}
+    >
+      <option value="">Select a Booking</option>
+      {confirmedBookings
+        .filter((booking) => !alreadyReviewed.includes(booking.BookingID))
+        .map((booking) => (
+          <option key={booking.BookingID} value={booking.BookingID}>
+            Booking ID: {booking.BookingID}
+          </option>
+        ))}
+    </select>
+
+        <label htmlFor="rating">Rating:</label>
+        <input
+          type="number"
+          id="rating"
+          value={rating}
+          onChange={(e) => setRating(e.target.value)}
+          min="1"
+          max="5"
+          required
+        />
+
+        <label htmlFor="comment">Comment:</label>
+        <textarea
+          id="comment"
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+          required
+        ></textarea>
+
+        <button onClick={handleAddReview}>Submit Review</button>
+          </div>
+        ) : (
+          <p>Only users who have stayed here can leave a review.</p>
+        )}
+</div>
+
     </div>
   );
 };

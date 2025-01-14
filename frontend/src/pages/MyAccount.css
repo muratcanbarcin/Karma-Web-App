@@ -335,5 +335,95 @@
 .cancel-button:focus {
   outline: none;
 }
+.host-bookings-section {
+  margin-top: 20px;
+}
 
-  
+.bookings-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.booking-card {
+  background: #f9f9f9;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 300px;
+}
+
+.booking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.booking-header h4 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.booking-header .status {
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 12px;
+  text-transform: capitalize;
+}
+
+.status.pending {
+  background: #fffae5;
+  color: #b59f0f;
+}
+
+.status.confirmed {
+  background: #e5ffec;
+  color: #22a047;
+}
+
+.status.cancelled {
+  background: #ffe5e5;
+  color: #c02424;
+}
+
+.booking-details p {
+  margin: 5px 0;
+  color: #555;
+  font-size: 14px;
+}
+
+.booking-details strong {
+  color: #333;
+}
+
+.confirm-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.reject-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.confirm-button:hover {
+  background-color: #45a049;
+}
+
+.reject-button:hover {
+  background-color: #e53935;
+}
+.status.rejected {
+  background: #ffe5e5;
+  color: #c02424;
+}

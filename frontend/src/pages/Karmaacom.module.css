@@ -390,6 +390,21 @@
 }
 
 
+.logoutButton {
+  background-color: #ff4d4d; /* Red background */
+  color: white; /* White text */
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin-left: 4px; /* Space between buttons */
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.logoutButton:hover {
+  background-color: #e60000; /* Darker red on hover */
+}
+
 
 
 
