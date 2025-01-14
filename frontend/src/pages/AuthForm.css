@@ -1,9 +1,9 @@
-/* AuthForm.css */
+/* Styling for the authentication form container */
 body {
-  font-family: 'Poppins', sans-serif; /* Modern bir yazı tipi */
+  font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
-  background: linear-gradient(135deg, #f3fff4, #f3fff4); /* Arka planda hoş bir gradient */
+  background: linear-gradient(135deg, #f3fff4, #f3fff4);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,27 +14,29 @@ body {
   background: white;
   padding: 2.5rem;
   border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Hafif gölge */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   width: 350px;
   text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Hover animasyonu */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .auth-form-container:hover {
-  transform: scale(1.02); /* Hoverda biraz büyüt */
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* Gölgeyi artır */
+  transform: scale(1.02);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
+/* Header styling */
 h1 {
   font-size: 1.8rem;
   margin-bottom: 1.5rem;
-  color: #03673e; /* Modern yeşil bir ton */
+  color: #03673e;
 }
 
+/* Form styling */
 form {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem; /* Form alanları arasında boşluk */
+  gap: 1.2rem;
 }
 
 .input-group {
@@ -59,13 +61,14 @@ input {
 }
 
 input:focus {
-  border: 1px solid #048853; /* Odaklanma durumunda yeşil kenar */
+  border: 1px solid #048853;
   outline: none;
 }
 
+/* Button styling */
 button {
   padding: 0.8rem;
-  background-color: #048853; /* Yeşil bir arka plan */
+  background-color: #048853;
   color: white;
   border: none;
   border-radius: 6px;
@@ -76,10 +79,11 @@ button {
 }
 
 button:hover {
-  background-color: #03673e; /* Daha koyu bir yeşil */
-  transform: translateY(-2px); /* Hoverda hafif yükseltme efekti */
+  background-color: #03673e;
+  transform: translateY(-2px);
 }
 
+/* Switch styling for login/register link */
 .switch {
   margin-top: 1.5rem;
   font-size: 0.9rem;
@@ -94,8 +98,6 @@ button:hover {
 }
 
 .switch a:hover {
-  color: #03673e; /* Daha koyu bir yeşil */
+  color: #03673e;
   text-decoration: underline;
 }
-
-

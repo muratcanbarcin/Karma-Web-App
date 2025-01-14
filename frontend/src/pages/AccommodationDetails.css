@@ -28,9 +28,7 @@
 }
 .menu-logo {
   height: 40px;
-  /* Logo yüksekliğini sınırlıyoruz */
   width: auto;
-  /* Oranını koruyoruz */
   margin-right: 10px;
 }
 .menu-button {

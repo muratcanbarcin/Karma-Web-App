@@ -3,13 +3,13 @@ import { useNavigate } from "react-router-dom";
 
 
 import styles from "./Karmaacom.module.css";
-import Recommendations from "./Recommendations"; // Yeni bileşen içe aktarılıyor
+import Recommendations from "./Recommendations"; 
 
 
 const Karmaacom = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [points, setPoints] = useState(null); // Points bilgisini tutuyoruz
+  const [points, setPoints] = useState(null); 
   const [showLogin, setShowLogin] = useState(true);
   const navigate = useNavigate();
   const openModal = useCallback(() => {
@@ -19,7 +19,7 @@ const Karmaacom = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      // Eğer token varsa, points bilgisi çekilir
+      // If there is a token, points data is retrieved.
       fetch("http://localhost:3000/api/users/points", {
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -30,7 +30,7 @@ const Karmaacom = () => {
           return response.json();
         })
         .then((data) => {
-          setPoints(data.pointsBalance); // Points bilgisini state'e kaydet
+          setPoints(data.pointsBalance); // Save points information to state
         })
         .catch((error) => {
           console.error("Error fetching points balance:", error);
@@ -40,7 +40,7 @@ const Karmaacom = () => {
  
 
 
-  // Modalı kapatan fonksiyon
+  //Function that closes the modal
   const closeModal = useCallback(() => {
     setIsModalOpen(false);
   }, []);
@@ -124,7 +124,7 @@ const Karmaacom = () => {
     />
   </div>
   <div className={styles.navBar}>
-    {/* Sol grup (HOME, EXPLORE, CONTACT) */}
+    {/* Left group (HOME, EXPLORE, CONTACT) */}
     <div className={styles.leftNav}>
       <button className={styles.navButton} onClick={onHOMETextClick}>
         HOME
@@ -137,9 +137,9 @@ const Karmaacom = () => {
       </button>
     </div>
 
-    {/* Sağ grup (POINTS, My Account) */}
+    {/* Right group (POINTS, My Account) */}
     <div className={styles.rightNav}>
-            {/* Kullanıcı giriş yapmışsa points'i göster */}
+            {/* Show points if user is logged in */}
             {points !== null && (
               <div className={styles.pointsDisplay}>
                 {`Points: ${points}`}

@@ -6,13 +6,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./AddAccommodation.css";
 
 const EditAccommodation = () => {
-  const { id } = useParams(); // URL'den Accommodation ID'sini al
-  const [form, setForm] = useState(null); // Form verileri
-  const [error, setError] = useState(""); // Genel hata mesajı
-  const [unauthorized, setUnauthorized] = useState(false); // Yetkisiz erişim durumu
+  const { id } = useParams(); 
+  const [form, setForm] = useState(null); 
+  const [error, setError] = useState(""); 
+  const [unauthorized, setUnauthorized] = useState(false); 
   const navigate = useNavigate();
 
-  // Konaklama bilgilerini backend'den al
+  // Get accommodation datas from backend
   useEffect(() => {
     const fetchAccommodation = async () => {
       try {
@@ -28,7 +28,7 @@ const EditAccommodation = () => {
   
         if (!data.isOwner) {
           alert("You are not authorized to edit this accommodation.");
-          navigate("/myaccount"); // Kullanıcıyı başka bir sayfaya yönlendirin
+          navigate("/myaccount"); 
           return;
         }
   
@@ -119,7 +119,7 @@ const EditAccommodation = () => {
       const token = localStorage.getItem("token");
       await axios.put(
         `http://localhost:3000/api/accommodations/${id}`,
-        form, // Form verilerini gönder
+        form, // Show form datas
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -134,12 +134,10 @@ const EditAccommodation = () => {
   };
 
   if (unauthorized) {
-    // Yetkisiz erişim mesajı
     return <p>You are not authorized to edit this accommodation.</p>;
   }
 
   if (!form) {
-    // Yükleme durumu
     return <p>Loading accommodation details...</p>;
   }
 

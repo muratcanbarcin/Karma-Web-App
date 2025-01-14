@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import "./Recommendations.css";
 
 const Recommendations = () => {
-  const [accommodations, setAccommodations] = useState([]); // Başlangıç değeri boş dizi
+  const [accommodations, setAccommodations] = useState([]);
   const navigate = useNavigate();
 
+  // Fetch random recommendations on component mount
   useEffect(() => {
     const fetchRecommendations = async () => {
       try {
@@ -17,13 +18,14 @@ const Recommendations = () => {
         setAccommodations(data);
       } catch (err) {
         console.error("Error fetching recommendations:", err);
-        setAccommodations([]); // Hata durumunda boş dizi
+        setAccommodations([]);
       }
     };
 
     fetchRecommendations();
   }, []);
 
+  // Navigate to accommodation details page
   const handleCardClick = (id) => {
     navigate(`/accommodation/${id}`);
   };
@@ -53,8 +55,6 @@ const Recommendations = () => {
       </div>
     </div>
   );
-  
-  
 };
 
 export default Recommendations;

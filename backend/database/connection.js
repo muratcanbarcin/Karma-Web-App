@@ -1,7 +1,8 @@
+// Setup and export a connection pool for database operations
 const mysql = require('mysql2/promise');
-require('dotenv').config(); // .env dosyasından veritabanı bilgilerini alır
+require('dotenv').config(); // Load environment variables from .env file
 
-// Veritabanı bağlantı havuzu
+// Create a pool to manage multiple database connections efficiently
 const pool = mysql.createPool({
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',

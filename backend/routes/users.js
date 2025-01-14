@@ -1,41 +1,38 @@
+// User-related routes and operations
 const express = require('express');
 const router = express.Router();
-const pool = require('../database/connection'); // Database bağlantısı
-const jwt = require('jsonwebtoken'); // JSON Web Token kullanımı için
+const pool = require('../database/connection'); // Database connection
+const jwt = require('jsonwebtoken'); // JSON Web Token for authentication
 
-const SECRET_KEY = "your_secret_key"
+const SECRET_KEY = "your_secret_key";
 
-
-// Kullanıcı kaydı endpoint
+// Register a new user
 router.post('/register', async (req, res) => {
     const { name, email, password } = req.body;
 
     if (!name || !email || !password) {
-        return res.status(400).json({ error: 'Lütfen tüm alanları doldurun' });
+        return res.status(400).json({ error: 'All fields are required.' });
     }
 
     try {
-        // E-posta kontrolü
         const emailCheckQuery = `SELECT * FROM Users WHERE Email = ?`;
         const [existingUser] = await pool.query(emailCheckQuery, [email]);
 
         if (existingUser.length > 0) {
-            return res.status(409).json({ error: 'Bu e-posta zaten kayıtlı.' }); // 409 Conflict
+            return res.status(409).json({ error: 'Email is already registered.' });
         }
 
-        // Kullanıcıyı veritabanına ekle
         const query = `INSERT INTO Users (Name, Email, Password) VALUES (?, ?, ?)`;
-
         await pool.query(query, [name, email, password]);
 
-        res.status(201).json({ message: 'Kayıt başarılı' });
+        res.status(201).json({ message: 'Registration successful.' });
     } catch (err) {
-        console.error('Kayıt sırasında hata oluştu:', err);
-        res.status(500).json({ error: 'Kayıt sırasında hata oluştu' });
+        console.error('Error during registration:', err);
+        res.status(500).json({ error: 'Internal server error.' });
     }
 });
 
-// Kullanıcı giriş endpoint
+// User login
 router.post("/login", async (req, res) => {
     const { email, password } = req.body;
   
@@ -53,14 +50,12 @@ router.post("/login", async (req, res) => {
   
       const user = results[0];
   
-      // Şifre doğrulaması
       if (password !== user.Password) {
         return res.status(401).json({ error: "Invalid password." });
       }
   
-      // JWT oluşturulurken UserID dahil ediliyor
       const token = jwt.sign(
-        { userID: user.UserID, email: user.Email }, // `userID` ve `email` ekleniyor
+        { userID: user.UserID, email: user.Email },
         SECRET_KEY,
         { expiresIn: "1h" }
       );
@@ -68,12 +63,11 @@ router.post("/login", async (req, res) => {
       res.status(200).json({ message: "Login successful", token });
     } catch (err) {
       console.error("Login error:", err);
-      res.status(500).json({ error: "Server error" });
+      res.status(500).json({ error: "Internal server error." });
     }
-  });
-  
-  
-  
+});
+
+// Get user details for "My Account"
 router.get('/MyAccount', async (req, res) => {
     const token = req.headers.authorization?.split(" ")[1];
     if (!token) {
@@ -98,17 +92,17 @@ router.get('/MyAccount', async (req, res) => {
         const [results] = await pool.query(query, [userEmail]);
 
         if (results.length === 0) {
-            return res.status(404).json({ error: 'Kullanıcı bulunamadı' });
+            return res.status(404).json({ error: 'User not found.' });
         }
 
         res.status(200).json(results[0]);
     } catch (err) {
-        console.error('Kullanıcı bilgileri alınırken hata oluştu:', err);
-        res.status(500).json({ error: 'Sunucu hatası' });
+        console.error('Error fetching user details:', err);
+        res.status(500).json({ error: 'Internal server error.' });
     }
 });
 
-// Kullanıcı bilgilerini güncelleme endpoint
+// Update user account details
 router.put('/MyAccount', async (req, res) => {
     const token = req.headers.authorization?.split(" ")[1];
     if (!token) {
@@ -122,7 +116,7 @@ router.put('/MyAccount', async (req, res) => {
         const { Name, Gender, Country, DateOfBirth, TimeZone } = req.body;
 
         if (!Name || !Gender || !Country || !DateOfBirth || !TimeZone) {
-            return res.status(400).json({ error: 'Tüm alanları doldurun.' });
+            return res.status(400).json({ error: 'All fields are required.' });
         }
 
         const query = `
@@ -141,15 +135,17 @@ router.put('/MyAccount', async (req, res) => {
         ]);
 
         if (result.affectedRows === 0) {
-            return res.status(404).json({ error: 'Kullanıcı bulunamadı' });
+            return res.status(404).json({ error: 'User not found.' });
         }
 
-        res.status(200).json({ message: 'Bilgiler başarıyla güncellendi.' });
+        res.status(200).json({ message: 'Details updated successfully.' });
     } catch (err) {
-        console.error('Güncelleme sırasında hata:', err);
-        res.status(500).json({ error: 'Sunucu hatası' });
+        console.error('Error updating account details:', err);
+        res.status(500).json({ error: 'Internal server error.' });
     }
 });
+
+// Get user points
 router.get('/points', async (req, res) => {
     const token = req.headers.authorization?.split(" ")[1];
     if (!token) {
@@ -170,9 +166,11 @@ router.get('/points', async (req, res) => {
         res.status(200).json({ pointsBalance: results[0].PointsBalance });
     } catch (err) {
         console.error('Error fetching points balance:', err);
-        res.status(500).json({ error: 'Server error' });
+        res.status(500).json({ error: 'Internal server error.' });
     }
 });
+
+// Get details of a specific user by ID
 router.get('/:userId', async (req, res) => {
     const token = req.headers.authorization?.split(" ")[1];
     if (!token) {
@@ -191,11 +189,11 @@ router.get('/:userId', async (req, res) => {
         res.status(200).json(results[0]);
     } catch (err) {
         console.error('Error fetching user data:', err);
-        res.status(500).json({ error: 'Server error' });
+        res.status(500).json({ error: 'Internal server error.' });
     }
 });
 
-
+// Get user points
 router.get('/points', async (req, res) => {
     const token = req.headers.authorization?.split(" ")[1];
     if (!token) {
@@ -216,10 +214,8 @@ router.get('/points', async (req, res) => {
         res.status(200).json({ pointsBalance: results[0].PointsBalance });
     } catch (err) {
         console.error('Error fetching points balance:', err);
-        res.status(500).json({ error: 'Server error' });
+        res.status(500).json({ error: 'Internal server error.' });
     }
 });
-
-
 
 module.exports = router;

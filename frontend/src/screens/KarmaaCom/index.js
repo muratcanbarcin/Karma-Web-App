@@ -1,1 +1,0 @@
-export { KarmaaCom } from "../KarmaaCom";

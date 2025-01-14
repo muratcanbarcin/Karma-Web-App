@@ -105,9 +105,7 @@ body {
 
 .menu-logo {
   height: 40px;
-  /* Logo yüksekliğini sınırlıyoruz */
   width: auto;
-  /* Oranını koruyoruz */
   margin-right: 10px;
 }
 
@@ -143,5 +141,5 @@ body {
 .rightNav {
   display: flex;
   align-items: center;
-  gap: 20px; /* POINTS ve My Account arasında boşluk */
+  gap: 20px; 
 }

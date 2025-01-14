@@ -3,7 +3,7 @@ import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
-import "./AddAccommodation.css"; // Stil dosyası
+import "./AddAccommodation.css"; 
 
 const AddAccommodation = () => {
   const [form, setForm] = useState({
@@ -28,11 +28,10 @@ const AddAccommodation = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  // Kullanıcının giriş yapıp yapmadığını kontrol et
+  // Check if user is logged in
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
-      // Kullanıcı giriş yapmamışsa, anasayfaya yönlendir
       alert("You need to log in to access this page.");
       navigate("/");
     }

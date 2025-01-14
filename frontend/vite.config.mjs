@@ -1,10 +1,10 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-// https://vitejs.dev/config/
+// Configuration for Vite - React build optimization
 export default defineConfig({
   build: {
-    outDir: "build",
+    outDir: "build", // Specifies the output directory for the build files
   },
-  plugins: [react()],
+  plugins: [react()], // Enables React support with Vite
 });

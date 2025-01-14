@@ -12,25 +12,27 @@ const AuthForm = () => {
   });
   const navigate = useNavigate();
 
-  // Kullanıcının giriş yapıp yapmadığını kontrol et
+  // Redirect to /myaccount if the user is already logged in
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      // Kullanıcı giriş yapmışsa, /myaccount sayfasına yönlendir
       navigate("/myaccount");
     }
   }, [navigate]);
 
+  // Toggle between sign-up and login forms
   const toggleForm = () => {
     setIsSignUp(!isSignUp);
-    setFormData({ name: "", email: "", password: "" }); // Formu sıfırla
+    setFormData({ name: "", email: "", password: "" });
   };
 
+  // Handle input field changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  // Submit form data to the backend
   const handleSubmit = async (e) => {
     e.preventDefault();
     const endpoint = isSignUp
@@ -42,24 +44,23 @@ const AuthForm = () => {
 
       if (response.status === 200 || response.status === 201) {
         if (isSignUp) {
-          alert("Kayıt başarılı! Şimdi giriş yapabilirsiniz.");
+          alert("Registration successful! You can now log in.");
           toggleForm();
         } else {
-          alert("Giriş başarılı!");
+          alert("Login successful!");
           localStorage.setItem("token", response.data.token);
-          // Kullanıcıyı /myaccount sayfasına yönlendir
           navigate("/myaccount");
         }
       }
     } catch (error) {
       if (error.response) {
         if (error.response.status === 409) {
-          alert("Bu e-posta adresi zaten kayıtlı.");
+          alert("This email address is already registered.");
         } else {
-          alert(`Hata: ${error.response.data.error}`);
+          alert(`Error: ${error.response.data.error}`);
         }
       } else {
-        alert("Bir hata oluştu. Lütfen tekrar deneyin.");
+        alert("An error occurred. Please try again.");
         console.error(error);
       }
     }

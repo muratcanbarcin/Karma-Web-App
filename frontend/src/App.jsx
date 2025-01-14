@@ -8,46 +8,49 @@ import MyAccount from "./pages/MyAccount";
 import AddAccommodation from "./pages/AddAccommodation";
 import EditAccommodation from "./pages/EditAccommodation";
 import UserProfile from "./pages/UserProfile";
-import {jwtDecode} from "jwt-decode"; // JWT token'ı doğrulamak için
+import { jwtDecode } from "jwt-decode"; // For decoding JWT tokens
 
-// Kullanıcının giriş yapıp yapmadığını kontrol eden bir fonksiyon
+// Function to check if the user is authenticated
 const isAuthenticated = () => {
   const token = localStorage.getItem("token");
-  console.log("Debug: Token -", token); // Debug için token'ı yazdır
+  console.log("Debug: Token -", token);
 
   if (!token) {
-    console.warn("Token bulunamadı, kullanıcı giriş yapmamış.");
+    console.warn("Token not found. User is not logged in.");
     return false;
   }
 
   try {
     const decoded = jwtDecode(token);
-    console.log("Debug: Decoded Token -", decoded); // Debug için çözülmüş token'ı yazdır
+    console.log("Debug: Decoded Token -", decoded);
 
-    const currentTime = Date.now() / 1000; // Şu anki zaman (saniye cinsinden)
+    const currentTime = Date.now() / 1000; // Current time in seconds
     if (decoded.exp < currentTime) {
-      console.warn("Token süresi dolmuş.");
-      localStorage.removeItem("token"); // Geçersiz token'ı kaldır
+      console.warn("Token has expired.");
+      localStorage.removeItem("token");
       return false;
     }
     return true;
   } catch (error) {
-    console.error("Token doğrulama hatası:", error);
-    localStorage.removeItem("token"); // Hatalı token'ı kaldır
+    console.error("Error decoding token:", error);
+    localStorage.removeItem("token");
     return false;
   }
 };
+
 function App() {
   const action = useNavigationType();
   const location = useLocation();
   const pathname = location.pathname;
 
+  // Scroll to top on navigation
   useEffect(() => {
     if (action !== "POP") {
       window.scrollTo(0, 0);
     }
   }, [action, pathname]);
 
+  // Update page title and meta description based on route
   useEffect(() => {
     let title = "";
     let metaDescription = "";
@@ -87,24 +90,21 @@ function App() {
 
   return (
     <Routes>
-        <Route path="/" element={<Karmaacom />} />
-        <Route path="/search" element={<SearchForm />} />
-        <Route path="/accommodation/:id" element={<AccommodationDetails />} />
-        <Route path="/AuthForm" element={<AuthForm />} />
-        
-        <Route
-          path="/MyAccount"
-          element={
-            isAuthenticated() ? <MyAccount /> : <Navigate to="/AuthForm" replace />
-          }
+      <Route path="/" element={<Karmaacom />} />
+      <Route path="/search" element={<SearchForm />} />
+      <Route path="/accommodation/:id" element={<AccommodationDetails />} />
+      <Route path="/AuthForm" element={<AuthForm />} />
 
-        />
-        <Route path="/edit-accommodation/:id" element={<EditAccommodation />} />
-         <Route path="/myaccount/addaccommodations" element={<AddAccommodation />} />
-         <Route path="/user/:userId" element={<UserProfile />} />
-
-
-      </Routes>
+      <Route
+        path="/MyAccount"
+        element={
+          isAuthenticated() ? <MyAccount /> : <Navigate to="/AuthForm" replace />
+        }
+      />
+      <Route path="/edit-accommodation/:id" element={<EditAccommodation />} />
+      <Route path="/myaccount/addaccommodations" element={<AddAccommodation />} />
+      <Route path="/user/:userId" element={<UserProfile />} />
+    </Routes>
   );
 }
 

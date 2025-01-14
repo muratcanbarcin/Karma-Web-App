@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./AccommodationDetails.css";
-import Rating from "react-rating-stars-component"; // Yıldız derecelendirme için
+import Rating from "react-rating-stars-component"; // For star icon of rating
 import styles from "./Karmaacom.module.css";
 
 
@@ -25,7 +25,7 @@ const [currentUserID, setCurrentUserID] = useState(null);
 const [selectedBooking, setSelectedBooking] = useState("");
 
 const handleRatingChange = (newRating) => {
-  setRating(parseFloat(newRating)); // Float olarak işlenmesini sağlıyoruz
+  setRating(parseFloat(newRating)); 
 };
 
 
@@ -38,7 +38,7 @@ useEffect(() => {
 }, []);
   
   const [error, setError] = useState(null);
- const [points, setPoints] = useState(null); // Points bilgisini tutuyoruz
+ const [points, setPoints] = useState(null); // Keep points data
 
  useEffect(() => {
   const fetchConfirmedBookings = async () => {
@@ -91,7 +91,6 @@ useEffect(() => {
  useEffect(() => {
   const token = localStorage.getItem("token");
   if (token) {
-    // Eğer token varsa, points bilgisi çekilir
     fetch("http://localhost:3000/api/users/points", {
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -102,7 +101,7 @@ useEffect(() => {
         return response.json();
       })
       .then((data) => {
-        setPoints(data.pointsBalance); // Points bilgisini state'e kaydet
+        setPoints(data.pointsBalance); // Save points data to state
       })
       .catch((error) => {
         console.error("Error fetching points balance:", error);
@@ -114,15 +113,15 @@ useEffect(() => {
       const response = await axios.get(
         `http://localhost:3000/api/accommodations/${id}/reviews`
       );
-      setReviews(response.data); // Gelen yorumları state'e kaydet
-      setLoadingReviews(false); // Yükleme durumunu kapat
+      setReviews(response.data); 
+      setLoadingReviews(false); 
     } catch (err) {
       console.error("Error fetching reviews:", err);
-      setLoadingReviews(false); // Hata durumunda da yükleme kapatılmalı
+      setLoadingReviews(false); 
     }
   };
 
-  fetchReviews(); // Yorumları çek
+  fetchReviews(); 
 
 
 
@@ -176,9 +175,9 @@ useEffect(() => {
         return;
       }
   
-      const decodedToken = JSON.parse(atob(token.split(".")[1])); // Token'dan userID al
-      const reviewerID = decodedToken.userID; // Oturum açan kullanıcı ID'si
-      const revieweeID = accommodation.OwnerID; // İlan sahibinin ID'si
+      const decodedToken = JSON.parse(atob(token.split(".")[1])); // get userID
+      const reviewerID = decodedToken.userID; 
+      const revieweeID = accommodation.OwnerID; 
   
       const reviewData = {
         bookingID: selectedBooking,
@@ -200,7 +199,7 @@ useEffect(() => {
   
       alert("Review added successfully!");
   
-      // Yorumları yenile
+      // Refresh reviews
       fetchReviews();
     } catch (err) {
       console.error("Error adding review:", err);
@@ -298,7 +297,7 @@ useEffect(() => {
                       </button>
                       <div className="menu-button">
                         
-                                  {/* Kullanıcı giriş yapmışsa points'i göster */}
+                                  {/* Show points if user is logged in */}
                                   {points !== null && (
                                     <div className={styles.button}>
                                       {`Points: ${points}`}
