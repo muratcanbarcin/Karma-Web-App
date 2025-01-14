@@ -56,6 +56,31 @@ const EditAccommodation = () => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
+  const handleDeleteAccommodation = async () => {
+    try {
+        const token = localStorage.getItem("token");
+        await axios.delete(`http://localhost:3000/api/accommodations/${id}`, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+
+        alert("Accommodation deleted successfully!");
+        navigate("/myaccount");
+    } catch (err) {
+        console.error("Error deleting accommodation:", err.response?.data || err);
+
+        if (err.response && err.response.data) {
+            const { error, details } = err.response.data;
+            // Display detailed error message if available
+            if (details) {
+                setError(`${error}: ${details}`);
+            } else {
+                setError(error); // If no details, just show the error
+            }
+        } else {
+            setError("An unexpected error occurred. Please try again later.");
+        }
+    }
+};
 
   const handleAmenitiesChange = (name, value) => {
     setForm({
@@ -127,7 +152,6 @@ const EditAccommodation = () => {
         </button>
       </nav>
       <h2 className="form-title">Edit Accommodation</h2>
-      {error && <p className="error-message">{error}</p>}
       <form onSubmit={handleSubmit} className="add-accommodation-form">
         {/* Title */}
         <div className="form-group">
@@ -245,25 +269,33 @@ const EditAccommodation = () => {
             dateFormat="yyyy-MM-dd"
           />
           <div className="selected-dates">
-            {form.AvailableDates.map((date) => (
-              <div key={date} className="date-item">
-                {date}
-                <button
-                  type="button"
-                  onClick={() => removeDate(date)}
-                  className="remove-date-button"
-                >
-                  &times;
-                </button>
-              </div>
-            ))}
+          {form.AvailableDates.map((date, index) => (
+    <div key={`${date}-${index}`} className="date-item">
+        {date}
+        <button
+            type="button"
+            onClick={() => removeDate(date)}
+            className="remove-date-button"
+        >
+            &times;
+        </button>
+    </div>
+))}
+
           </div>
         </div>
 
         {/* Submit */}
-        <button type="submit" className="submit-button">
-          Save Changes
-        </button>
+        <button type="submit" className="submit-button">Save Changes</button>
+          <button
+            type="button"
+            className="delete-button"
+            onClick={handleDeleteAccommodation}
+          >
+            Delete Accommodation
+          </button>
+          {error && <p className="error-message">{error}</p>}
+
       </form>
     </div>
   );

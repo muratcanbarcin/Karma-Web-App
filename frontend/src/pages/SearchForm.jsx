@@ -2,14 +2,41 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./SearchForm.css";
+import styles from "./Karmaacom.module.css";
+
 
 const SearchForm = () => {
   const [location, setLocation] = useState("");
   const [minCost, setMinCost] = useState(0);
   const [maxCost, setMaxCost] = useState(2000);
   const [results, setResults] = useState([]);
-  const navigate = useNavigate();
+  const [points, setPoints] = useState(null); // Points bilgisini tutuyoruz
 
+  const navigate = useNavigate();
+  const handleMinCostChange = (e) => {
+    const value = e.target.value;
+  
+    // Eğer başta 0 varsa ve yanına sayı eklenmişse sıfırı kaldır
+    if (value.length > 1 && value.startsWith("0")) {
+      setMinCost(value.substring(1)); // İlk karakteri kaldır
+    } else {
+      setMinCost(value); // Normal değeri ayarla
+    }
+  };
+  
+  const handleMaxCostChange = (e) => {
+    const value = e.target.value;
+  
+    // Eğer başta 0 varsa ve yanına sayı eklenmişse sıfırı kaldır
+    if (value.length > 1 && value.startsWith("0")) {
+      setMaxCost(value.substring(1)); // İlk karakteri kaldır
+    } else {
+      setMaxCost(value); // Normal değeri ayarla
+    }
+  };
+  
+  
+  
   useEffect(() => {
     const fetchAllAccommodations = async () => {
       try {
@@ -20,6 +47,28 @@ const SearchForm = () => {
       }
     };
     fetchAllAccommodations();
+  }, []);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      // Eğer token varsa, points bilgisi çekilir
+      fetch("http://localhost:3000/api/users/points", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Failed to fetch points.");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setPoints(data.pointsBalance); // Points bilgisini state'e kaydet
+        })
+        .catch((error) => {
+          console.error("Error fetching points balance:", error);
+        });
+    }
   }, []);
 
   const handleSearch = async () => {
@@ -38,39 +87,57 @@ const SearchForm = () => {
     <div>
       <nav className="menu-bar">
         <img src="/treehouse-1@2x.png" alt="Logo" className="menu-logo" />
+        <div className="menu-button">
+                    {/* Kullanıcı giriş yapmışsa points'i göster */}
+                    {points !== null && (
+                      <div className={styles.button}>
+                        {`Points: ${points}`}
+                      </div>
+                    )}
+          </div>
+
         <button className="menu-button" onClick={() => navigate("/")}>
           Go to Home
         </button>
       </nav>
       <div className="search-container">
-        <h1>Live Like A Local</h1>
-        <div className="search-form">
-          <label>
-            Location:
-            <input
-              type="text"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-            />
-          </label>
-          <label>
-            Min Cost:
-            <input
-              type="number"
-              value={minCost}
-              onChange={(e) => setMinCost(Number(e.target.value))}
-            />
-          </label>
-          <label>
-            Max Cost:
-            <input
-              type="number"
-              value={maxCost}
-              onChange={(e) => setMaxCost(Number(e.target.value))}
-            />
-          </label>
-          <button onClick={handleSearch}>Search</button>
-        </div>
+  <h1 className="search-title">Find Your Perfect Stay</h1>
+  <div className="search-form">
+    <label htmlFor="location">
+      Location
+      <input
+        id="location"
+        type="text"
+        value={location}
+        onChange={(e) => setLocation(e.target.value)}
+        placeholder="Enter a location..."
+      />
+    </label>
+    <label htmlFor="min-cost">
+      Min Cost
+      <input
+        id="min-cost"
+        type="number"
+        value={minCost}
+        onChange={handleMinCostChange}
+        placeholder="Min cost..."
+      />
+    </label>
+    <label htmlFor="max-cost">
+      Max Cost
+      <input
+        id="max-cost"
+        type="number"
+        value={maxCost}
+        onChange={handleMaxCostChange}
+        placeholder="Max cost..."
+      />
+    </label>
+    <button onClick={handleSearch}>Search</button>
+  </div>
+
+
+
 
         <div className="results">
           {results.length > 0 ? (

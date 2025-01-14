@@ -127,6 +127,41 @@ router.post("/add", async (req, res) => {
     res.status(500).json({ error: "Server error", details: err.message });
   }
 });
+router.get("/random", async (req, res) => {
+  try {
+    const limit = parseInt(req.query.limit, 10) || 5;
+
+    // Mevcut görsellerin yollarını belirleyin
+    const images = [
+      "http://localhost:5173/mask-group@2x.png",
+      "http://localhost:5173/mask-group-1@2x.png",
+      "http://localhost:5173/mask-group-2@2x.png",
+      "http://localhost:5173/mask-group-3@2x.png",
+      "http://localhost:5173/mask-group-4@2x.png",
+      "http://localhost:5173/mask-group-5@2x.png",
+    ];
+
+    const query = `
+      SELECT AccommodationID, Title, Location, DailyPointCost, Description
+      FROM Accommodations
+      ORDER BY RAND()
+      LIMIT ?
+    `;
+    const [results] = await pool.query(query, [limit]);
+
+    // Görselleri sonuçlara rastgele ata
+    const accommodations = results.map((row, index) => ({
+      ...row,
+      image: images[index % images.length], // Görselleri sırayla kullan
+    }));
+
+    res.status(200).json(accommodations);
+  } catch (err) {
+    console.error("Error fetching random accommodations:", err.message);
+    res.status(500).json({ error: "Failed to fetch accommodations." });
+  }
+});
+
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
   const token = req.headers.authorization?.split(" ")[1];
@@ -285,6 +320,136 @@ router.get("/:id/average-rating", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch average rating." });
   }
 });
+
+router.delete("/:id", async (req, res) => {
+  const { id } = req.params;
+  const token = req.headers.authorization?.split(" ")[1];
+
+  if (!token) {
+      return res.status(401).json({ error: "Authorization token is required" });
+  }
+
+  try {
+      const decoded = jwt.verify(token, SECRET_KEY);
+      const userID = decoded.userID;
+
+      // Check if the accommodation belongs to the user
+      const checkQuery = `SELECT UserID FROM Accommodations WHERE AccommodationID = ?`;
+      const [checkRows] = await pool.query(checkQuery, [id]);
+
+      if (checkRows.length === 0) {
+          return res.status(404).json({ error: "Accommodation not found." });
+      }
+
+      if (checkRows[0].UserID !== userID) {
+          return res.status(403).json({ error: "You are not authorized to delete this accommodation." });
+      }
+
+      // Check associated bookings
+      const bookingsQuery = `
+          SELECT BookingID, EndDate, Status
+          FROM Bookings
+          WHERE AccommodationID = ?
+      `;
+      const [bookings] = await pool.query(bookingsQuery, [id]);
+
+      // Ensure all bookings are either cancelled or have passed
+      const now = new Date();
+      const canDelete = bookings.every((booking) => {
+          const endDate = new Date(booking.EndDate);
+          return booking.Status === "Cancelled" || endDate < now;
+      });
+
+      if (!canDelete) {
+        return res.status(400).json({
+            error: "Accommodation cannot be deleted",
+            details: "It has active or future bookings.",
+        });
+    }
+    
+
+      // Proceed with the deletion of the accommodation
+      const deleteAccommodationQuery = `
+          DELETE FROM Accommodations
+          WHERE AccommodationID = ? AND UserID = ?
+      `;
+      await pool.query(deleteAccommodationQuery, [id, userID]);
+
+      res.status(200).json({ message: "Accommodation deleted successfully!" });
+  } catch (err) {
+      console.error("Error deleting accommodation:", err);
+      res.status(500).json({ error: "Internal server error", details: err.message });
+  }
+});
+router.post("/:id/bookings", async (req, res) => {
+  const token = req.headers.authorization?.split(" ")[1];
+  const { id } = req.params;
+  const { startDate, endDate } = req.body;
+
+  if (!token) {
+      return res.status(401).json({ error: "Authorization token is required" });
+  }
+
+  try {
+      const decoded = jwt.verify(token, SECRET_KEY);
+      const guestID = decoded.userID;
+
+      const accommodationQuery = `SELECT DailyPointCost, UserID FROM Accommodations WHERE AccommodationID = ?`;
+      const [accommodation] = await pool.query(accommodationQuery, [id]);
+
+      if (accommodation.length === 0) {
+          return res.status(404).json({ error: "Accommodation not found" });
+      }
+
+      const { DailyPointCost, UserID: hostID } = accommodation[0];
+      const totalDays = Math.ceil((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24)) + 1;
+      const totalPointsUsed = totalDays * DailyPointCost;
+
+      const guestQuery = `SELECT PointsBalance FROM Users WHERE UserID = ?`;
+      const [guest] = await pool.query(guestQuery, [guestID]);
+
+      if (guest[0].PointsBalance < totalPointsUsed) {
+          return res.status(400).json({ error: "Insufficient points." });
+      }
+
+      await pool.query("START TRANSACTION");
+      try {
+      const bookingQuery = `
+          INSERT INTO Bookings (GuestID, HostID, AccommodationID, StartDate, EndDate, TotalPointsUsed, Status)
+          VALUES (?, ?, ?, ?, ?, ?, 'Pending')
+      `;
+      const [bookingResult] = await pool.query(bookingQuery, [guestID, hostID, id, startDate, endDate, totalPointsUsed]);
+
+      const updateGuestPoints = `UPDATE Users SET PointsBalance = PointsBalance - ? WHERE UserID = ?`;
+      const updateHostPoints = `UPDATE Users SET PointsBalance = PointsBalance + ? WHERE UserID = ?`;
+
+      await pool.query(updateGuestPoints, [totalPointsUsed, guestID]);
+      await pool.query(updateHostPoints, [totalPointsUsed, hostID]);
+
+      const transactionQuery = `
+          INSERT INTO PointTransactions (UserID, TransactionType, Points, Description, ReviewImpact)
+          VALUES (?, 'Spent', ?, 'Accommodation Booking', '{"reviewScore": 5, "totalReviews": 10}')
+      `;
+      await pool.query(transactionQuery, [guestID, totalPointsUsed]);
+
+      await pool.query("COMMIT");
+
+      res.status(201).json({ message: "Booking created successfully.", bookingID: bookingResult.insertId });
+    } catch (error) {
+            await pool.query("ROLLBACK");
+            console.error("Transaction failed:", error);
+            res.status(500).json({ error: "Reservation failed." });
+          }
+        } catch (err) {
+          console.error("Error creating booking:", err);
+          res.status(500).json({ error: "Internal server error" });
+        }
+      });
+    
+
+
+
+
 
 
 

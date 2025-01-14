@@ -7,6 +7,7 @@ import AuthForm from "./pages/AuthForm";
 import MyAccount from "./pages/MyAccount";
 import AddAccommodation from "./pages/AddAccommodation";
 import EditAccommodation from "./pages/EditAccommodation";
+import UserProfile from "./pages/UserProfile";
 import {jwtDecode} from "jwt-decode"; // JWT token'ı doğrulamak için
 
 // Kullanıcının giriş yapıp yapmadığını kontrol eden bir fonksiyon
@@ -100,6 +101,8 @@ function App() {
         />
         <Route path="/edit-accommodation/:id" element={<EditAccommodation />} />
          <Route path="/myaccount/addaccommodations" element={<AddAccommodation />} />
+         <Route path="/user/:userId" element={<UserProfile />} />
+
 
       </Routes>
   );

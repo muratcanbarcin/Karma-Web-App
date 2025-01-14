@@ -8,24 +8,25 @@ body {
   padding: 20px;
   text-align: center;
 }
-
 .search-form {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin-bottom: 20px;
+  align-items: center;
+  gap: 64px; /* Space between the elements */
 }
 
 .search-form label {
   display: flex;
   flex-direction: column;
   font-weight: bold;
+  text-align: left; /* Align labels to the left */
 }
 
 .search-form input {
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  width: 150px; /* Adjust the width as needed */
 }
 
 .search-form button {
@@ -138,4 +139,9 @@ body {
 .menu-button:hover {
   background-color: #036b42;
   color: white;
+}
+.rightNav {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* POINTS ve My Account arasında boşluk */
 }

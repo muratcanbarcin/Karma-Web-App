@@ -14,10 +14,45 @@
   border-radius: 10px;
   margin: 20px 0;
 }
+.menu-bar {
+  width: 100%;
+  background-color: #048853;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+.menu-logo {
+  height: 40px;
+  /* Logo yüksekliğini sınırlıyoruz */
+  width: auto;
+  /* Oranını koruyoruz */
+  margin-right: 10px;
+}
+.menu-button {
+  background-color: white;
+  color: #048853;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.menu-button:hover {
+  background-color: #036b42;
+  color: white;
+}
 
 .back-button {
-  background-color: #048853;
-  color: #fff;
+  background-color: white;
+  color: #048853;
   border: none;
   border-radius: 5px;
   padding: 10px 20px;
@@ -114,6 +149,19 @@
   font-size: 1.5rem;
   color: #048853;
   font-weight: bold;
+}
+.reservation-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.reservation-button:hover {
+  background-color: #45a049;
 }
 
 .reservation-button {
