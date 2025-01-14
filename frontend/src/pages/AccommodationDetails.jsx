@@ -118,30 +118,58 @@ const AccommodationDetails = () => {
   };
 
   const handleReservation = async (selectedDate) => {
+    console.log("Reservation Payload:", {
+      startDate: selectedDate,
+      endDate: selectedDate,
+    }); // Log the reservation payload for debugging
+  
     if (!localStorage.getItem("token")) {
       alert("You need to log in to make a reservation.");
       navigate("/AuthForm");
       return;
     }
-    const confirmation = window.confirm("Are you sure you want to reserve this date?");
+  
+    const confirmation = window.confirm(
+      "Are you sure you want to reserve this date?"
+    );
     if (!confirmation) return;
+  
     const token = localStorage.getItem("token");
-
+  
     try {
+      // Make the API call to create a reservation
       const response = await axios.post(
         `http://localhost:3000/api/accommodations/${accommodation.AccommodationID}/bookings`,
         {
           startDate: selectedDate,
-          endDate: selectedDate,
+          endDate: selectedDate, // In case you allow multi-day bookings later
         },
-        { headers: { Authorization: `Bearer ${token}` } }
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
-      
+  
+      console.log("Reservation Response:", response); // Log the server response
+  
+      // Alert the user of a successful reservation
       alert("Reservation successful!");
+  
+      // Update the local state to remove the reserved date
+      setAccommodation((prevState) => ({
+        ...prevState,
+        AvailableDates: prevState.AvailableDates.filter(
+          (date) => date !== selectedDate
+        ),
+      }));
     } catch (error) {
+      // Log the error for debugging
+      console.error("Reservation Error:", error.response?.data || error);
+  
+      // Show an error message to the user
       alert(error.response?.data?.error || "Reservation failed.");
     }
   };
+  
 
   return (
     <div className="details-container">

@@ -463,75 +463,122 @@ router.delete("/:id", async (req, res) => {
       res.status(500).json({ error: "Internal server error", details: err.message });
   }
 });
-
-
-
 router.post("/:id/bookings", async (req, res) => {
-  const token = req.headers.authorization?.split(" ")[1];
-  const { id } = req.params;
-  const { startDate, endDate } = req.body;
+  const token = req.headers.authorization?.split(" ")[1]; // Extract the token
+  const { id } = req.params; // Accommodation ID
+  const { startDate, endDate } = req.body; // Dates from the request body
+
+  // Debug logs
+  console.log("Debug: Token -", token);
+  console.log("Debug: Params -", id);
+  console.log("Debug: Body -", req.body);
 
   if (!token) {
-      return res.status(401).json({ error: "Authorization token is required" });
+    return res.status(401).json({ error: "Authorization token is required" });
   }
 
   try {
-      const decoded = jwt.verify(token, SECRET_KEY);
-      const guestID = decoded.userID;
+    const decoded = jwt.verify(token, SECRET_KEY);
+    console.log("Debug: Decoded Token -", decoded);
 
-      const accommodationQuery = `SELECT DailyPointCost, UserID FROM Accommodations WHERE AccommodationID = ?`;
-      const [accommodation] = await pool.query(accommodationQuery, [id]);
+    const guestID = decoded.userID; // Extract guest ID from the token
 
-      if (accommodation.length === 0) {
-          return res.status(404).json({ error: "Accommodation not found" });
-      }
+    // Query the accommodation details
+    const accommodationQuery = `SELECT DailyPointCost, UserID, AvailableDates FROM Accommodations WHERE AccommodationID = ?`;
+    const [accommodation] = await pool.query(accommodationQuery, [id]);
 
-      const { DailyPointCost, UserID: hostID } = accommodation[0];
-      const totalDays = Math.ceil((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24)) + 1;
-      const totalPointsUsed = totalDays * DailyPointCost;
+    console.log("Debug: Accommodation Query Result -", accommodation);
 
-      const guestQuery = `SELECT PointsBalance FROM Users WHERE UserID = ?`;
-      const [guest] = await pool.query(guestQuery, [guestID]);
+    if (accommodation.length === 0) {
+      return res.status(404).json({ error: "Accommodation not found" });
+    }
 
-      if (guest[0].PointsBalance < totalPointsUsed) {
-          return res.status(400).json({ error: "Insufficient points." });
-      }
+    const { DailyPointCost, UserID: hostID, AvailableDates } = accommodation[0];
+    console.log("Debug: Raw AvailableDates -", AvailableDates);
 
-      await pool.query("START TRANSACTION");
-      try {
+    // AvailableDates is already an array, no need to parse
+    const availableDates = AvailableDates;
+
+    // Ensure AvailableDates is an array
+    if (!Array.isArray(availableDates)) {
+      console.error("Error: AvailableDates is not an array", availableDates);
+      return res.status(500).json({ error: "AvailableDates is not in the expected format." });
+    }
+
+    // Check if the selected date is available
+    if (!availableDates.includes(startDate)) {
+      return res.status(400).json({ error: "Selected date is not available." });
+    }
+
+    // Calculate the total points required
+    const totalDays = Math.ceil(
+      (new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24)
+    ) + 1;
+    const totalPointsUsed = totalDays * DailyPointCost;
+
+    // Query guest's points balance
+    const guestQuery = `SELECT PointsBalance FROM Users WHERE UserID = ?`;
+    const [guest] = await pool.query(guestQuery, [guestID]);
+
+    console.log("Debug: Guest Query Result -", guest);
+
+    // Check if the guest has enough points
+    if (guest[0].PointsBalance < totalPointsUsed) {
+      return res.status(400).json({ error: "Insufficient points." });
+    }
+
+    // Begin transaction
+    await pool.query("START TRANSACTION");
+
+    try {
+      // Create the booking
       const bookingQuery = `
-          INSERT INTO Bookings (GuestID, HostID, AccommodationID, StartDate, EndDate, TotalPointsUsed, Status)
-          VALUES (?, ?, ?, ?, ?, ?, 'Pending')
+        INSERT INTO Bookings (GuestID, HostID, AccommodationID, StartDate, EndDate, TotalPointsUsed, Status)
+        VALUES (?, ?, ?, ?, ?, ?, 'Pending')
       `;
-      const [bookingResult] = await pool.query(bookingQuery, [guestID, hostID, id, startDate, endDate, totalPointsUsed]);
+      const [bookingResult] = await pool.query(bookingQuery, [
+        guestID,
+        hostID,
+        id,
+        startDate,
+        endDate,
+        totalPointsUsed,
+      ]);
+      console.log("Debug: Booking Result -", bookingResult);
 
+      // Update guest and host points
       const updateGuestPoints = `UPDATE Users SET PointsBalance = PointsBalance - ? WHERE UserID = ?`;
       const updateHostPoints = `UPDATE Users SET PointsBalance = PointsBalance + ? WHERE UserID = ?`;
 
       await pool.query(updateGuestPoints, [totalPointsUsed, guestID]);
       await pool.query(updateHostPoints, [totalPointsUsed, hostID]);
 
-      const transactionQuery = `
-          INSERT INTO PointTransactions (UserID, TransactionType, Points, Description, ReviewImpact)
-          VALUES (?, 'Spent', ?, 'Accommodation Booking', '{"reviewScore": 5, "totalReviews": 10}')
-      `;
-      await pool.query(transactionQuery, [guestID, totalPointsUsed]);
+      // Remove the reserved date from AvailableDates
+      const updatedDates = availableDates.filter((date) => date !== startDate);
+      console.log("Debug: Updated Dates -", updatedDates);
 
+      const updateDatesQuery = `UPDATE Accommodations SET AvailableDates = ? WHERE AccommodationID = ?`;
+      await pool.query(updateDatesQuery, [JSON.stringify(updatedDates), id]);
+
+      // Commit transaction
       await pool.query("COMMIT");
 
-      res.status(201).json({ message: "Booking created successfully.", bookingID: bookingResult.insertId });
-    } catch (error) {
-            await pool.query("ROLLBACK");
-            console.error("Transaction failed:", error);
-            res.status(500).json({ error: "Reservation failed." });
-          }
-        } catch (err) {
-          console.error("Error creating booking:", err);
-          res.status(500).json({ error: "Internal server error" });
-        }
+      // Respond with success
+      res.status(201).json({
+        message: "Booking created successfully.",
+        bookingID: bookingResult.insertId,
       });
-  
-      
+    } catch (error) {
+      // Rollback transaction in case of error
+      await pool.query("ROLLBACK");
+      console.error("Transaction failed:", error);
+      res.status(500).json({ error: "Reservation failed." });
+    }
+  } catch (error) {
+    console.error("Error creating booking:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 
 
