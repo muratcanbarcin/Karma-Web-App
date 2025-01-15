@@ -1003,5 +1003,13 @@ MODIFY CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP; -- CreatedAt varsayılan za
 ALTER TABLE bookings
 MODIFY UpdatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP; -- UpdatedAt otomatik güncelleme
 
+UPDATE Bookings
+SET HostID = (
+    SELECT UserID
+    FROM Accommodations
+    WHERE Accommodations.AccommodationID = Bookings.AccommodationID
+);
+
+ALTER TABLE Bookings MODIFY COLUMN Status ENUM('Pending', 'Confirmed', 'Cancelled', 'Rejected');
 
     

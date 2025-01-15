@@ -11,12 +11,10 @@ C:.
 |   |   index.js
 |   |   package-lock.json
 |   |   package.json
-|   |   testDbConnection.js
 |   |   
 |   +---database
 |   |       connection.js
-|   |  
-|   |           
+|   |      
 |   \---routes
 |           accommodations.js
 |           users.js
@@ -30,7 +28,6 @@ C:.
 |       
 \---frontend
     |   .gitignore
-    |   global.css
     |   index.html
     |   package-lock.json
     |   package.json
@@ -53,6 +50,7 @@ C:.
     |       dashiconsarrowdownalt2.svg
     |       evaarrowiosforwardfill.svg
     |       fasolidbath.svg
+    |       favicon.ico
     |       fluentglobesurface20filled-2.svg
     |       fluentglobesurface20filled.svg
     |       greeninteriormoderninteriorlivingroomstylewithsoftsofagreenwall3drendering-2@2x.png
@@ -83,7 +81,6 @@ C:.
     |       vector-4.svg
     |       vector-5.svg
     |       vector.svg
-    |       vite.svg
     |       
     \---src
         |   App.jsx
@@ -91,28 +88,22 @@ C:.
         |   index.jsx
         |   reportWebVitals.jsx
         |   
-        +---pages
-        |       AccommodationDetails.css
-        |       AccommodationDetails.jsx
-        |       AddAccommodation.css
-        |       AddAccommodation.jsx
-        |       AuthForm.css
-        |       AuthForm.jsx
-        |       EditAccommodation.jsx
-        |       Karmaacom.jsx
-        |       Karmaacom.module.css
-        |       MyAccount.css
-        |       MyAccount.jsx
-        |       Recommendations.css
-        |       Recommendations.jsx
-        |       SearchForm.css
-        |       SearchForm.jsx
-        |       UserProfile.jsx
-        |       UserProfile.module.css
-        |       
-        \---screens
-            \---KarmaaCom
-                    index.js
-                    KarmaaCom.jsx
-                    style.css
-                    
+        \---pages
+                AccommodationDetails.css
+                AccommodationDetails.jsx
+                AddAccommodation.css
+                AddAccommodation.jsx
+                AuthForm.css
+                AuthForm.jsx
+                EditAccommodation.jsx
+                Karmaacom.jsx
+                Karmaacom.module.css
+                MyAccount.css
+                MyAccount.jsx
+                Recommendations.css
+                Recommendations.jsx
+                SearchForm.css
+                SearchForm.jsx
+                UserProfile.jsx
+                UserProfile.module.css
+                
