@@ -5,7 +5,7 @@ require('dotenv').config(); // .env dosyasından veritabanı bilgilerini alır
 const pool = mysql.createPool({
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || 'Mcb789321@',
+    password: process.env.DB_PASSWORD || 'sarp1212',
     database: process.env.DB_NAME || 'karmadb',
     port: process.env.DB_PORT || 3306,
     waitForConnections: true,

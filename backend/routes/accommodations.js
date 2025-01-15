@@ -1,28 +1,23 @@
 const express = require("express");
 const router = express.Router();
 const pool = require("../database/connection");
-const jwt = require('jsonwebtoken'); // Eksik olan import
+const jwt = require('jsonwebtoken'); 
 const SECRET_KEY = "your_secret_key";
-
 
 router.get("/myAccommodations", async (req, res) => {
   try {
-    // Token kontrolü
     const token = req.headers.authorization?.split(" ")[1];
     if (!token) {
       return res.status(401).json({ error: "Authorization token is required" });
     }
 
-    // Token çözümleme
     const decoded = jwt.verify(token, SECRET_KEY);
     const userID = decoded.userID;
-    
 
     if (!userID) {
       return res.status(400).json({ error: "UserID not found in token." });
     }
 
-    // Veritabanı sorgusu
     const query = `
       SELECT AccommodationID, Title, Description, Location, DailyPointCost
       FROM Accommodations
@@ -69,26 +64,15 @@ router.post("/search", async (req, res) => {
   }
 });
 
-
-
-
-
-
-
-
-
-
 router.post("/add", async (req, res) => {
   try {
-
     const token = req.headers.authorization?.split(" ")[1];
     if (!token) {
       return res.status(401).json({ error: "Authorization token is required" });
     }
 
     const decoded = jwt.verify(token, SECRET_KEY);
-
-    const userID = decoded.userID; // `userID` buradan alınacak
+    const userID = decoded.userID;
 
     if (!userID) {
       console.error("UserID missing in token");
@@ -127,11 +111,11 @@ router.post("/add", async (req, res) => {
     res.status(500).json({ error: "Server error", details: err.message });
   }
 });
+
 router.get("/random", async (req, res) => {
   try {
     const limit = parseInt(req.query.limit, 10) || 5;
 
-    // Mevcut görsellerin yollarını belirleyin
     const images = [
       "http://localhost:5173/mask-group@2x.png",
       "http://localhost:5173/mask-group-1@2x.png",
@@ -149,10 +133,9 @@ router.get("/random", async (req, res) => {
     `;
     const [results] = await pool.query(query, [limit]);
 
-    // Görselleri sonuçlara rastgele ata
     const accommodations = results.map((row, index) => ({
       ...row,
-      image: images[index % images.length], // Görselleri sırayla kullan
+      image: images[index % images.length],
     }));
 
     res.status(200).json(accommodations);
@@ -170,7 +153,7 @@ router.get("/:id", async (req, res) => {
   try {
     if (token) {
       const decoded = jwt.verify(token, SECRET_KEY);
-      currentUserID = decoded.userID; // Token'dan kullanıcı ID'sini al
+      currentUserID = decoded.userID;
     }
 
     const query = `
@@ -185,9 +168,8 @@ router.get("/:id", async (req, res) => {
     }
 
     const accommodation = rows[0];
-    accommodation.image = "/105m2_934x700.webp"; // Varsayılan görsel ekle
+    accommodation.image = "/105m2_934x700.webp"; 
 
-    // Ekstra bir alan ekliyoruz: Kullanıcı bu konaklamanın sahibi mi?
     accommodation.isOwner = accommodation.UserID === currentUserID;
 
     res.status(200).json(accommodation);
@@ -196,8 +178,6 @@ router.get("/:id", async (req, res) => {
     res.status(500).json({ error: "Database query failed", details: err.message });
   }
 });
-
-
 
 router.get("/", async (req, res) => {
   try {
@@ -217,6 +197,7 @@ router.get("/", async (req, res) => {
     res.status(500).json({ error: "Database query failed", details: err.message });
   }
 });
+
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
   const token = req.headers.authorization?.split(" ")[1];
@@ -229,7 +210,6 @@ router.put("/:id", async (req, res) => {
     const decoded = jwt.verify(token, SECRET_KEY);
     const userID = decoded.userID;
 
-    // Kullanıcının bu konaklamanın sahibi olup olmadığını kontrol et
     const checkQuery = `SELECT UserID FROM Accommodations WHERE AccommodationID = ?`;
     const [checkRows] = await pool.query(checkQuery, [id]);
 
@@ -277,7 +257,6 @@ router.put("/:id", async (req, res) => {
 });
 
 router.get("/:id/reviews", async (req, res) => {
-  console.log(`Fetching reviews for accommodation ID: ${req.params.id}`);
   const { id } = req.params;
 
   try {
@@ -289,7 +268,6 @@ router.get("/:id/reviews", async (req, res) => {
       WHERE b.AccommodationID = ?
     `;
     const [reviews] = await pool.query(query, [id]);
-    console.log("Fetched reviews:", reviews);
 
     res.status(200).json(reviews);
   } catch (err) {
@@ -299,7 +277,6 @@ router.get("/:id/reviews", async (req, res) => {
 });
 
 router.get("/:id/average-rating", async (req, res) => {
-  console.log(`Received request for average rating of accommodation ID: ${req.params.id}`);
   const { id } = req.params;
 
   try {
@@ -311,9 +288,7 @@ router.get("/:id/average-rating", async (req, res) => {
     `;
     const [result] = await pool.query(query, [id]);
 
-    const averageRating = result[0]?.AverageRating || 0; // Eğer sonuç yoksa 0 döndür
-    console.log("Average Rating Result:", result);
-
+    const averageRating = result[0]?.AverageRating || 0; 
     res.status(200).json({ averageRating });
   } catch (err) {
     console.error("Error fetching average rating:", err.message);
@@ -333,7 +308,6 @@ router.delete("/:id", async (req, res) => {
       const decoded = jwt.verify(token, SECRET_KEY);
       const userID = decoded.userID;
 
-      // Check if the accommodation belongs to the user
       const checkQuery = `SELECT UserID FROM Accommodations WHERE AccommodationID = ?`;
       const [checkRows] = await pool.query(checkQuery, [id]);
 
@@ -345,7 +319,6 @@ router.delete("/:id", async (req, res) => {
           return res.status(403).json({ error: "You are not authorized to delete this accommodation." });
       }
 
-      // Check associated bookings
       const bookingsQuery = `
           SELECT BookingID, EndDate, Status
           FROM Bookings
@@ -353,7 +326,6 @@ router.delete("/:id", async (req, res) => {
       `;
       const [bookings] = await pool.query(bookingsQuery, [id]);
 
-      // Ensure all bookings are either cancelled or have passed
       const now = new Date();
       const canDelete = bookings.every((booking) => {
           const endDate = new Date(booking.EndDate);
@@ -361,14 +333,12 @@ router.delete("/:id", async (req, res) => {
       });
 
       if (!canDelete) {
-        return res.status(400).json({
-            error: "Accommodation cannot be deleted",
-            details: "It has active or future bookings.",
-        });
-    }
-    
+          return res.status(400).json({
+              error: "Accommodation cannot be deleted",
+              details: "It has active or future bookings.",
+          });
+      }
 
-      // Proceed with the deletion of the accommodation
       const deleteAccommodationQuery = `
           DELETE FROM Accommodations
           WHERE AccommodationID = ? AND UserID = ?
@@ -377,10 +347,11 @@ router.delete("/:id", async (req, res) => {
 
       res.status(200).json({ message: "Accommodation deleted successfully!" });
   } catch (err) {
-      console.error("Error deleting accommodation:", err);
+      console.error("Error deleting accommodation:", err.message);
       res.status(500).json({ error: "Internal server error", details: err.message });
   }
 });
+
 router.post("/:id/bookings", async (req, res) => {
   const token = req.headers.authorization?.split(" ")[1];
   const { id } = req.params;
@@ -414,47 +385,36 @@ router.post("/:id/bookings", async (req, res) => {
 
       await pool.query("START TRANSACTION");
       try {
-      const bookingQuery = `
-          INSERT INTO Bookings (GuestID, HostID, AccommodationID, StartDate, EndDate, TotalPointsUsed, Status)
-          VALUES (?, ?, ?, ?, ?, ?, 'Pending')
-      `;
-      const [bookingResult] = await pool.query(bookingQuery, [guestID, hostID, id, startDate, endDate, totalPointsUsed]);
+          const bookingQuery = `
+              INSERT INTO Bookings (GuestID, HostID, AccommodationID, StartDate, EndDate, TotalPointsUsed, Status)
+              VALUES (?, ?, ?, ?, ?, ?, 'Pending')
+          `;
+          const [bookingResult] = await pool.query(bookingQuery, [guestID, hostID, id, startDate, endDate, totalPointsUsed]);
 
-      const updateGuestPoints = `UPDATE Users SET PointsBalance = PointsBalance - ? WHERE UserID = ?`;
-      const updateHostPoints = `UPDATE Users SET PointsBalance = PointsBalance + ? WHERE UserID = ?`;
+          const updateGuestPoints = `UPDATE Users SET PointsBalance = PointsBalance - ? WHERE UserID = ?`;
+          const updateHostPoints = `UPDATE Users SET PointsBalance = PointsBalance + ? WHERE UserID = ?`;
 
-      await pool.query(updateGuestPoints, [totalPointsUsed, guestID]);
-      await pool.query(updateHostPoints, [totalPointsUsed, hostID]);
+          await pool.query(updateGuestPoints, [totalPointsUsed, guestID]);
+          await pool.query(updateHostPoints, [totalPointsUsed, hostID]);
 
-      const transactionQuery = `
-          INSERT INTO PointTransactions (UserID, TransactionType, Points, Description, ReviewImpact)
-          VALUES (?, 'Spent', ?, 'Accommodation Booking', '{"reviewScore": 5, "totalReviews": 10}')
-      `;
-      await pool.query(transactionQuery, [guestID, totalPointsUsed]);
+          const transactionQuery = `
+              INSERT INTO PointTransactions (UserID, TransactionType, Points, Description, ReviewImpact)
+              VALUES (?, 'Spent', ?, 'Accommodation Booking', '{"reviewScore": 5, "totalReviews": 10}')
+          `;
+          await pool.query(transactionQuery, [guestID, totalPointsUsed]);
 
-      await pool.query("COMMIT");
+          await pool.query("COMMIT");
 
-      res.status(201).json({ message: "Booking created successfully.", bookingID: bookingResult.insertId });
-    } catch (error) {
-            await pool.query("ROLLBACK");
-            console.error("Transaction failed:", error);
-            res.status(500).json({ error: "Reservation failed." });
-          }
-        } catch (err) {
-          console.error("Error creating booking:", err);
-          res.status(500).json({ error: "Internal server error" });
-        }
-      });
-    
-
-
-
-
-
-
-
-
-
-
+          res.status(201).json({ message: "Booking created successfully.", bookingID: bookingResult.insertId });
+      } catch (error) {
+          await pool.query("ROLLBACK");
+          console.error("Transaction failed:", error);
+          res.status(500).json({ error: "Reservation failed." });
+      }
+  } catch (err) {
+      console.error("Error creating booking:", err);
+      res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 module.exports = router;
