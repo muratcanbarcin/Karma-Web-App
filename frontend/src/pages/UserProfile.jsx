@@ -4,12 +4,18 @@ import styles from "./UserProfile.module.css"; // CSS module for modern styling
 
 const UserProfile = () => {
   const { userId } = useParams(); // Extract userId from the URL
+  console.log("Fetched userId:", userId); // Debugging
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch user data when the component mounts or userId changes
   useEffect(() => {
+    if (!userId) {
+      setError("User ID is undefined. Please check the URL or routing configuration.");
+      setLoading(false);
+      return;
+    }
+
     const fetchUserData = async () => {
       try {
         const token = localStorage.getItem("token");
@@ -31,7 +37,7 @@ const UserProfile = () => {
         setUserData(data);
         setLoading(false);
       } catch (err) {
-        console.error(err);
+        console.error("Error fetching user data:", err);
         setError("An error occurred while fetching user data.");
         setLoading(false);
       }
@@ -40,10 +46,8 @@ const UserProfile = () => {
     fetchUserData();
   }, [userId]);
 
-  // Display loading state
   if (loading) return <div className={styles.loading}>Loading...</div>;
 
-  // Display error message if there is an error
   if (error) return <div className={styles.error}>{error}</div>;
 
   return (

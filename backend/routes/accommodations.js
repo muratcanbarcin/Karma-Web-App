@@ -567,17 +567,26 @@ router.delete("/:id", async (req, res) => {
       const [bookings] = await pool.query(bookingsQuery, [id]);
 
       const now = new Date();
+      const hasConfirmedBookings = bookings.some((booking) => booking.Status === "Confirmed");
+
+      if (hasConfirmedBookings) {
+          return res.status(400).json({
+              error: "Accommodation cannot be deleted",
+              details: "It has bookings with a 'Confirmed' status.",
+          });
+      }
+
       const canDelete = bookings.every((booking) => {
           const endDate = new Date(booking.EndDate);
           return booking.Status === "Cancelled" || endDate < now;
       });
 
       if (!canDelete) {
-        return res.status(400).json({
-            error: "Accommodation cannot be deleted",
-            details: "It has active or future bookings.",
-        });
-    }
+          return res.status(400).json({
+              error: "Accommodation cannot be deleted",
+              details: "It has active or future bookings.",
+          });
+      }
 
       const deleteAccommodationQuery = `
           DELETE FROM Accommodations
@@ -591,6 +600,7 @@ router.delete("/:id", async (req, res) => {
       res.status(500).json({ error: "Internal server error", details: err.message });
   }
 });
+
 
 // Get bookings for a specific accommodation and user
 router.get("/:id/user-bookings", async (req, res) => {

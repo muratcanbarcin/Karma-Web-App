@@ -260,6 +260,8 @@ useEffect(() => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
+   
+
   
       console.log("Reservation Response:", response); // Log the server response
   
@@ -371,6 +373,7 @@ useEffect(() => {
           </tr>
         </tbody>
       </table>
+      
 
       {/* Show edit button only if the user is the owner */}
       {accommodation.isOwner && (
